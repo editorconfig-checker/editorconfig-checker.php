@@ -10,5 +10,11 @@
             "role": "Developer"
         }
     ],
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.7.1"
+    },
+    "scripts": {
+        "lint": "exit 0"
+    }
 }
