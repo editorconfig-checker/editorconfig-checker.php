@@ -1,0 +1,14 @@
+{
+    "name": "mstruebing/editorconfig-checker",
+    "description": "A tool to verify that your files follow the rules of your .editorconfig",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Max Strübing",
+            "email": "mxstrbng@gmail.com",
+            "homepage": "https://github.com/mstruebing",
+            "role": "Developer"
+        }
+    ],
+    "require": {}
+}

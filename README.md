@@ -1,0 +1,3 @@
+# editorconfig-checker
+
+WIP
