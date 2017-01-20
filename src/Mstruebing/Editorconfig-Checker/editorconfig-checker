@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+error_reporting(E_ALL | E_STRICT);
+
+if (is_file(dirname(__FILE__) . '/Cli/Cli.php')) {
+    include_once dirname(__FILE__) . '/Cli/Cli.php';
+} else {
+
+}
+
+$cli = new Cli();
+$cli->run($argv);
+
