@@ -15,6 +15,9 @@
         "squizlabs/php_codesniffer": "^2.7.1"
     },
     "scripts": {
-        "lint": "exit 0"
-    }
+        "lint": "phpcs --standard=PSR2 src/**"
+    },
+    "bin": [
+        "src/editorconfig-checker"
+    ]
 }
