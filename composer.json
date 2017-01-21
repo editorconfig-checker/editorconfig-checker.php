@@ -11,6 +11,10 @@
             "role": "Developer"
         }
     ],
+   "support": {
+        "issues": "https://github.com/mstruebing/editorconfig-checker/issues",
+        "source": "https://github.com/mstruebing/editorconfig-checker"
+    },
     "require": {},
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.7.1"
