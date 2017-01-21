@@ -2,7 +2,7 @@
     "name": "mstruebing/editorconfig-checker",
     "description": "A tool to verify that your files follow the rules of your .editorconfig",
     "license": "MIT",
-    "version": "0.0.2",
+    "version": "0.0.10",
     "authors": [
         {
             "name": "Max Strübing",
@@ -19,6 +19,6 @@
         "lint": "phpcs --standard=PSR2 src/**"
     },
     "bin": [
-        "src/Mstruebing/Editorconfig-Checker/editorconfig-checker"
+        "src/editorconfig-checker"
     ]
 }
