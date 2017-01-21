@@ -2,7 +2,7 @@
     "name": "mstruebing/editorconfig-checker",
     "description": "A tool to verify that your files follow the rules of your .editorconfig",
     "license": "MIT",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "authors": [
         {
             "name": "Max Strübing",
@@ -20,6 +20,7 @@
         "squizlabs/php_codesniffer": "^2.7.1"
     },
     "scripts": {
+        "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
         "lint": "phpcs --standard=PSR2 src/MStruebing/**"
     },
     "bin": [
