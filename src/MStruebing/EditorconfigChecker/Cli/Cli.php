@@ -4,7 +4,6 @@ namespace MStruebing\EditorconfigChecker\Cli;
 
 class Cli
 {
-
     const DEFAULT_INDENT_STYLE = 'tab';
 
     public function run($argv)
@@ -26,8 +25,6 @@ class Cli
 
         $files = $this->getFiles($argv);
 
-        /* var_dump($files); */
-        /* var_dump($editorconfig); */
         $this->checkFiles($editorconfig, $files);
     }
 
@@ -52,8 +49,8 @@ class Cli
             $rules = $ftRules;
         }
 
-        if (!isset($rules['indent_type'])) {
-            $rules['indent_type'] = self::DEFAULT_INDENT_STYLE;
+        if (!isset($rules['indent_style'])) {
+            $rules['indent_style'] = self::DEFAULT_INDENT_STYLE;
         }
 
         return $rules;
