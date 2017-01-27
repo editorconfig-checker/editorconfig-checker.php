@@ -75,6 +75,7 @@ class Cli
         foreach ($fileGlobs as $fileGlob) {
             array_push($files, glob($fileGlob, GLOB_BRACE));
         }
+
         return $files;
     }
 
