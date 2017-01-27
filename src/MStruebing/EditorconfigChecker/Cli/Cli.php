@@ -35,8 +35,32 @@ class Cli
             /* @TODO do it the other way around -> iterate over editorconfig */
             if (isset($file[0])) {
                 $rules = $this->getRulesForFiletype($editorconfig, $file[0]);
-                var_dump($rules);
+                $this->processCheckForSingleFile($rules, $file[0]);
             }
+        }
+    }
+
+    protected function processCheckForSingleFile($rules, $file)
+    {
+        $content = file($file);
+
+        if ($rules['indent_style'] === 'space') {
+            foreach ($content as $lineNumber => $line) {
+                preg_match('/^( +)/', $line, $matches);
+
+                if (isset($matches[1])) {
+                    $indentSize = strlen($matches[1]);
+
+                    if ($indentSize % $rules['indent_size'] !== 0) {
+                        throw new \Exception("The file:"
+                            . $file
+                            .
+                            ' does not start with the right amount of spaces at line '
+                            . $lineNumber);
+                    }
+                }
+            }
+        } elseif ($rules['indent_style'] === 'tab') {
         }
     }
 
