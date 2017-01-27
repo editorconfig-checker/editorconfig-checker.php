@@ -52,12 +52,27 @@ class Cli
                     $indentSize = strlen($matches[1]);
 
                     if ($indentSize % $rules['indent_size'] !== 0) {
-                        throw new \Exception("The file:"
+                        throw new \Exception(
+                            'The file:'
                             . $file
-                            .
-                            ' does not start with the right amount of spaces at line '
-                            . ($lineNumber + 1));
+                            .  ' does not start with the right amount of spaces at line '
+                            . ($lineNumber + 1)
+                        );
                     }
+
+                    if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
+                        throw new \Exception(
+                            'The indentation size of your lines '
+                            . $lineNumber
+                            . ' and '
+                            . ($lineNumber + 1)
+                            . ' in your file: '
+                            . $file
+                            . ' does not have the right relationship'
+                        );
+                    }
+
+                    $lastIndentSize = $indentSize;
                 }
             }
         } elseif ($rules['indent_style'] === 'tab') {
