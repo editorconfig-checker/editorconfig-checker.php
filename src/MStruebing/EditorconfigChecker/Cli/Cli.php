@@ -35,6 +35,7 @@ class Cli
             /* @TODO do it the other way around -> iterate over editorconfig */
             if (isset($file[0])) {
                 $rules = $this->getRulesForFiletype($editorconfig, $file[0]);
+                var_dump($rules);
                 $this->processCheckForSingleFile($rules, $file[0]);
             }
         }
@@ -104,15 +105,16 @@ class Cli
 
     protected function getEditorconfigRules($editorconfig, $fileType)
     {
-        $rules = false;
-
         foreach ($editorconfig as $key => $value) {
+            if ($key === '*') {
+                $globalRules = $value;
+            }
             if (strpos($key, $fileType) !== false) {
-                $rules = $value;
+                $ftRules = $value;
             }
         }
 
-        return $rules;
+        return array_merge($globalRules, $ftRules);
     }
 
     protected function getFiles($fileGlobs)
