@@ -44,7 +44,7 @@ class Cli
     {
         $content = file($file);
 
-        if ($rules['indent_style'] === 'space') {
+        if (isset($rules['indent_sty;e']) && $rules['indent_style'] === 'space') {
             foreach ($content as $lineNumber => $line) {
                 preg_match('/^( +)/', $line, $matches);
 
@@ -88,7 +88,7 @@ class Cli
                     }
                 }
             }
-        } elseif ($rules['indent_style'] === 'tab') {
+        } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
             foreach ($content as $lineNumber => $line) {
                 preg_match('/^(\t+)/', $line, $matches);
 
@@ -124,7 +124,7 @@ class Cli
             }
         }
 
-        if ($rules['insert_final_newline']) {
+        if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
             $lastLine = $content[count($content) - 1];
             preg_match('/(.*\n\Z)/', $lastLine, $matches);
             var_dump($matches);
