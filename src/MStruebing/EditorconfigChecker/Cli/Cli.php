@@ -60,7 +60,6 @@ class Cli
                         );
                     }
 
-
                     /* because the following example would not work I have to check it this way */
                     /* ... maybe it should not? */
                     /* if (xyz) */
