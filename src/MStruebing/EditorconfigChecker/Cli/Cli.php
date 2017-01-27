@@ -123,6 +123,16 @@ class Cli
                 }
             }
         }
+
+        if ($rules['insert_final_newline']) {
+            $lastLine = $content[count($content) - 1];
+            preg_match('/(.*\n\Z)/', $lastLine, $matches);
+            var_dump($matches);
+
+            if (!isset($matches[1])) {
+                throw new \Exception('Your file ' . $file . ' does not has a final newline.');
+            }
+        }
     }
 
     protected function getRulesForFiletype($editorconfig, $file)

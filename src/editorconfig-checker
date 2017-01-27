@@ -9,4 +9,3 @@ SRC_DIR="$(dirname "$(readlink -f "$0")")"
 args="$@"
 
 php $SRC_DIR/MStruebing/EditorconfigChecker/EditorconfigChecker.php $args
-
