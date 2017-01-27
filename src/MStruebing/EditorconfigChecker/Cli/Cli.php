@@ -60,6 +60,14 @@ class Cli
                         );
                     }
 
+
+                    /* because the following example would not work I have to check it this way */
+                    /* ... maybe it should not? */
+                    /* if (xyz) */
+                    /* { */
+                    /*     throw new Exception('hello */
+                    /*         world');  <--- this is the critial part */
+                    /* } */
                     if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
                         throw new \Exception(
                             'The indentation size of your lines '
