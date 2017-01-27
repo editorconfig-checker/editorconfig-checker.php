@@ -56,7 +56,7 @@ class Cli
                             . $file
                             .
                             ' does not start with the right amount of spaces at line '
-                            . $lineNumber);
+                            . ($lineNumber + 1));
                     }
                 }
             }
