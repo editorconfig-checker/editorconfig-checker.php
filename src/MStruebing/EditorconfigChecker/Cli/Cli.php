@@ -8,7 +8,7 @@ class Cli
 
     public function run($argv)
     {
-        // We need files to check
+        /* We need files to check */
         if (count($argv) === 0) {
             $this->printUsage();
             return;
@@ -35,7 +35,6 @@ class Cli
             /* @TODO do it the other way around -> iterate over editorconfig */
             if (isset($file[0])) {
                 $rules = $this->getRulesForFiletype($editorconfig, $file[0]);
-                var_dump($rules);
                 $this->processCheckForSingleFile($rules, $file[0]);
             }
         }
@@ -52,6 +51,7 @@ class Cli
                 if (isset($matches[1])) {
                     $indentSize = strlen($matches[1]);
 
+                    /* check if the indentation size could be a valid one */
                     if ($indentSize % $rules['indent_size'] !== 0) {
                         throw new \Exception(
                             'The file:'
@@ -81,15 +81,59 @@ class Cli
                     }
 
                     $lastIndentSize = $indentSize;
+                } else { /* if no matching leading spaces found check if tabs are there instead */
+                    preg_match('/^(\t+)/', $line, $matches);
+                    if (isset($matches[1])) {
+                        throw new \Exception('Your file ' . $file . ' has the wrong indentation type');
+                    }
                 }
             }
         } elseif ($rules['indent_style'] === 'tab') {
+            foreach ($content as $lineNumber => $line) {
+                preg_match('/^(\t+)/', $line, $matches);
+
+                if (isset($matches[1])) {
+                    $indentSize = strlen($matches[1]);
+
+                    /* because the following example would not work I have to check it this way */
+                    /* ... maybe it should not? */
+                    /* if (xyz) */
+                    /* { */
+                    /*     throw new Exception('hello */
+                    /*         world');  <--- this is the critial part */
+                    /* } */
+                    if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
+                        throw new \Exception(
+                            'The indentation size of your lines '
+                            . $lineNumber
+                            . ' and '
+                            . ($lineNumber + 1)
+                            . ' in your file: '
+                            . $file
+                            . ' does not have the right relationship'
+                        );
+                    }
+
+                    $lastIndentSize = $indentSize;
+                } else { /* if no matching leading spaces found check if tabs are there instead */
+                    preg_match('/^( +)/', $line, $matches);
+                    if (isset($matches[1])) {
+                        throw new \Exception('Your file ' . $file . ' has the wrong indentation type');
+                    }
+                }
+            }
         }
     }
 
     protected function getRulesForFiletype($editorconfig, $file)
     {
         $fileType = pathinfo($file, PATHINFO_EXTENSION);
+
+        /* temporary, dirty hack for makefile */
+        if (!$fileType && $file === 'Makefile') {
+            $fileType = 'Makefile';
+        }
+
         $ftRules = $this->getEditorconfigRules($editorconfig, $fileType);
 
         if ($ftRules !== false) {
@@ -105,6 +149,8 @@ class Cli
 
     protected function getEditorconfigRules($editorconfig, $fileType)
     {
+        $globalRules = [];
+        $ftRules = [];
         foreach ($editorconfig as $key => $value) {
             if ($key === '*') {
                 $globalRules = $value;

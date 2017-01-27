@@ -13,6 +13,6 @@ if (is_file($cliPath)) {
 }
 
 $cli = new Cli();
-// The first paaram is only the program-name
+/* The first paaram is only the program-name */
 array_shift($argv);
 $cli->run($argv);
