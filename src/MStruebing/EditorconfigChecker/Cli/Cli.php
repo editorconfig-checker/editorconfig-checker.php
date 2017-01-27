@@ -44,7 +44,7 @@ class Cli
     {
         $content = file($file);
 
-        if (isset($rules['indent_sty;e']) && $rules['indent_style'] === 'space') {
+        if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
             foreach ($content as $lineNumber => $line) {
                 preg_match('/^( +)/', $line, $matches);
 
@@ -127,10 +127,19 @@ class Cli
         if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
             $lastLine = $content[count($content) - 1];
             preg_match('/(.*\n\Z)/', $lastLine, $matches);
-            var_dump($matches);
 
             if (!isset($matches[1])) {
                 throw new \Exception('Your file ' . $file . ' does not has a final newline.');
+            }
+        }
+
+        if (isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
+            foreach ($content as $lineNumber => $line) {
+                preg_match('/^.*\S$/', $line, $matches);
+
+                if (isset($matches[1])) {
+                    throw new \Exception('Your file ' . $file . ' does not has trimmed whitespace on line ' . $line);
+                }
             }
         }
     }
