@@ -27,16 +27,13 @@ class Cli
             return;
         }
 
-        $this->logger->addError(12, '~/.bashrc', 'wrong stuff');
-        $this->logger->printErrors();
-
         $rootDir = getcwd();
         $editorconfigPath = $rootDir . '/.editorconfig';
 
         if (is_file($editorconfigPath)) {
             $editorconfig = parse_ini_file($rootDir . '/.editorconfig', true);
         } else {
-            throw new \Exception('ERROR: No .editorconfig found');
+            $this->logger->addError('No .editorconfig found');
         }
 
         $files = $this->getFiles($argv);
@@ -122,12 +119,7 @@ class Cli
             /* check if the indentation size could be a valid one */
             /* the * is for function comments */
             if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
-                throw new \Exception(
-                    'The file:'
-                    . $file
-                    .  ' does not start with the right amount of spaces at line '
-                    . ($lineNumber + 1)
-                );
+                $this->logger->addError('Not the right amount of spaces', $file, $lineNumber);
             }
 
             /* because the following example would not work I have to check it this way */
@@ -138,22 +130,14 @@ class Cli
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
-                throw new \Exception(
-                    'The indentation size of your lines '
-                    . $lineNumber
-                    . ' and '
-                    . ($lineNumber + 1)
-                    . ' in your file: '
-                    . $file
-                    . ' does not have the right relationship'
-                );
+                $this->logger->addError('Not the right relation of spaces between lines', $file, $lineNumber);
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
-                throw new \Exception('Your file ' . $file . ' has the wrong indentation type');
+                $this->logger->addError('Wrong indentation type', $file, $lineNumber);
             }
         }
 
@@ -189,22 +173,14 @@ class Cli
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
-                throw new \Exception(
-                    'The indentation size of your lines '
-                    . $lineNumber
-                    . ' and '
-                    . ($lineNumber + 1)
-                    . ' in your file: '
-                    . $file
-                    . ' does not have the right relationship'
-                );
+                $this->logger->addError('Not the right relation of tabs between lines', $file, $lineNumber);
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
             if (isset($matches[1])) {
-                throw new \Exception('Your line ' . $line . ' in file ' . $file . ' has the wrong indentation type');
+                $this->logger->addError('Wrong indentation type', $file, $lineNumber);
             }
         }
 
@@ -229,7 +205,7 @@ class Cli
             preg_match('/^.*\S$/', $line, $matches);
 
             if (isset($matches[1])) {
-                throw new \Exception('Your file ' . $file . ' does not have trimmed whitespace on line ' . $lineNumber);
+                $this->logger->addError('Trailing whitespace', $file, $lineNumber);
             }
         }
     }
@@ -249,7 +225,7 @@ class Cli
             preg_match('/(.*\n\Z)/', $lastLine, $matches);
 
             if (!isset($matches[1])) {
-                throw new \Exception('The file ' . $file . ' does not have a final newline.');
+                $this->logger->addError('Missing final newline', $file);
             }
         }
     }

@@ -27,3 +27,10 @@ $logger = new Logger();
 
 $cli = new Cli($logger);
 $cli->run($argv);
+
+if ($logger->countErrors()) {
+    $logger->printErrors();
+    exit(1);
+} else {
+    exit(0);
+}
