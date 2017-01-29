@@ -33,8 +33,6 @@ class Cli
     protected function checkFiles($editorconfig, $files)
     {
         foreach ($files as $file) {
-            /* @TODO flatten the array before */
-            /* @TODO do it the other way around -> iterate over editorconfig */
             if (isset($file[0])) {
                 $rules = $this->getRulesForFiletype($editorconfig, $file[0]);
                 $this->processCheckForSingleFile($rules, $file[0]);
@@ -58,78 +56,96 @@ class Cli
     protected function checkForIndentation($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
-            preg_match('/^( +)/', $line, $matches);
-
-            if (isset($matches[1])) {
-                $indentSize = strlen($matches[1]);
-
-                /* check if the indentation size could be a valid one */
-                if ($indentSize % $rules['indent_size'] !== 0) {
-                    throw new \Exception(
-                        'The file:'
-                        . $file
-                        .  ' does not start with the right amount of spaces at line '
-                        . ($lineNumber + 1)
-                    );
-                }
-
-                /* because the following example would not work I have to check it this way */
-                /* ... maybe it should not? */
-                /* if (xyz) */
-                /* { */
-                /*     throw new Exception('hello */
-                /*         world');  <--- this is the critial part */
-                /* } */
-                if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
-                    throw new \Exception(
-                        'The indentation size of your lines '
-                        . $lineNumber
-                        . ' and '
-                        . ($lineNumber + 1)
-                        . ' in your file: '
-                        . $file
-                        . ' does not have the right relationship'
-                    );
-                }
-
-                $lastIndentSize = $indentSize;
-            } else { /* if no matching leading spaces found check if tabs are there instead */
-                preg_match('/^(\t+)/', $line, $matches);
-                if (isset($matches[1])) {
-                    throw new \Exception('Your file ' . $file . ' has the wrong indentation type');
-                }
-            }
+            $lastIndentSize = $this->checkForSpace($rules, $line, $lineNumber, $lastIndentSize, $file);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
+            $lastIndentSize = $this->checkForTab($rules, $line, $lineNumber, $lastIndentSize, $file);
+        }
+
+        return $lastIndentSize;
+    }
+
+    protected function checkForSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
+    {
+        preg_match('/^( +)/', $line, $matches);
+
+        if (isset($matches[1])) {
+            $indentSize = strlen($matches[1]);
+
+            /* check if the indentation size could be a valid one */
+            if ($indentSize % $rules['indent_size'] !== 0) {
+                throw new \Exception(
+                    'The file:'
+                    . $file
+                    .  ' does not start with the right amount of spaces at line '
+                    . ($lineNumber + 1)
+                );
+            }
+
+            /* because the following example would not work I have to check it this way */
+            /* ... maybe it should not? */
+            /* if (xyz) */
+            /* { */
+            /*     throw new Exception('hello */
+            /*         world');  <--- this is the critial part */
+            /* } */
+            if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
+                throw new \Exception(
+                    'The indentation size of your lines '
+                    . $lineNumber
+                    . ' and '
+                    . ($lineNumber + 1)
+                    . ' in your file: '
+                    . $file
+                    . ' does not have the right relationship'
+                );
+            }
+
+            $lastIndentSize = $indentSize;
+        } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
-
             if (isset($matches[1])) {
-                $indentSize = strlen($matches[1]);
+                throw new \Exception('Your file ' . $file . ' has the wrong indentation type');
+            }
+        }
 
-                /* because the following example would not work I have to check it this way */
-                /* ... maybe it should not? */
-                /* if (xyz) */
-                /* { */
-                /*     throw new Exception('hello */
-                /*         world');  <--- this is the critial part */
-                /* } */
-                if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
-                    throw new \Exception(
-                        'The indentation size of your lines '
-                        . $lineNumber
-                        . ' and '
-                        . ($lineNumber + 1)
-                        . ' in your file: '
-                        . $file
-                        . ' does not have the right relationship'
-                    );
-                }
+        if (!isset($indentSize)) {
+            $indentSize = null;
+        }
 
-                $lastIndentSize = $indentSize;
-            } else { /* if no matching leading spaces found check if tabs are there instead */
-                preg_match('/^( +)/', $line, $matches);
-                if (isset($matches[1])) {
-                    throw new \Exception('Your file ' . $file . ' has the wrong indentation type');
-                }
+        return $indentSize;
+    }
+
+    protected function checkForTab($rules, $line, $lineNumber, $lastIndentSize, $file)
+    {
+        preg_match('/^(\t+)/', $line, $matches);
+
+        if (isset($matches[1])) {
+            $indentSize = strlen($matches[1]);
+
+            /* because the following example would not work I have to check it this way */
+            /* ... maybe it should not? */
+            /* if (xyz) */
+            /* { */
+            /*     throw new Exception('hello */
+            /*         world');  <--- this is the critial part */
+            /* } */
+            if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
+                throw new \Exception(
+                    'The indentation size of your lines '
+                    . $lineNumber
+                    . ' and '
+                    . ($lineNumber + 1)
+                    . ' in your file: '
+                    . $file
+                    . ' does not have the right relationship'
+                );
+            }
+
+            $lastIndentSize = $indentSize;
+        } else { /* if no matching leading tabs found check if spaces are there instead */
+            preg_match('/^( +)/', $line, $matches);
+            if (isset($matches[1])) {
+                throw new \Exception('Your line ' . $line . ' in file ' . $file . ' has the wrong indentation type');
             }
         }
 
