@@ -8,6 +8,12 @@ class Cli
 {
     const DEFAULT_INDENT_STYLE = 'tab';
 
+    /**
+     * Entry point of this class to invoke all needed steps
+     *
+     * @param array $argv
+     * @return void
+     */
     public function run($argv)
     {
         /* We need files to check */
@@ -30,6 +36,13 @@ class Cli
         $this->checkFiles($editorconfig, $files);
     }
 
+    /**
+     * Loop over files and get the editorconfig rules for this file and invokes the check
+     *
+     * @param array $editorconfig
+     * @param array $files
+     * @return void
+     */
     protected function checkFiles($editorconfig, $files)
     {
         foreach ($files as $file) {
@@ -40,6 +53,13 @@ class Cli
         }
     }
 
+    /**
+     * Proccesses all checks for a single file
+     *
+     * @param array $rules
+     * @param string $file
+     * @return void
+     */
     protected function processCheckForSingleFile($rules, $file)
     {
         $content = file($file);
@@ -53,6 +73,16 @@ class Cli
         $this->checkForFinalNewline($rules, $file, $content);
     }
 
+    /**
+     * Determines if the file is to check for spaces or tabs
+     *
+     * @param array $rules
+     * @param string $line
+     * @param int $lineNumber
+     * @param int $lastIndentSize
+     * @param string $file
+     * @return void
+     */
     protected function checkForIndentation($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
@@ -64,6 +94,16 @@ class Cli
         return $lastIndentSize;
     }
 
+    /**
+     * Processes indentation check for spaces
+     *
+     * @param array $rules
+     * @param string $line
+     * @param int $lineNumber
+     * @param int $lastIndentSize
+     * @param string $file
+     * @return void
+     */
     protected function checkForSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         preg_match('/^( +)/', $line, $matches);
@@ -115,6 +155,16 @@ class Cli
         return $indentSize;
     }
 
+    /**
+     * Processes indentation check for tabs
+     *
+     * @param array $rules
+     * @param string $line
+     * @param int $lineNumber
+     * @param int $lastIndentSize
+     * @param string $file
+     * @return void
+     */
     protected function checkForTab($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         preg_match('/^(\t+)/', $line, $matches);
@@ -156,6 +206,14 @@ class Cli
         return $indentSize;
     }
 
+    /**
+     * Checks a line for trailing whitespace if needed
+     *
+     * @param array $rules
+     * @param string $line
+     * @param int $lineNumber
+     * @return void
+     */
     protected function checkForTrailingWhitespace($rules, $line, $lineNumber)
     {
         if (isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
@@ -167,6 +225,14 @@ class Cli
         }
     }
 
+    /**
+     * Checks a file for final newline if needed
+     *
+     * @param array $rules
+     * @param string $file
+     * @param array $content
+     * @return void
+     */
     protected function checkForFinalNewline($rules, $file, $content)
     {
         if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
@@ -179,6 +245,13 @@ class Cli
         }
     }
 
+    /**
+     * Returns the editorconfig rules for a file
+     *
+     * @param array $editorconfig
+     * @param string $file
+     * @return array
+     */
     protected function getRulesForFiletype($editorconfig, $file)
     {
         $fileType = pathinfo($file, PATHINFO_EXTENSION);
@@ -201,6 +274,13 @@ class Cli
         return $rules;
     }
 
+    /**
+     * Returns an array of the merged rules from a specific filetype and global ones
+     *
+     * @param array $editorconfig
+     * @param string $fileType
+     * @return array
+     */
     protected function getEditorconfigRules($editorconfig, $fileType)
     {
         $globalRules = [];
@@ -217,6 +297,12 @@ class Cli
         return array_merge($globalRules, $ftRules);
     }
 
+    /**
+     * Returns an array of files matching the fileglobs
+     *
+     * @param array $fileGlobs
+     * @return array
+     */
     protected function getFiles($fileGlobs)
     {
         $files = array();
@@ -227,10 +313,14 @@ class Cli
         return $files;
     }
 
+    /**
+     * Prints the usage
+     *
+     * @return void
+     */
     protected function printUsage()
     {
-        echo "HELLO WORLD";
-        printf("USAGE:\n");
-        printf("DOO SO\n");
+        printf("Usage:\n");
+        printf("editorconfig-checker <FILE>|<FILEGLOB>\n");
     }
 }
