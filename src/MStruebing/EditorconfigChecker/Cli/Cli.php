@@ -7,9 +7,6 @@ use MStruebing\EditorconfigChecker\Cli\Logger;
 class Cli
 {
     const DEFAULT_INDENT_STYLE = 'tab';
-    const LF = '\0x000A';
-    const CRLF = '\0x000D000A';
-    const CR = '\0x000D';
 
     /**
      * Entry point of this class to invoke all needed steps
