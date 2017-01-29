@@ -2,11 +2,16 @@
 
 namespace MStruebing\EditorconfigChecker\Cli;
 
-use MStruebing\EditorconfigChecker\Cli\Logger;
-
 class Cli
 {
     const DEFAULT_INDENT_STYLE = 'tab';
+
+    protected $logger;
+
+    public function __construct($logger)
+    {
+        $this->logger = $logger;
+    }
 
     /**
      * Entry point of this class to invoke all needed steps
@@ -21,6 +26,9 @@ class Cli
             $this->printUsage();
             return;
         }
+
+        $this->logger->addError(12, '~/.bashrc', 'wrong stuff');
+        $this->logger->printErrors();
 
         $rootDir = getcwd();
         $editorconfigPath = $rootDir . '/.editorconfig';
