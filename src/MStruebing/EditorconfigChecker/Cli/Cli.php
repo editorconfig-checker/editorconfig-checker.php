@@ -7,6 +7,9 @@ use MStruebing\EditorconfigChecker\Cli\Logger;
 class Cli
 {
     const DEFAULT_INDENT_STYLE = 'tab';
+    const LF = '\0x000A';
+    const CRLF = '\0x000D000A';
+    const CR = '\0x000D';
 
     /**
      * Entry point of this class to invoke all needed steps
@@ -112,7 +115,8 @@ class Cli
             $indentSize = strlen($matches[1]);
 
             /* check if the indentation size could be a valid one */
-            if ($indentSize % $rules['indent_size'] !== 0) {
+            /* the * is for function comments */
+            if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
                 throw new \Exception(
                     'The file:'
                     . $file
@@ -240,7 +244,7 @@ class Cli
             preg_match('/(.*\n\Z)/', $lastLine, $matches);
 
             if (!isset($matches[1])) {
-                throw new \Exception('Your file ' . $file . ' does not has a final newline.');
+                throw new \Exception('The file ' . $file . ' does not have a final newline.');
             }
         }
     }
@@ -320,7 +324,7 @@ class Cli
      */
     protected function printUsage()
     {
-        printf("Usage:\n");
-        printf("editorconfig-checker <FILE>|<FILEGLOB>\n");
+        printf('Usage:' . PHP_EOL);
+        printf('editorconfig-checker <FILE>|<FILEGLOB>' . PHP_EOL);
     }
 }
