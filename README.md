@@ -21,7 +21,7 @@ Then you could create a script in your `composer.json` like this:
 
 ```json
 "scripts": {
-    "check-editorconfig": editorconfig-checker src/**/.php
+    "check-editorconfig": "editorconfig-checker src/**/.php"
 }
 ```
 
