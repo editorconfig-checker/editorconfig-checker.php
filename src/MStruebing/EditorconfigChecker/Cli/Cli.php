@@ -331,7 +331,10 @@ class Cli
     {
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
-            array_push($files, glob($fileGlob, GLOB_BRACE));
+            $file = glob($fileGlob, GLOB_BRACE + GLOB_MARK);
+            if (substr($file[0], -1) !== '/') {
+                array_push($files, $file);
+            }
         }
 
         return $files;
