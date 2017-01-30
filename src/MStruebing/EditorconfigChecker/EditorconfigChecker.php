@@ -28,9 +28,9 @@ $logger = new Logger();
 $cli = new Cli($logger);
 $cli->run($argv);
 
-if ($logger->countErrors()) {
+if ($count = $logger->countErrors()) {
     $logger->printErrors();
-    exit(1);
+    $count < 255 ? exit($count) : exit(255);
 } else {
     exit(0);
 }
