@@ -280,7 +280,7 @@ class Cli
     {
         $fileType = pathinfo($file, PATHINFO_EXTENSION);
 
-        /* temporary, dirty hack for makefile */
+        /* temporary ;), dirty hack for makefile */
         if (!$fileType && $file === 'Makefile') {
             $fileType = 'Makefile';
         }
@@ -313,7 +313,8 @@ class Cli
             if ($key === '*') {
                 $globalRules = $value;
             }
-            if (strpos($key, $fileType) !== false) {
+            /* files with no extension have an empty filetype */
+            if (strlen($fileType) && strpos($key, $fileType) !== false) {
                 $ftRules = $value;
             }
         }
