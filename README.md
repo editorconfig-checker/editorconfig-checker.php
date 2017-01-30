@@ -45,5 +45,5 @@ editorconfig-checker <FILE>|<FILEGLOB>
 ## Additional Notes
 
 Please be aware that this is still experimental.
-If you encounter any bugs please open an issue with as many details as possible.
+If you encounter any bugs or anything else please open an issue with as many details as possible.
 
