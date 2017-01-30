@@ -6,6 +6,9 @@ class Cli
 {
     const DEFAULT_INDENT_STYLE = 'tab';
 
+    /**
+     * @var MStruebing\EditorconfigChecker\Cli\Logger
+     */
     protected $logger;
 
     public function __construct($logger)
@@ -38,7 +41,9 @@ class Cli
 
         $files = $this->getFiles($argv);
 
-        $this->checkFiles($editorconfig, $files);
+        if (count($files) > 0) {
+            $this->checkFiles($editorconfig, $files);
+        }
     }
 
     /**
@@ -74,8 +79,8 @@ class Cli
             $lastIndentSize = $this->checkForIndentation($rules, $line, $lineNumber, $lastIndentSize, $file);
             $this->checkForTrailingWhitespace($rules, $file, $content);
         }
-
         $this->checkForFinalNewline($rules, $file, $content);
+        $this->checkForLineEnding($rules, $file, $lineNumber);
     }
 
     /**
@@ -226,6 +231,40 @@ class Cli
 
             if (!isset($matches[1])) {
                 $this->logger->addError('Missing final newline', $file);
+            }
+        }
+    }
+
+    /**
+     * Checks for line endings if needed
+     *
+     * @param array $rules
+     * @param string $file
+     * @param int $lineNumbers
+     * @return void
+     *
+     */
+    protected function checkForLineEnding($rules, $file, $lineNumbers)
+    {
+        if (isset($rules['end_of_line'])) {
+            $content = file_get_contents($file);
+
+            if ($rules['end_of_line'] === 'lf') {
+                $eols = count(str_split(preg_replace("/[^\n]/", "", $content)));
+            } elseif ($rules['end_of_line'] === 'cr') {
+                $eols = count(str_split(preg_replace("/[^\r]/", "", $content)));
+            } elseif ($rules['end_of_line'] === 'crlf') {
+                $eols = count(str_split(preg_replace("/[^\r\n]/", "", $content)));
+            }
+
+            if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
+                if ($eols !== $lineNumbers + 1) {
+                    $this->logger->addError('Not all lines have the correct end of line character!', $file);
+                }
+            } else {
+                if ($eols !== $lineNumbers) {
+                    $this->logger->addError('Not all lines have the correct end of line character!', $file);
+                }
             }
         }
     }
