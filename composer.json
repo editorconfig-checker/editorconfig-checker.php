@@ -21,7 +21,9 @@
     },
     "scripts": {
         "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
-        "lint": "phpcs --standard=PSR2 src/MStruebing/**"
+        "lint": "composer run-script check-psr2 && composer run-script checkception",
+        "check-psr2": "phpcs --standard=PSR2 src/MStruebing/**",
+        "checkception": "src/editorconfig-checker \"src/**/**/**/*.php\" \"src/**/**/*.php\""
     },
     "bin": [
         "src/editorconfig-checker"
