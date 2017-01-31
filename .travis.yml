@@ -13,4 +13,5 @@ before_script:
 # Commands you want to run that will verify your build.
 script:
     - composer run-script lint
+    - src/editorconfig-checker src/**/*.php
 
