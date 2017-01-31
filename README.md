@@ -4,6 +4,15 @@
 
 This is a __dependency-free__ tool to check if given files implement your .editorconfig rules.
 
+[![Latest Stable Version](https://poser.pugx.org/mstruebing/editorconfig-checker/v/stable)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![Total Downloads](https://poser.pugx.org/mstruebing/editorconfig-checker/downloads)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![Latest Unstable Version](https://poser.pugx.org/mstruebing/editorconfig-checker/v/unstable)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![License](https://poser.pugx.org/mstruebing/editorconfig-checker/license)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![Monthly Downloads](https://poser.pugx.org/mstruebing/editorconfig-checker/d/monthly)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![Daily Downloads](https://poser.pugx.org/mstruebing/editorconfig-checker/d/daily)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![composer.lock](https://poser.pugx.org/mstruebing/editorconfig-checker/composerlock)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![psr2](https://img.shields.io/badge/cs-PSR--2-yellow.svg)](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
+
 ## Installation
 
 Installation via composer is recommended:
@@ -46,4 +55,3 @@ editorconfig-checker <FILE>|<FILEGLOB>
 
 Please be aware that this is still experimental.
 If you encounter any bugs or anything else please open an issue with as many details as possible.
-
