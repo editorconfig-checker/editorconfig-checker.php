@@ -1,0 +1,15 @@
+# Required to run your project under the correct environment.
+language: php
+
+# Versions of PHP you want your project run with.
+php:
+  - 7.0
+
+# Commands to be run before your environment runs.
+before_script:
+  - composer self-update
+
+# Commands you want to run that will verify your build.
+script:
+    - composer run-script lint
+
