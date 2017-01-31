@@ -333,7 +333,6 @@ class Cli
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
             $file = glob($fileGlob, GLOB_BRACE + GLOB_MARK);
-            var_dump($files);
             if (substr($file[0], -1) !== '/') {
                 array_push($files, $file);
             }
