@@ -4,6 +4,7 @@
 
 This is a __dependency-free__ tool to check if given files implement your .editorconfig rules.
 
+[![Build Status](https://travis-ci.org/mstruebing/editorconfig-checker.svg?branch=master)](https://travis-ci.org/mstruebing/editorconfig-checker)
 [![Latest Stable Version](https://poser.pugx.org/mstruebing/editorconfig-checker/v/stable)](https://packagist.org/packages/mstruebing/editorconfig-checker)
 [![Total Downloads](https://poser.pugx.org/mstruebing/editorconfig-checker/downloads)](https://packagist.org/packages/mstruebing/editorconfig-checker)
 [![Latest Unstable Version](https://poser.pugx.org/mstruebing/editorconfig-checker/v/unstable)](https://packagist.org/packages/mstruebing/editorconfig-checker)
