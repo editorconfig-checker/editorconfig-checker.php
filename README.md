@@ -11,6 +11,7 @@ This is a __dependency-free__ tool to check if given files implement your .edito
 [![Monthly Downloads](https://poser.pugx.org/mstruebing/editorconfig-checker/d/monthly)](https://packagist.org/packages/mstruebing/editorconfig-checker)
 [![Daily Downloads](https://poser.pugx.org/mstruebing/editorconfig-checker/d/daily)](https://packagist.org/packages/mstruebing/editorconfig-checker)
 [![composer.lock](https://poser.pugx.org/mstruebing/editorconfig-checker/composerlock)](https://packagist.org/packages/mstruebing/editorconfig-checker)
+[![psr2](https://img.shields.io/badge/cs-PSR--2-yellow.svg)](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)]
 
 ## Installation
 
