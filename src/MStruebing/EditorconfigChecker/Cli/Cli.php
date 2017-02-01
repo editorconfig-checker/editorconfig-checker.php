@@ -336,8 +336,7 @@ class Cli
             if (is_dir($dirPattern)) {
                 $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
                 foreach ($objects as $fileName => $object) {
-                    /* currently all files which are ending with . or .. are left out */
-                    if (substr($fileName, -1) !== '.' && substr($fileName, -2) !== '..') {
+                    if (!(substr($fileName, -2) === '/.' || substr($fileName, -3) === '/..')) {
                         if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $files)) {
