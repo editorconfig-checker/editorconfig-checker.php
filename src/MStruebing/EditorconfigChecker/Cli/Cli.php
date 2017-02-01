@@ -332,6 +332,21 @@ class Cli
     {
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
+            $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
+            $fileType = pathinfo($fileGlob, PATHINFO_EXTENSION);
+
+            /* @TODO NEED CATCH for unexisting dirs */
+            $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
+            foreach ($objects as $name => $object) {
+                if (substr($name, -1) !== '.' && substr($name, -2) !== '..') {
+                    if ($fileType && $fileType === pathinfo($name, PATHINFO_EXTENSION)) {
+                        echo "$name\n";
+                    } elseif (!strlen($fileType)) {
+                        echo "$name\n";
+                    }
+                }
+            }
+
             $file = glob($fileGlob, GLOB_BRACE + GLOB_MARK);
             if (substr($file[0], -1) !== '/') {
                 array_push($files, $file);
