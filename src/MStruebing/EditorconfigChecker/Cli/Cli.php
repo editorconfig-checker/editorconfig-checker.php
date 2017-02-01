@@ -336,7 +336,7 @@ class Cli
             if (is_dir($dirPattern)) {
                 $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
                 foreach ($objects as $fileName => $object) {
-                    if (!(substr($fileName, -2) === '/.' || substr($fileName, -3) === '/..')) {
+                    if (!$this->isSpecialDir($fileName)) {
                         if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $files)) {
@@ -354,6 +354,18 @@ class Cli
         }
 
         return $files;
+    }
+
+    /**
+     * Checks if a filename ends with /. or /..
+     * because this are special unix files
+     *
+     * @param string $filename
+     * @return boolean
+     */
+    protected function isSpecialDir($fileName)
+    {
+        return substr($fileName, -2) === '/.' || substr($fileName, -3) === '/..';
     }
 
     /**
