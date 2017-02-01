@@ -56,10 +56,8 @@ class Cli
     protected function checkFiles($editorconfig, $files)
     {
         foreach ($files as $file) {
-            if (isset($file[0])) {
-                $rules = $this->getRulesForFiletype($editorconfig, $file[0]);
-                $this->processCheckForSingleFile($rules, $file[0]);
-            }
+            $rules = $this->getRulesForFiletype($editorconfig, $file);
+            $this->processCheckForSingleFile($rules, $file);
         }
     }
 
@@ -335,21 +333,24 @@ class Cli
             $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
             $fileType = pathinfo($fileGlob, PATHINFO_EXTENSION);
 
-            /* @TODO NEED CATCH for unexisting dirs */
-            $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
-            foreach ($objects as $name => $object) {
-                if (substr($name, -1) !== '.' && substr($name, -2) !== '..') {
-                    if ($fileType && $fileType === pathinfo($name, PATHINFO_EXTENSION)) {
-                        echo "$name\n";
-                    } elseif (!strlen($fileType)) {
-                        echo "$name\n";
+            if (is_dir($dirPattern)) {
+                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
+                foreach ($objects as $fileName => $object) {
+                    /* currently all files which are ending with . or .. are left out */
+                    if (substr($fileName, -1) !== '.' && substr($fileName, -2) !== '..') {
+                        if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
+                            /* if I not specify a file extension as argv I get files twice */
+                            if (!in_array($fileName, $files)) {
+                                array_push($files, $fileName);
+                            }
+                        } elseif (!strlen($fileType)) {
+                            /* if I not specify a file extension as argv I get files twice */
+                            if (!in_array($fileName, $files)) {
+                                array_push($files, $fileName);
+                            }
+                        }
                     }
                 }
-            }
-
-            $file = glob($fileGlob, GLOB_BRACE + GLOB_MARK);
-            if (substr($file[0], -1) !== '/') {
-                array_push($files, $file);
             }
         }
 
