@@ -35,9 +35,9 @@ Then you could create a script in your `composer.json` like this:
 }
 ```
 
-Attention!: You could not use shell-like globbing like `src/**/*.php` to find all files.
-You have to explicitly specify the directory under which is searched for certain files.
-So the above example would become to `src/*.php` to find all `.php` files in the src directory.
+__Attention!__: You could not use shell-like globbing like `src/**/*.php` to find all files.
+You have to explicitly specify the directory under which is searched for certain filetypes.
+So the above example would become to `src/*.php` to find all `.php` files in src and it's subdirectories.
 
 At the current state all files which are ending with a dot(.) or dotdot(..) are left out.
 
