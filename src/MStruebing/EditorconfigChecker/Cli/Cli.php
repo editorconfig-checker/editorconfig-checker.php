@@ -77,6 +77,7 @@ class Cli
             $lastIndentSize = $this->checkForIndentation($rules, $line, $lineNumber, $lastIndentSize, $file);
             $this->checkForTrailingWhitespace($rules, $file, $content);
         }
+
         $this->checkForFinalNewline($rules, $file, $content);
         $this->checkForLineEnding($rules, $file, $lineNumber);
     }
