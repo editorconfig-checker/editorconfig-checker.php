@@ -24,13 +24,14 @@ class Cli
      */
     public function run($argv)
     {
-        /* We need files to check */
-        if (count($argv) === 0) {
+        count($argv) === 0 || ($argv[0] === '-h' || $argv[0] === '--help') ? $usage = true : $usage = false;
+
+        if ($usage) {
             $this->printUsage();
             return;
         }
 
-        isset($argv[0]) && ($argv[0] === '-d' || $argv[0] === '--dots') ? $dots = true : $dots = false;
+        ($argv[0] === '-d' || $argv[0] === '--dots') ? $dots = true : $dots = false;
 
         if ($dots) {
             array_shift($argv);
@@ -391,6 +392,11 @@ class Cli
     protected function printUsage()
     {
         printf('Usage:' . PHP_EOL);
-        printf('editorconfig-checker <FILE>|<FILEGLOB>' . PHP_EOL);
+        printf('editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);
+        printf('available options:' . PHP_EOL);
+        printf('-h, --help'. PHP_EOL);
+        printf("\twill print this help text" . PHP_EOL);
+        printf('-d, --dots' . PHP_EOL);
+        printf("\tuse this flag if you want to also include dotfiles" . PHP_EOL);
     }
 }

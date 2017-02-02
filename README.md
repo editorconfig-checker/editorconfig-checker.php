@@ -39,8 +39,6 @@ __Attention!__: You could not use shell-like globbing like `src/**/*.php` to fin
 You have to explicitly specify the directory under which is searched for certain filetypes.
 So the above example would become to `src/*.php` to find all `.php` files in src and it's subdirectories.
 
-At the current state all files which are ending with a dot(.) or dotdot(..) are left out.
-
 You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
 
 If you installed it manually you would have to do something like this:
@@ -52,10 +50,16 @@ If you installed it manually you would have to do something like this:
 The exit value is 0 if no error occurred and 1 to 254 - every error adds 1 to the exit value.
 255 means that there is more than 254 violations of your `.editorconfig` rules.
 
-Usage output if no file or glob was provided:
+Usage output:
 ```
 Usage:
-editorconfig-checker <FILE>|<FILEGLOB>
+editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>
+available options:
+-h, --help
+        will print this help text
+-d, --dots
+        use this flag if you want to also include dotfiles
+
 ```
 
 ## Additional Notes
