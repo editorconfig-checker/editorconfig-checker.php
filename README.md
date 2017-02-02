@@ -22,7 +22,7 @@ Installation via composer is recommended:
 composer require --dev mstruebing/editorconfig-checker
 ```
 
-Ohterwise you could clone the repository and execute the script manually.
+Otherwise you could clone the repository and execute the script manually.
 
 ## Usage
 
