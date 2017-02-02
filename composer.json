@@ -23,7 +23,7 @@
         "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
         "lint": "composer run-script check-psr2 && composer run-script self-check",
         "check-psr2": "phpcs --standard=PSR2 src/MStruebing/**",
-        "self-check": "src/editorconfig-checker src/*"
+        "self-check": "src/editorconfig-checker -d src/*"
     },
     "bin": [
         "src/editorconfig-checker"

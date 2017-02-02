@@ -30,6 +30,12 @@ class Cli
             return;
         }
 
+        isset($argv[0]) && ($argv[0] === '-d' || $argv[0] === '--dots') ? $dots = true : $dots = false;
+
+        if ($dots) {
+            array_shift($argv);
+        }
+
         $rootDir = getcwd();
         $editorconfigPath = $rootDir . '/.editorconfig';
 
@@ -39,7 +45,7 @@ class Cli
             $this->logger->addError('No .editorconfig found');
         }
 
-        $files = $this->getFiles($argv);
+        $files = $this->getFiles($argv, $dots);
 
         if (count($files) > 0) {
             $this->checkFiles($editorconfig, $files);
@@ -78,8 +84,10 @@ class Cli
             $this->checkForTrailingWhitespace($rules, $file, $content);
         }
 
-        $this->checkForFinalNewline($rules, $file, $content);
-        $this->checkForLineEnding($rules, $file, $lineNumber);
+        if (isset($lineNumber)) {
+            $this->checkForFinalNewline($rules, $file, $content);
+            $this->checkForLineEnding($rules, $file, $lineNumber);
+        }
     }
 
     /**
@@ -323,11 +331,14 @@ class Cli
 
     /**
      * Returns an array of files matching the fileglobs
+     * if dots is true dotfiles will be added too otherwise
+     * dotfiles will be ignored
      *
      * @param array $fileGlobs
+     * @param boolean $dots
      * @return array
      */
-    protected function getFiles($fileGlobs)
+    protected function getFiles($fileGlobs, $dots)
     {
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
@@ -337,7 +348,10 @@ class Cli
             if (is_dir($dirPattern)) {
                 $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
                 foreach ($objects as $fileName => $object) {
-                    if (!$this->isSpecialDir($fileName)) {
+                    /* . and .. */
+                    if (!$this->isSpecialDir($fileName) &&
+                        /* filter for dotfiles */
+                        ($dots || pathinfo($fileName, PATHINFO_BASENAME)[0] !== '.' )) {
                         if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $files)) {
