@@ -343,6 +343,16 @@ class Cli
     {
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
+            /* if the glob is only a file */
+            /* add it to the file array an continue the loop*/
+            if (is_file($fileGlob)) {
+                if (!in_array($fileGlob, $files)) {
+                    array_push($files, $fileGlob);
+                }
+
+                continue;
+            }
+
             $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
             $fileType = pathinfo($fileGlob, PATHINFO_EXTENSION);
 
