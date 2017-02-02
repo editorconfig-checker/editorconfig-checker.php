@@ -132,7 +132,7 @@ class Cli
             /* check if the indentation size could be a valid one */
             /* the * is for function comments */
             if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
-                $this->logger->addError('Not the right amount of spaces', $file, $lineNumber);
+                $this->logger->addError('Not the right amount of spaces', $file, $lineNumber + 1);
             }
 
             /* because the following example would not work I have to check it this way */
@@ -143,14 +143,14 @@ class Cli
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
-                $this->logger->addError('Not the right relation of spaces between lines', $file, $lineNumber);
+                $this->logger->addError('Not the right relation of spaces between lines', $file, $lineNumber + 1);
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
-                $this->logger->addError('Wrong indentation type', $file, $lineNumber);
+                $this->logger->addError('Wrong indentation type', $file, $lineNumber + 1);
             }
         }
 
@@ -186,14 +186,14 @@ class Cli
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
-                $this->logger->addError('Not the right relation of tabs between lines', $file, $lineNumber);
+                $this->logger->addError('Not the right relation of tabs between lines', $file, $lineNumber + 1);
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
             if (isset($matches[1])) {
-                $this->logger->addError('Wrong indentation type', $file, $lineNumber);
+                $this->logger->addError('Wrong indentation type', $file, $lineNumber + 1);
             }
         }
 
@@ -218,7 +218,7 @@ class Cli
             preg_match('/^.*\S$/', $line, $matches);
 
             if (isset($matches[1])) {
-                $this->logger->addError('Trailing whitespace', $file, $lineNumber);
+                $this->logger->addError('Trailing whitespace', $file, $lineNumber + 1);
             }
         }
     }
