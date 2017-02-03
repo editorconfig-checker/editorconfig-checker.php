@@ -44,6 +44,7 @@ class Cli
             $editorconfig = parse_ini_file($rootDir . '/.editorconfig', true);
         } else {
             $this->logger->addError('No .editorconfig found');
+            return;
         }
 
         $files = $this->getFiles($argv, $dots);
