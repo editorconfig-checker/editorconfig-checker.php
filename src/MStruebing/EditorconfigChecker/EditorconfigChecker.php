@@ -23,22 +23,19 @@ if (is_file($loggerPath)) {
 /* The first paaram is only the program-name */
 array_shift($argv);
 
-var_dump($argv);
-
-$optind = null;
-
 $shortOpts = 'hde:';
 $longOpts  = ['help', 'dots', 'exclude:'];
 $options = getopt($shortOpts, $longOpts);
 
 foreach ($options as $option) {
+    if ($option) {
+        array_shift($argv);
+    }
+
     array_shift($argv);
 }
 
-/* $filePattern = array_slice($argv, count($options)); */
-
 var_dump($options);
-/* var_dump($filePattern); */
 var_dump($argv);
 
 die;
