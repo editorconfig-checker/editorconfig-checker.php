@@ -22,19 +22,13 @@ class Cli
      * @param array $argv
      * @return void
      */
-    public function run($argv)
+    public function run($options, $fileGlobs)
     {
-        count($argv) === 0 || ($argv[0] === '-h' || $argv[0] === '--help') ? $usage = true : $usage = false;
+        count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']) ? $usage = true : $usage = false;
 
         if ($usage) {
             $this->printUsage();
             return;
-        }
-
-        ($argv[0] === '-d' || $argv[0] === '--dots') ? $dots = true : $dots = false;
-
-        if ($dots) {
-            array_shift($argv);
         }
 
         $rootDir = getcwd();
@@ -47,7 +41,12 @@ class Cli
             return;
         }
 
-        $files = $this->getFiles($argv, $dots);
+        isset($options['dots']) || isset($options['d']) ? $dots = true : $dits = false;
+        $excludedPathParts = $this->getExcludedPathParts($options);
+
+        $files = $this->getFiles($fileGlobs, $dots, $excludedPathParts);
+        var_dump($files);
+        die;
 
         if (count($files) > 0) {
             $this->checkFiles($editorconfig, $files);
@@ -345,7 +344,7 @@ class Cli
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
             /* if the glob is only a file */
-            /* add it to the file array and continue the loop*/
+            /* add it to the file array an continue the loop */
             if (is_file($fileGlob)) {
                 if (!in_array($fileGlob, $files)) {
                     array_push($files, $fileGlob);
@@ -381,6 +380,35 @@ class Cli
         }
 
         return $files;
+    }
+
+    /**
+     * Get the excluded path parts from the options
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function getExcludedPathParts($options)
+    {
+        if (isset($options['e']) && !isset($options['exclude'])) {
+            $excludedPathParts = $options['e'];
+        } elseif (!isset($options['e']) && isset($options['exclude'])) {
+            $excludedPathParts = $options['exclude'];
+        } elseif (isset($options['e']) && isset($options['exclude'])) {
+            if (is_array($options['e']) && is_array($options['exclude'])) {
+                $excludedPathParts = array_merge($options['e'], $options['exclude']);
+            } elseif (is_array($options['e']) && !is_array($options['exclude'])) {
+                array_push($options['e'], $options['exclude']);
+                $excludedPathParts = $options['e'];
+            } elseif (!is_array($options['e']) && is_array($options['exclude'])) {
+                array_push($options['exclude'], $options['e']);
+                $excludedPathParts = $options['exclude'];
+            } else {
+                $excludedPathParts = [$options['e'], $options['exclude']];
+            }
+        }
+
+        return $excludedPathParts;
     }
 
     /**

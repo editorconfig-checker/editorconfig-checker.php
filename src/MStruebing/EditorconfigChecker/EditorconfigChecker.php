@@ -35,15 +35,10 @@ foreach ($options as $option) {
     array_shift($argv);
 }
 
-var_dump($options);
-var_dump($argv);
-
-die;
-
 $logger = new Logger();
-
 $cli = new Cli($logger);
-$cli->run($argv);
+
+$cli->run($options, $argv);
 
 if ($count = $logger->countErrors()) {
     $logger->printErrors();
