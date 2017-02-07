@@ -11,7 +11,7 @@
             "role": "Developer"
         }
     ],
-   "support": {
+    "support": {
         "issues": "https://github.com/mstruebing/editorconfig-checker/issues",
         "source": "https://github.com/mstruebing/editorconfig-checker"
     },
@@ -23,7 +23,7 @@
         "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
         "lint": "composer run-script check-psr2 && composer run-script self-check",
         "check-psr2": "phpcs --standard=PSR2 src/MStruebing/**",
-        "self-check": "src/editorconfig-checker -d src/*"
+        "self-check": "src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' src/*"
     },
     "bin": [
         "src/editorconfig-checker"
