@@ -42,9 +42,9 @@ class Cli
         }
 
         isset($options['dots']) || isset($options['d']) ? $dots = true : $dots = false;
-        $excludedPathParts = $this->getExcludedPathParts($options);
+        $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
-        $files = $this->getFiles($fileGlobs, $dots, $excludedPathParts);
+        $files = $this->getFiles($fileGlobs, $dots, $excludedPattern);
 
         if (count($files) > 0) {
             $this->checkFiles($editorconfig, $files);
@@ -332,12 +332,15 @@ class Cli
      * Returns an array of files matching the fileglobs
      * if dots is true dotfiles will be added too otherwise
      * dotfiles will be ignored
+     * if excludedPattern is provided the files will be filtered
+     * for the excludedPattern
      *
      * @param array $fileGlobs
      * @param boolean $dots
+     * @param array $excludedPattern
      * @return array
      */
-    protected function getFiles($fileGlobs, $dots, $excludedPathParts)
+    protected function getFiles($fileGlobs, $dots, $excludedPattern)
     {
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
@@ -377,63 +380,68 @@ class Cli
             }
         }
 
-        return $this->filterFiles($files, $excludedPathParts);
+        if ($excludedPattern) {
+            return $this->filterFiles($files, $excludedPattern);
+        } else {
+            return $files;
+        }
     }
 
     /**
      * Filter files for excluded paths
      *
      * @param array $files
-     * @param array|string $excludedPathParts
+     * @param array|string $excludedPatterPattern
      * @return array
      */
-    protected function filterFiles($files, $excludedPathParts)
+    protected function filterFiles($files, $excludedPattern)
     {
         $filteredFiles = [];
 
-        if (is_array($excludedPathParts)) {
-            $pattern = '/' . implode('|', $excludedPathParts) . '/';
-        } else {
-            $pattern = '/' . $excludedPathParts . '/';
-        }
-
         foreach ($files as $file) {
-            if (preg_match($pattern, $file) != 1) {
+            if (preg_match($excludedPattern, $file) != 1) {
                 array_push($filteredFiles, $file);
             }
         }
-        var_dump($filteredFiles);
 
         return $filteredFiles;
     }
 
     /**
-     * Get the excluded path parts from the options
+     * Get the excluded pattern from the options
      *
      * @param array $options
      * @return array
      */
-    protected function getExcludedPathParts($options)
+    protected function getExcludedPatternFromOptions($options)
     {
         if (isset($options['e']) && !isset($options['exclude'])) {
-            $excludedPathParts = $options['e'];
+            $excludedPattern = $options['e'];
         } elseif (!isset($options['e']) && isset($options['exclude'])) {
-            $excludedPathParts = $options['exclude'];
+            $excludedPattern = $options['exclude'];
         } elseif (isset($options['e']) && isset($options['exclude'])) {
             if (is_array($options['e']) && is_array($options['exclude'])) {
-                $excludedPathParts = array_merge($options['e'], $options['exclude']);
+                $excludedPattern = array_merge($options['e'], $options['exclude']);
             } elseif (is_array($options['e']) && !is_array($options['exclude'])) {
                 array_push($options['e'], $options['exclude']);
-                $excludedPathParts = $options['e'];
+                $excludedPattern = $options['e'];
             } elseif (!is_array($options['e']) && is_array($options['exclude'])) {
                 array_push($options['exclude'], $options['e']);
-                $excludedPathParts = $options['exclude'];
+                $excludedPattern = $options['exclude'];
             } else {
-                $excludedPathParts = [$options['e'], $options['exclude']];
+                $excludedPattern = [$options['e'], $options['exclude']];
             }
+        } else {
+            return false;
         }
 
-        return $excludedPathParts;
+        if (is_array($excludedPattern)) {
+            $pattern = '/' . implode('|', $excludedPattern) . '/';
+        } else {
+            $pattern = '/' . $excludedPattern . '/';
+        }
+
+        return $pattern;
     }
 
     /**
