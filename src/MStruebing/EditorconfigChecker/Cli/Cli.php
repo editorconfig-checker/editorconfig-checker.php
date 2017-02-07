@@ -41,12 +41,10 @@ class Cli
             return;
         }
 
-        isset($options['dots']) || isset($options['d']) ? $dots = true : $dits = false;
+        isset($options['dots']) || isset($options['d']) ? $dots = true : $dots = false;
         $excludedPathParts = $this->getExcludedPathParts($options);
 
         $files = $this->getFiles($fileGlobs, $dots, $excludedPathParts);
-        var_dump($files);
-        die;
 
         if (count($files) > 0) {
             $this->checkFiles($editorconfig, $files);
@@ -339,7 +337,7 @@ class Cli
      * @param boolean $dots
      * @return array
      */
-    protected function getFiles($fileGlobs, $dots)
+    protected function getFiles($fileGlobs, $dots, $excludedPathParts)
     {
         $files = array();
         foreach ($fileGlobs as $fileGlob) {
@@ -379,7 +377,34 @@ class Cli
             }
         }
 
-        return $files;
+        return $this->filterFiles($files, $excludedPathParts);
+    }
+
+    /**
+     * Filter files for excluded paths
+     *
+     * @param array $files
+     * @param array|string $excludedPathParts
+     * @return array
+     */
+    protected function filterFiles($files, $excludedPathParts)
+    {
+        $filteredFiles = [];
+
+        if (is_array($excludedPathParts)) {
+            $pattern = '/' . implode('|', $excludedPathParts) . '/';
+        } else {
+            $pattern = '/' . $excludedPathParts . '/';
+        }
+
+        foreach ($files as $file) {
+            if (preg_match($pattern, $file) != 1) {
+                array_push($filteredFiles, $file);
+            }
+        }
+        var_dump($filteredFiles);
+
+        return $filteredFiles;
     }
 
     /**
