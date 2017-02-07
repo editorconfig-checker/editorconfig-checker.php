@@ -41,6 +41,25 @@ So the above example would become to `src/*.php` to find all `.php` files in src
 
 You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
 
+If you want to filter the files you could do this via the `-e|--exclude` parameter - __CAUTION__ after using this parameter you __HAVE TO__ write a single
+regex or string.
+
+Some examples:
+```
+From this tool:
+"self-check": "src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' src/*"
+    - will filter all files which has vendor, .git, .png or .lock in their name
+
+src/editorconfig-checker -d -e vendor
+    - will only filter all files which has vendor in their name
+
+src/editorconfig-checker -d -e vendor -e .git
+    - will filter all files which has vendor or .git in their name
+```
+
+So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise.
+If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once.
+
 If you installed it manually you would have to do something like this:
 
 ```
@@ -59,6 +78,8 @@ available options:
         will print this help text
 -d, --dots
         use this flag if you want to also include dotfiles
+-e <PATTERN>, --exclude <PATTERN>
+        string or regex to filter files which should not be checked
 
 ```
 
