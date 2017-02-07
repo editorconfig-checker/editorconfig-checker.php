@@ -35,14 +35,14 @@ Then you could create a script in your `composer.json` like this:
 }
 ```
 
-__Attention!__: You could not use shell-like globbing like `src/**/*.php` to find all files.
+__ATTENTION!__: You could not use shell-like globbing like `src/**/*.php` to find all files.
 You have to explicitly specify the directory under which is searched for certain filetypes.
 So the above example would become to `src/*.php` to find all `.php` files in src and it's subdirectories.
 
 You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
 
 If you want to filter the files you could do this via the `-e|--exclude` parameter - __CAUTION__ after using this parameter you __HAVE TO__ write a single
-regex or string.
+regex or string or your files you want to check will be interpreted as the exclude pattern.
 
 Some examples:
 ```
