@@ -2,7 +2,7 @@
     "name": "mstruebing/editorconfig-checker",
     "description": "A tool to verify that your files follow the rules of your .editorconfig",
     "license": "MIT",
-    "version": "2.2.7",
+    "version": "2.3.7",
     "authors": [
         {
             "name": "Max Strübing",
