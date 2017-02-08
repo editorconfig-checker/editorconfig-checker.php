@@ -4,8 +4,6 @@ namespace MStruebing\EditorconfigChecker\Cli;
 
 class Cli
 {
-    const DEFAULT_INDENT_STYLE = 'tab';
-
     /**
      * @var MStruebing\EditorconfigChecker\Cli\Logger
      */
@@ -97,7 +95,7 @@ class Cli
      * @param int $lineNumber
      * @param int $lastIndentSize
      * @param string $file
-     * @return void
+     * @return int
      */
     protected function checkForIndentation($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
@@ -105,6 +103,8 @@ class Cli
             $lastIndentSize = $this->checkForSpace($rules, $line, $lineNumber, $lastIndentSize, $file);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
             $lastIndentSize = $this->checkForTab($rules, $line, $lineNumber, $lastIndentSize, $file);
+        } else {
+            $lastIndentSize = 0;
         }
 
         return $lastIndentSize;
@@ -295,10 +295,6 @@ class Cli
 
         if ($ftRules !== false) {
             $rules = $ftRules;
-        }
-
-        if (!isset($rules['indent_style'])) {
-            $rules['indent_style'] = self::DEFAULT_INDENT_STYLE;
         }
 
         return $rules;
