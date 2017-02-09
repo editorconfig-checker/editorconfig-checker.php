@@ -87,5 +87,7 @@ available options:
 
 ## Additional Notes
 
+I use semantic versioning so every breaking change will result in the increase of the major version.
+
 Please be aware that this is still experimental.
 If you encounter any bugs or anything else please open an issue with as many details as possible.
