@@ -17,7 +17,8 @@ class Cli
     /**
      * Entry point of this class to invoke all needed steps
      *
-     * @param array $argv
+     * @param array $options
+     * @param array $fileGlobs
      * @return void
      */
     public function run($options, $fileGlobs)
