@@ -47,17 +47,20 @@ regex or string or your files you want to check will be interpreted as the exclu
 Some examples:
 ```
 From this tool:
-"self-check": "src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' src/*"
+src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
     - will filter all files which has vendor, .git, .png or .lock in their name
 
-src/editorconfig-checker -d -e vendor
+src/editorconfig-checker -d -e vendor ./*
     - will only filter all files which has vendor in their name
 
-src/editorconfig-checker -d -e vendor -e .git
+src/editorconfig-checker -d -e vendor -e .git ./*
     - will filter all files which has vendor or .git in their name
+
+    src/editorconfig-checker -e vendor  ./*
+        - will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git)
 ```
 
-So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise.
+So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise, and there are many more.
 If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once.
 
 If you installed it manually you would have to do something like this:
@@ -80,7 +83,6 @@ available options:
         use this flag if you want to also include dotfiles/dotdirectories
 -e <PATTERN>, --exclude <PATTERN>
         string or regex to filter files which should not be checked
-
 ```
 
 ## Additional Notes
