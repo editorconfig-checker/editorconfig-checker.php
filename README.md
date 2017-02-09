@@ -77,7 +77,7 @@ available options:
 -h, --help
         will print this help text
 -d, --dots
-        use this flag if you want to also include dotfiles
+        use this flag if you want to also include dotfiles/dotdirectories
 -e <PATTERN>, --exclude <PATTERN>
         string or regex to filter files which should not be checked
 

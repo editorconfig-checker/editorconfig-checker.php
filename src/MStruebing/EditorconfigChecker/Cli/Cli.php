@@ -359,7 +359,7 @@ class Cli
                     /* . and .. */
                     if (!$this->isSpecialDir($fileName) &&
                         /* filter for dotfiles */
-                        ($dots || pathinfo($fileName, PATHINFO_BASENAME)[0] !== '.' )) {
+                        ($dots || strpos($fileName, './'))) {
                         if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $files)) {
@@ -465,7 +465,7 @@ class Cli
         printf('-h, --help'. PHP_EOL);
         printf("\twill print this help text" . PHP_EOL);
         printf('-d, --dots' . PHP_EOL);
-        printf("\tuse this flag if you want to also include dotfiles" . PHP_EOL);
+        printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
     }
