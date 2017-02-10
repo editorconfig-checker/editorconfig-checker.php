@@ -45,7 +45,7 @@ If you want to filter the files you could do this via the `-e|--exclude` paramet
 regex or string or your files you want to check will be interpreted as the exclude pattern.
 
 Some examples:
-```
+```sh
 From this tool:
 src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
     - will filter all files which has vendor, .git, .png or .lock in their name
@@ -65,7 +65,7 @@ If you just want to filter for one string you don't have to worry and if you wan
 
 If you installed it manually you would have to do something like this:
 
-```
+```sh
 <PATH/TO/ROOT/OF/THIS/REPOS>/src/editorconfig-checker src/*.php
 ```
 
