@@ -46,18 +46,17 @@ regex or string or your files you want to check will be interpreted as the exclu
 
 Some examples:
 ```sh
-From this tool:
+# will filter all files which has vendor, .git, .png or .lock in their name
 src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
-    - will filter all files which has vendor, .git, .png or .lock in their name
 
+# will only filter all files which has vendor in their name
 src/editorconfig-checker -d -e vendor ./*
-    - will only filter all files which has vendor in their name
 
+# will filter all files which has vendor or .git in their name
 src/editorconfig-checker -d -e vendor -e .git ./*
-    - will filter all files which has vendor or .git in their name
 
-    src/editorconfig-checker -e vendor  ./*
-        - will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git)
+# will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git)
+src/editorconfig-checker -e vendor  ./*
 ```
 
 So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise, and there are many more.
