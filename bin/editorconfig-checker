@@ -29,7 +29,8 @@ function bsdCompatibleReadLink() {
 }
 
 # see http://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
-SRC_DIR="$(dirname "$(bsdCompatibleReadLink "$0")")"
+BIN_DIR="$(dirname "$(bsdCompatibleReadLink "$0")")"
+SRC_DIR="$BIN_DIR/../src"
 args="$@"
 
-php $SRC_DIR/MStruebing/EditorconfigChecker/EditorconfigChecker.php $args
+php $SRC_DIR/EditorconfigChecker.php $args
