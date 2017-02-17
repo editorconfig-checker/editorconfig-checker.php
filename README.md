@@ -47,16 +47,16 @@ regex or string or your files you want to check will be interpreted as the exclu
 Some examples:
 ```sh
 # will filter all files which has vendor, .git, .png or .lock in their name
-src/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
+bin/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
 
 # will only filter all files which has vendor in their name
-src/editorconfig-checker -d -e vendor ./*
+bin/editorconfig-checker -d -e vendor ./*
 
 # will filter all files which has vendor or .git in their name
-src/editorconfig-checker -d -e vendor -e .git ./*
+bin/editorconfig-checker -d -e vendor -e .git ./*
 
 # will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git)
-src/editorconfig-checker -e vendor  ./*
+bin/editorconfig-checker -e vendor  ./*
 ```
 
 So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise, and there are many more.
@@ -65,7 +65,7 @@ If you just want to filter for one string you don't have to worry and if you wan
 If you installed it manually you would have to do something like this:
 
 ```sh
-<PATH/TO/ROOT/OF/THIS/REPOS>/src/editorconfig-checker src/*.php
+<PATH/TO/ROOT/OF/THIS/REPOS>/bin/editorconfig-checker src/*.php
 ```
 
 The exit value is 0 if no error occurred and 1 to 254 - every error adds 1 to the exit value.
