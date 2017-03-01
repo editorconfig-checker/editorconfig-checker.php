@@ -2,6 +2,8 @@
 
 namespace MStruebing\EditorconfigChecker\Cli;
 
+use MStruebing\EditorconfigChecker\Validation\Validator;
+
 class Cli
 {
     /**
@@ -23,6 +25,7 @@ class Cli
      */
     public function run($options, $fileGlobs)
     {
+        $validator = new Validator();
         count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']) ? $usage = true : $usage = false;
 
         if ($usage) {
