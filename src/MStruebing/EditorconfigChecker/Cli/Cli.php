@@ -79,7 +79,7 @@ class Cli
 
         foreach ($content as $lineNumber => $line) {
             $lastIndentSize = $this->checkForIndentation($rules, $line, $lineNumber, $lastIndentSize, $file);
-            $this->checkForTrailingWhitespace($rules, $file, $content);
+            $this->checkForTrailingWhitespace($rules, $line, $lineNumber, $file);
         }
 
         if (isset($lineNumber)) {
@@ -211,12 +211,12 @@ class Cli
      * @param int $lineNumber
      * @return void
      */
-    protected function checkForTrailingWhitespace($rules, $line, $lineNumber)
+    protected function checkForTrailingWhitespace($rules, $line, $lineNumber, $file)
     {
-        if (isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
-            preg_match('/^.*\S$/', $line, $matches);
+        if (strlen($line) > 0 && isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
+            preg_match('/^.*[\t ]+$/', $line, $matches);
 
-            if (isset($matches[1])) {
+            if (isset($matches[0])) {
                 $this->logger->addError('Trailing whitespace', $file, $lineNumber + 1);
             }
         }
