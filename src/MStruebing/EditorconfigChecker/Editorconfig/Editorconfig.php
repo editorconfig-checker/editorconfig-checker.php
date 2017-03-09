@@ -46,7 +46,7 @@ class Editorconfig
      * @param string $fileType
      * @return array
      */
-    protected function getEditorconfigRules($editorconfig, $fileType)
+    public function getEditorconfigRules($editorconfig, $fileType)
     {
         $globalRules = [];
         $ftRules = [];
