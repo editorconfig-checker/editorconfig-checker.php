@@ -51,6 +51,7 @@ class Editorconfig
     {
         $globalRules = [];
         $ftRules = [];
+
         foreach ($editorconfig as $key => $value) {
             if ($key === '*') {
                 $globalRules = $value;

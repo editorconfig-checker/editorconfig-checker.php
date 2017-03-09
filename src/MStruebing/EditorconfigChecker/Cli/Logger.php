@@ -26,6 +26,7 @@ class Logger
         if (!isset(static::$instance)) {
             static::$instance = new static;
         }
+
         return static::$instance;
     }
 
