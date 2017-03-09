@@ -9,6 +9,20 @@ class Logger
      */
     protected $errors = array();
 
+    protected static $instance = null;
+
+    public static function getInstance()
+    {
+        if (!isset(static::$instance)) {
+            static::$instance = new static;
+        }
+        return static::$instance;
+    }
+
+    protected function __construct()
+    {
+    }
+
     public function addError($message, $file = null, $lineNumber = null)
     {
         array_push($this->errors, ["lineNumber" => $lineNumber, "file" => $file, "message" => $message]);

@@ -7,16 +7,6 @@ use MStruebing\EditorconfigChecker\Validation\Validator;
 class Cli
 {
     /**
-     * @var MStruebing\EditorconfigChecker\Cli\Logger
-     */
-    protected $logger;
-
-    public function __construct($logger)
-    {
-        $this->logger = $logger;
-    }
-
-    /**
      * Entry point of this class to invoke all needed steps
      *
      * @param array $options
@@ -25,7 +15,6 @@ class Cli
      */
     public function run($options, $fileGlobs)
     {
-        $validator = new Validator();
         count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']) ? $usage = true : $usage = false;
 
         if ($usage) {
@@ -39,7 +28,7 @@ class Cli
         if (is_file($editorconfigPath)) {
             $editorconfig = parse_ini_file($rootDir . '/.editorconfig', true);
         } else {
-            $this->logger->addError('No .editorconfig found');
+            Logger::getInstance()->addError('No .editorconfig found');
             return;
         }
 
@@ -134,7 +123,7 @@ class Cli
             /* check if the indentation size could be a valid one */
             /* the * is for function comments */
             if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
-                $this->logger->addError('Not the right amount of spaces', $file, $lineNumber + 1);
+                Logger::getInstance()->addError('Not the right amount of spaces', $file, $lineNumber + 1);
             }
 
             /* because the following example would not work I have to check it this way */
@@ -145,14 +134,18 @@ class Cli
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
-                $this->logger->addError('Not the right relation of spaces between lines', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Not the right relation of spaces between lines',
+                    $file,
+                    $lineNumber + 1
+                );
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
-                $this->logger->addError('Wrong indentation type', $file, $lineNumber + 1);
+                Logger::getInstance()->addError('Wrong indentation type', $file, $lineNumber + 1);
             }
         }
 
@@ -188,14 +181,14 @@ class Cli
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
-                $this->logger->addError('Not the right relation of tabs between lines', $file, $lineNumber + 1);
+                Logger::getInstance()->addError('Not the right relation of tabs between lines', $file, $lineNumber + 1);
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
             if (isset($matches[1])) {
-                $this->logger->addError('Wrong indentation type', $file, $lineNumber + 1);
+                Logger::getInstance()->addError('Wrong indentation type', $file, $lineNumber + 1);
             }
         }
 
@@ -219,8 +212,8 @@ class Cli
         if (strlen($line) > 0 && isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
             preg_match('/^.*[\t ]+$/', $line, $matches);
 
-            if (isset($matches[0])) {
-                $this->logger->addError('Trailing whitespace', $file, $lineNumber + 1);
+            if (isset($matches[1])) {
+                Logger::getInstance()->addError('Trailing whitespace', $file, $lineNumber + 1);
             }
         }
     }
@@ -240,7 +233,7 @@ class Cli
             preg_match('/(.*\n\Z)/', $lastLine, $matches);
 
             if (!isset($matches[1])) {
-                $this->logger->addError('Missing final newline', $file);
+                Logger::getInstance()->addError('Missing final newline', $file);
             }
         }
     }
@@ -269,11 +262,11 @@ class Cli
 
             if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
                 if ($eols !== $lineNumbers + 1) {
-                    $this->logger->addError('Not all lines have the correct end of line character!', $file);
+                    Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
                 }
             } else {
                 if ($eols !== $lineNumbers) {
-                    $this->logger->addError('Not all lines have the correct end of line character!', $file);
+                    Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
                 }
             }
         }
