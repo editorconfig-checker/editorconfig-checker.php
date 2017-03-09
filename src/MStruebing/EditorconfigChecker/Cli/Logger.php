@@ -9,8 +9,18 @@ class Logger
      */
     protected $errors = array();
 
+    /**
+     * @var Logger
+     */
     protected static $instance = null;
 
+    /**
+     * Returns an instance of this class
+     * If there is already an instance this would be returned
+     * elsewise a new one is created
+     *
+     * @return Logger
+     */
     public static function getInstance()
     {
         if (!isset(static::$instance)) {
@@ -19,15 +29,28 @@ class Logger
         return static::$instance;
     }
 
+    /**
+     * Private constructor so no one else can access it
+     */
     protected function __construct()
     {
     }
 
+    /**
+     * Adds an error to the logger
+     *
+     * @param string $message
+     * @param string $file
+     * @param int $lineNumber
+     */
     public function addError($message, $file = null, $lineNumber = null)
     {
         array_push($this->errors, ["lineNumber" => $lineNumber, "file" => $file, "message" => $message]);
     }
 
+    /**
+     * Prints the errors from the logger to stdout
+     */
     public function printErrors()
     {
         foreach ($this->errors as $errorNumber => $error) {
@@ -46,6 +69,11 @@ class Logger
         printf('Check log above and fix the issues.' . PHP_EOL);
     }
 
+    /**
+     * Counts the errors which were added to the logger
+     *
+     * @return int
+     */
     public function countErrors()
     {
         return count($this->errors);
