@@ -3,6 +3,7 @@
 namespace MStruebing\EditorconfigChecker\Cli;
 
 use MStruebing\EditorconfigChecker\Validation\Validator;
+use MStruebing\EditorconfigChecker\Editorconfig\Editorconfig;
 
 class Cli
 {
@@ -25,9 +26,7 @@ class Cli
         $rootDir = getcwd();
         $editorconfigPath = $rootDir . '/.editorconfig';
 
-        if (is_file($editorconfigPath)) {
-            $editorconfig = parse_ini_file($rootDir . '/.editorconfig', true);
-        } else {
+        if (!is_file($editorconfigPath)) {
             Logger::getInstance()->addError('No .editorconfig found');
             return;
         }
@@ -38,7 +37,7 @@ class Cli
         $files = $this->getFiles($fileGlobs, $dots, $excludedPattern);
 
         if (count($files) > 0) {
-            $this->checkFiles($editorconfig, $files);
+            $this->checkFiles($editorconfigPath, $files);
         }
     }
 
@@ -49,10 +48,14 @@ class Cli
      * @param array $files
      * @return void
      */
-    protected function checkFiles($editorconfig, $files)
+    protected function checkFiles($editorconfigPath, $files)
     {
+        $editorconfig = new Editorconfig();
+        /* because that should not happen on every loop cycle */
+        $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath);
+
         foreach ($files as $file) {
-            $rules = $this->getRulesForFiletype($editorconfig, $file);
+            $rules = $editorconfig->getRulesForFiletype($editorconfigRulesArray, $file);
             $this->processCheckForSingleFile($rules, $file);
         }
     }
@@ -270,55 +273,6 @@ class Cli
                 }
             }
         }
-    }
-
-    /**
-     * Returns the editorconfig rules for a file
-     *
-     * @param array $editorconfig
-     * @param string $file
-     * @return array
-     */
-    protected function getRulesForFiletype($editorconfig, $file)
-    {
-        $fileType = pathinfo($file, PATHINFO_EXTENSION);
-
-        /* temporary ;), dirty hack for makefile */
-        if (!$fileType && $file === 'Makefile') {
-            $fileType = 'Makefile';
-        }
-
-        $ftRules = $this->getEditorconfigRules($editorconfig, $fileType);
-
-        if ($ftRules !== false) {
-            $rules = $ftRules;
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Returns an array of the merged rules from a specific filetype and global ones
-     *
-     * @param array $editorconfig
-     * @param string $fileType
-     * @return array
-     */
-    protected function getEditorconfigRules($editorconfig, $fileType)
-    {
-        $globalRules = [];
-        $ftRules = [];
-        foreach ($editorconfig as $key => $value) {
-            if ($key === '*') {
-                $globalRules = $value;
-            }
-            /* files with no extension have an empty filetype */
-            if (strlen($fileType) && strpos($key, $fileType) !== false) {
-                $ftRules = $value;
-            }
-        }
-
-        return array_merge($globalRules, $ftRules);
     }
 
     /**
