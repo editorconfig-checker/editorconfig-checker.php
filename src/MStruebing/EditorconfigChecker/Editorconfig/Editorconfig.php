@@ -14,6 +14,7 @@ class Editorconfig
     {
         return parse_ini_file($editorconfigPath, true);
     }
+
     /**
      * Returns the editorconfig rules for a file
      *
