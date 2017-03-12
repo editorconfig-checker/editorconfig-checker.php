@@ -12,7 +12,7 @@ class TrailingWhitespaceValidator
      * @param array $rules
      * @param string $line
      * @param int $lineNumber
-     * @return void
+     * @return boolean
      */
     public static function validate($rules, $line, $lineNumber, $file)
     {
@@ -20,7 +20,10 @@ class TrailingWhitespaceValidator
             preg_match('/^.*[\t ]+$/', $line, $matches);
             if (isset($matches[0])) {
                 Logger::getInstance()->addError('Trailing whitespace', $file, $lineNumber + 1);
+                return false;
             }
         }
+
+        return true;
     }
 }
