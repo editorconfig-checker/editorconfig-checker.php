@@ -29,5 +29,8 @@
     },
     "bin": [
         "bin/editorconfig-checker"
-    ]
+    ],
+    "autoload": {
+        "psr-0": { "MStruebing": "src/" }
+    }
 }
