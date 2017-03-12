@@ -77,6 +77,7 @@ class Cli
             $this->checkForTrailingWhitespace($rules, $line, $lineNumber, $file);
         }
 
+        /* to prevent checking of empty files */
         if (isset($lineNumber)) {
             $this->checkForFinalNewline($rules, $file, $content);
             $this->checkForLineEnding($rules, $file, $lineNumber);
