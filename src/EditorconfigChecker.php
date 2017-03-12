@@ -24,11 +24,10 @@ foreach ($options as $option) {
     array_shift($argv);
 }
 
-$logger = new Logger();
-$cli = new Cli($logger);
-
+$cli = new Cli();
 $cli->run($options, $argv);
 
+$logger = Logger::getInstance();
 if ($count = $logger->countErrors()) {
     $logger->printErrors();
     $count < 255 ? exit($count) : exit(255);
