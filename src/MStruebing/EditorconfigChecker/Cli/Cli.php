@@ -214,8 +214,7 @@ class Cli
     {
         if (strlen($line) > 0 && isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
             preg_match('/^.*[\t ]+$/', $line, $matches);
-
-            if (isset($matches[1])) {
+            if (isset($matches[0])) {
                 Logger::getInstance()->addError('Trailing whitespace', $file, $lineNumber + 1);
             }
         }
