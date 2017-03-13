@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use MStruebing\EditorconfigChecker\Validation\TrailingWhitespaceValidator;
+use MStruebing\EditorconfigChecker\Cli\Logger;
 
 final class TrailingWhitespaceValidatorTest extends TestCase
 {
@@ -16,7 +17,16 @@ final class TrailingWhitespaceValidatorTest extends TestCase
         $line = '';
         $this->assertTrue(TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file));
 
+        $line = ' heyho';
+        $this->assertTrue(TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file));
+
+        $line = "\theyho";
+        $this->assertTrue(TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file));
+
         $line = 'heyho ';
+        $this->assertFalse(TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file));
+
+        $line = "heyho\t";
         $this->assertFalse(TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file));
 
         $line = ' ';
