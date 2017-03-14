@@ -39,7 +39,7 @@ class IndentationValidator
      * @param string $file
      * @return void
      */
-    protected function validateSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
+    protected static function validateSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         preg_match('/^( +)/', $line, $matches);
 
@@ -92,7 +92,7 @@ class IndentationValidator
      * @param string $file
      * @return void
      */
-    protected function validateTab($rules, $line, $lineNumber, $lastIndentSize, $file)
+    protected static function validateTab($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         preg_match('/^(\t+)/', $line, $matches);
 
