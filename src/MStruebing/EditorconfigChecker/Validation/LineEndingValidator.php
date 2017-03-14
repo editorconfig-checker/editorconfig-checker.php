@@ -11,15 +11,14 @@ class LineEndingValidator
      *
      * @param array $rules
      * @param string $file
+     * @param string $content
      * @param int $lineNumbers
      * @return void
      *
      */
-    public static function validate($rules, $file, $lineNumbers)
+    public static function validate($rules, $file, $content, $lineNumbers)
     {
         if (isset($rules['end_of_line'])) {
-            $content = file_get_contents($file);
-
             if ($rules['end_of_line'] === 'lf') {
                 $eols = count(str_split(preg_replace("/[^\n]/", "", $content)));
             } elseif ($rules['end_of_line'] === 'cr') {
@@ -31,12 +30,16 @@ class LineEndingValidator
             if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
                 if ($eols !== $lineNumbers + 1) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
+                    return false;
                 }
             } else {
                 if ($eols !== $lineNumbers) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
+                    return false;
                 }
             }
         }
+
+        return true;
     }
 }
