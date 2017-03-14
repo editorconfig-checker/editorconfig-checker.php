@@ -89,6 +89,6 @@ class Logger
      */
     public function clearErrors()
     {
-        $this->errors = [];
+        $this->errors = array();
     }
 }
