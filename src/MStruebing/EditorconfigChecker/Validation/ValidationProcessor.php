@@ -51,7 +51,7 @@ class ValidationProcessor
         /* to prevent checking of empty files */
         if (isset($lineNumber)) {
             FinalNewlineValidator::validate($rules, $file, $content);
-            LineEndingValidator::validate($rules, $file, $lineNumber);
+            LineEndingValidator::validate($rules, $file, file_get_contents($file), $lineNumber);
         }
     }
 }
