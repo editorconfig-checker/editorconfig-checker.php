@@ -1,5 +1,5 @@
 {
-    "name": "mstruebing/editorconfig-checker",
+    "name": "editorconfig-checker/editorconfig-checker",
     "description": "A tool to verify that your files follow the rules of your .editorconfig",
     "license": "MIT",
     "version": "3.0.2",
