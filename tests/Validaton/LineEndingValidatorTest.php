@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use MStruebing\EditorconfigChecker\Validation\LineEndingValidator;
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Validation\LineEndingValidator;
+use EditorconfigChecker\Cli\Logger;
 
 final class LineEndingValidatorTest extends TestCase
 {

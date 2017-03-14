@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use MStruebing\EditorconfigChecker\Validation\FinalNewlineValidator;
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Validation\FinalNewlineValidator;
+use EditorconfigChecker\Cli\Logger;
 
 final class FinalNewlineValidatorTest extends TestCase
 {

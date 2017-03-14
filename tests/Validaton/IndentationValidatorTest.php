@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use MStruebing\EditorconfigChecker\Validation\IndentationValidator;
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Validation\IndentationValidator;
+use EditorconfigChecker\Cli\Logger;
 
 final class IndentationValidatorTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace MStruebing\EditorconfigChecker\Editorconfig;
+namespace EditorconfigChecker\Editorconfig;
 
 class Editorconfig
 {

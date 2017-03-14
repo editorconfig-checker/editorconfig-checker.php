@@ -1,6 +1,6 @@
 <?php
 
-namespace MStruebing\EditorconfigChecker\Cli;
+namespace EditorconfigChecker\Cli;
 
 class Logger
 {

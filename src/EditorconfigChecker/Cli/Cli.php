@@ -1,9 +1,9 @@
 <?php
 
-namespace MStruebing\EditorconfigChecker\Cli;
+namespace EditorconfigChecker\Cli;
 
-use MStruebing\EditorconfigChecker\Editorconfig\Editorconfig;
-use MStruebing\EditorconfigChecker\Validation\ValidationProcessor;
+use EditorconfigChecker\Editorconfig\Editorconfig;
+use EditorconfigChecker\Validation\ValidationProcessor;
 
 class Cli
 {

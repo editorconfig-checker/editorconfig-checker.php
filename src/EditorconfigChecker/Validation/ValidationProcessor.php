@@ -1,8 +1,8 @@
 <?php
 
-namespace MStruebing\EditorconfigChecker\Validation;
+namespace EditorconfigChecker\Validation;
 
-use MStruebing\EditorconfigChecker\Editorconfig\Editorconfig;
+use EditorconfigChecker\Editorconfig\Editorconfig;
 
 class ValidationProcessor
 {

@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Cli\Logger;
 
 final class LoggerTest extends TestCase
 {

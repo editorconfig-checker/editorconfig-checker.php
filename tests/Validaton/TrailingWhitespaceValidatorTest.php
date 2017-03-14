@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use MStruebing\EditorconfigChecker\Validation\TrailingWhitespaceValidator;
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Validation\TrailingWhitespaceValidator;
+use EditorconfigChecker\Cli\Logger;
 
 final class TrailingWhitespaceValidatorTest extends TestCase
 {

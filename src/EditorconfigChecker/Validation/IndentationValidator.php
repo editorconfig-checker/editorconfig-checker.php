@@ -1,8 +1,8 @@
 <?php
 
-namespace MStruebing\EditorconfigChecker\Validation;
+namespace EditorconfigChecker\Validation;
 
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Cli\Logger;
 
 class IndentationValidator
 {

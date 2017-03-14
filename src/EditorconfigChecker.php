@@ -1,9 +1,9 @@
 <?php
 
-namespace MStruebing\EditorconfigChecker;
+namespace EditorconfigChecker;
 
-use MStruebing\EditorconfigChecker\Cli\Cli;
-use MStruebing\EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Cli\Cli;
+use EditorconfigChecker\Cli\Logger;
 
 spl_autoload_register(function ($class) {
     $newClass = str_replace('\\', '/', $class);
