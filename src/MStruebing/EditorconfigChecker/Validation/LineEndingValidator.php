@@ -20,11 +20,15 @@ class LineEndingValidator
     {
         if (isset($rules['end_of_line'])) {
             if ($rules['end_of_line'] === 'lf') {
-                $eols = count(str_split(preg_replace("/[^\n]/", "", $content)));
+                str_replace("\n", '', $content, $eolsLF);
+                str_replace("\r\n", '', $content, $eolsCRLF);
+                $eols = $eolsLF - $eolsCRLF;
             } elseif ($rules['end_of_line'] === 'cr') {
-                $eols = count(str_split(preg_replace("/[^\r]/", "", $content)));
+                str_replace("\r", '', $content, $eolsCR);
+                str_replace("\r\n", '', $content, $eolsCRLF);
+                $eols = $eolsCR - $eolsCRLF;
             } elseif ($rules['end_of_line'] === 'crlf') {
-                $eols = count(str_split(preg_replace("/[^\r\n]/", "", $content)));
+                str_replace("\r\n", '', $content, $eols);
             }
 
             if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
