@@ -6,11 +6,6 @@ use MStruebing\EditorconfigChecker\Editorconfig\Editorconfig;
 
 class ValidationProcessor
 {
-    public function validate($file)
-    {
-        return true;
-    }
-
     /**
      * Loop over files and get the editorconfig rules for this file
      * and invokes the acutal validation
@@ -51,7 +46,7 @@ class ValidationProcessor
         /* to prevent checking of empty files */
         if (isset($lineNumber)) {
             FinalNewlineValidator::validate($rules, $file, $content);
-            LineEndingValidator::validate($rules, $file, $lineNumber);
+            LineEndingValidator::validate($rules, $file, file_get_contents($file), $lineNumber);
         }
     }
 }

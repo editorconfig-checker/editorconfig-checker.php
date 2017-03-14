@@ -17,15 +17,20 @@
     },
     "require": {},
     "require-dev": {
-        "squizlabs/php_codesniffer": "^2.7.1"
+        "squizlabs/php_codesniffer": "^2.7.1",
+        "phpunit/phpunit": "^6.0"
     },
     "scripts": {
         "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
         "lint": "composer run-script check-psr2 && composer run-script self-check",
         "check-psr2": "phpcs --standard=PSR2 src/**",
-        "self-check": "bin/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*"
+        "self-check": "bin/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*",
+        "test": "phpunit tests/ --bootstrap vendor/autoload.php"
     },
     "bin": [
         "bin/editorconfig-checker"
-    ]
+    ],
+    "autoload": {
+        "psr-0": { "MStruebing": "src/" }
+    }
 }

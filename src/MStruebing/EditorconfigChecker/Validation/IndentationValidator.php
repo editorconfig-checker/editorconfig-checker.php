@@ -19,9 +19,9 @@ class IndentationValidator
     public static function validate($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
-            $lastIndentSize = IndentationValidator::checkForSpace($rules, $line, $lineNumber, $lastIndentSize, $file);
+            $lastIndentSize = IndentationValidator::validateSpace($rules, $line, $lineNumber, $lastIndentSize, $file);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
-            $lastIndentSize = IndentationValidator::checkForTab($rules, $line, $lineNumber, $lastIndentSize, $file);
+            $lastIndentSize = IndentationValidator::validateTab($rules, $line, $lineNumber, $lastIndentSize, $file);
         } else {
             $lastIndentSize = 0;
         }
@@ -39,7 +39,7 @@ class IndentationValidator
      * @param string $file
      * @return void
      */
-    protected function checkForSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
+    protected static function validateSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         preg_match('/^( +)/', $line, $matches);
 
@@ -47,7 +47,7 @@ class IndentationValidator
             $indentSize = strlen($matches[1]);
 
             /* check if the indentation size could be a valid one */
-            /* the * is for function comments */
+            /* the * is for block comments */
             if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
                 Logger::getInstance()->addError('Not the right amount of spaces', $file, $lineNumber + 1);
             }
@@ -92,7 +92,7 @@ class IndentationValidator
      * @param string $file
      * @return void
      */
-    protected function checkForTab($rules, $line, $lineNumber, $lastIndentSize, $file)
+    protected static function validateTab($rules, $line, $lineNumber, $lastIndentSize, $file)
     {
         preg_match('/^(\t+)/', $line, $matches);
 

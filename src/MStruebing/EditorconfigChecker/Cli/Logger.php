@@ -79,4 +79,16 @@ class Logger
     {
         return count($this->errors);
     }
+
+    /**
+     * Clears all former added errors
+     * This is just for the tests and should not be called
+     * within the normal workflow
+     *
+     * @return void
+     */
+    public function clearErrors()
+    {
+        $this->errors = array();
+    }
 }
