@@ -113,7 +113,7 @@ class IndentationValidator
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
-            if (isset($matches[1])) {
+            if (isset($matches[1]) && strpos($line, ' *') !== 0) {
                 Logger::getInstance()->addError('Wrong indentation type', $file, $lineNumber + 1);
             }
         }
