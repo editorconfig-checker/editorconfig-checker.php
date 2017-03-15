@@ -21,10 +21,12 @@ class FinalNewlineValidator
 
             if (isset($rules['end_of_line'])) {
                 if ($rules['end_of_line'] === 'lf') {
+                    /* I didn't get it to work properly without checking for both */
                     preg_match('/(.*\n\Z)/', $lastLine, $matchesLF);
                     preg_match('/(.*\r\n\Z)/', $lastLine, $matchesCRLF);
                     $error = !isset($matchesLF[1]) ^ isset($matchesCRLF[1]);
                 } elseif ($rules['end_of_line'] === 'cr') {
+                    /* I didn't get it to work properly without checking for both */
                     preg_match('/(.*\r\Z)/', $lastLine, $matchesCR);
                     preg_match('/(.*\r\n\Z)/', $lastLine, $matchesCRLF);
                     $error = !isset($matchesCR[1]) ^ isset($matchesCRLF[1]);
