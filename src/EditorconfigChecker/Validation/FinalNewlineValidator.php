@@ -32,6 +32,11 @@ class FinalNewlineValidator
                     preg_match('/(.*\r\n\Z)/', $lastLine, $matches);
                     $error = !isset($matches[1]);
                 }
+            } else {
+                preg_match('/(.*\n\Z)/', $lastLine, $matchesLF);
+                preg_match('/(.*\r\Z)/', $lastLine, $matchesCR);
+                preg_match('/(.*\r\n\Z)/', $lastLine, $matchesCRLF);
+                $error = !(isset($matchesLF[1]) || isset($matchesCR[1]) || isset($matchesCRLF[1]));
             }
 
             if ($error) {

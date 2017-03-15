@@ -150,4 +150,29 @@ final class FinalNewlineValidatorTest extends TestCase
         $this->assertTrue(FinalNewlineValidator::validate($rules, $file, $content));
         $this->assertEquals(Logger::getInstance()->countErrors(), 6);
     }
+
+    public function testValidateWithNoLineEnding()
+    {
+        $rules = ['insert_final_newline' => true];
+        $file = 'src';
+
+        /* clear the logger errors before */
+        Logger::getInstance()->clearErrors();
+
+        $content = ['array', 'with', "stuff\r\n"];
+        $this->assertTrue(FinalNewlineValidator::validate($rules, $file, $content));
+        $this->assertEquals(Logger::getInstance()->countErrors(), 0);
+
+        $content = ['array', 'with', "stuff\n"];
+        $this->assertTrue(FinalNewlineValidator::validate($rules, $file, $content));
+        $this->assertEquals(Logger::getInstance()->countErrors(), 0);
+
+        $content = ['array', 'with', "stuff\r"];
+        $this->assertTrue(FinalNewlineValidator::validate($rules, $file, $content));
+        $this->assertEquals(Logger::getInstance()->countErrors(), 0);
+
+        $content = ['array', 'with', 'stuff'];
+        $this->assertFalse(FinalNewlineValidator::validate($rules, $file, $content));
+        $this->assertEquals(Logger::getInstance()->countErrors(), 1);
+    }
 }
