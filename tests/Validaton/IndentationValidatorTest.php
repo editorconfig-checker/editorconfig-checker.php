@@ -32,14 +32,30 @@ final class IndentationValidatorTest extends TestCase
         $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 0);
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
+        $line = "\t *Hi";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 1);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 0);
+
+        $line = " *Hi";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 0);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 0);
+
+        $line = "\t  Hi";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 1);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 1);
+
+        $line = "\t Hi";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 1);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 2);
+
         $line = "    Hi\t";
         $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 0);
-        $this->assertEquals(Logger::getInstance()->countErrors(), 1);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 3);
 
         /* not the right relation (more than one indentation difference) */
         $line = "\t\t\tHi";
         $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 3);
-        $this->assertEquals(Logger::getInstance()->countErrors(), 2);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 4);
     }
 
     public function testValidateSpaces()
@@ -72,9 +88,21 @@ final class IndentationValidatorTest extends TestCase
         $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 0);
         $this->assertEquals(Logger::getInstance()->countErrors(), 1);
 
+        $line = " * Hi";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 1);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 1);
+
+        $line = "     * Hi";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 5);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 1);
+
+        $line = "    \tHi    ";
+        $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 4);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 2);
+
         /* not the right relation (more than one indentation difference) */
         $line = '            Hi';
         $this->assertEquals(IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file), 12);
-        $this->assertEquals(Logger::getInstance()->countErrors(), 2);
+        $this->assertEquals(Logger::getInstance()->countErrors(), 3);
     }
 }

@@ -52,6 +52,10 @@ class IndentationValidator
                 Logger::getInstance()->addError('Not the right amount of spaces', $file, $lineNumber + 1);
             }
 
+            if ($line[$indentSize] === "\t") {
+                Logger::getInstance()->addError('Mixed indentation', $file, $lineNumber + 1);
+            }
+
             /* because the following example would not work I have to check it this way */
             /* ... maybe it should not? */
             /* if (xyz) */
@@ -108,6 +112,10 @@ class IndentationValidator
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
                 Logger::getInstance()->addError('Not the right relation of tabs between lines', $file, $lineNumber + 1);
+            }
+
+            if (substr($line, $indentSize, 1) === ' ' && substr($line, $indentSize + 1, 1) !== '*') {
+                Logger::getInstance()->addError('Mixed indentation', $file, $lineNumber + 1);
             }
 
             $lastIndentSize = $indentSize;
