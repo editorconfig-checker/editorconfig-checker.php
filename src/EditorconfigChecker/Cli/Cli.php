@@ -76,7 +76,7 @@ class Cli
                     /* . and .. */
                     if (!$this->isSpecialDir($fileName) &&
                         /* filter for dotfiles */
-                        ($dots || strpos($fileName, './'))) {
+                        ($dots || strpos($fileName, './.') !== 0)) {
                         if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $files)) {
