@@ -78,6 +78,8 @@ editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>
 available options:
 -h, --help
         will print this help text
+-f, --files
+        will print all files which are checked to stdout
 -d, --dots
         use this flag if you want to also include dotfiles/dotdirectories
 -e <PATTERN>, --exclude <PATTERN>
@@ -90,3 +92,5 @@ I use semantic versioning so every breaking change will result in the increase o
 
 Please be aware that this is still experimental.
 If you encounter any bugs or anything else please open an issue with as many details as possible.
+You should use the `-f` option when after installing and configuring this tool to see if all files are
+checked.
