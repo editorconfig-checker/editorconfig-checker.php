@@ -96,16 +96,33 @@ class Logger
         $this->errors = array();
     }
 
+    /**
+     * This message is printed on the end if no error occured
+     *
+     * @return void
+     */
     public function printSuccessMessage()
     {
         printf('Successfully checked %d lines in %d files :)'. PHP_EOL, $this->lines, $this->files);
     }
 
+    /**
+     * Set number of fiels for success message
+     *
+     * @param int $files
+     * @return void
+     */
     public function setFiles($files)
     {
         $this->files = $files;
     }
 
+    /**
+     * Adds lines to print them in success message
+     *
+     * @param int $lines
+     * @return void
+     */
     public function addLines($lines)
     {
         $this->lines = $this->lines + $lines;
