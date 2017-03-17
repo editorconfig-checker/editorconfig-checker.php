@@ -17,6 +17,7 @@ class Cli
     public function run($options, $fileGlobs)
     {
         count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']) ? $usage = true : $usage = false;
+        $showFiles = isset($options['f']) || isset($options['files']);
 
         if ($usage) {
             $this->printUsage();
@@ -35,6 +36,13 @@ class Cli
         $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
         $files = $this->getFiles($fileGlobs, $dots, $excludedPattern);
+
+        if ($showFiles) {
+            foreach ($files as $file) {
+                printf('%s' . PHP_EOL, $file);
+            }
+            printf('total: %d files' . PHP_EOL, count($files));
+        }
 
         if (count($files) > 0) {
             ValidationProcessor::validateFiles($editorconfigPath, $files);
@@ -181,6 +189,8 @@ class Cli
         printf('available options:' . PHP_EOL);
         printf('-h, --help'. PHP_EOL);
         printf("\twill print this help text" . PHP_EOL);
+        printf('-f, --files'. PHP_EOL);
+        printf("\twill print all files which are checked to stdout" . PHP_EOL);
         printf('-d, --dots' . PHP_EOL);
         printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);

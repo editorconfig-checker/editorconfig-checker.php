@@ -12,8 +12,8 @@ spl_autoload_register(function ($class) {
 
 array_shift($argv);
 
-$shortOpts = 'hde:';
-$longOpts  = ['help', 'dots', 'exclude:'];
+$shortOpts = 'hfde:';
+$longOpts  = ['help', 'files', 'dots', 'exclude:'];
 $options = getopt($shortOpts, $longOpts);
 
 foreach ($options as $option) {
