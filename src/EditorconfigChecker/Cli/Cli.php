@@ -104,7 +104,7 @@ class Cli
      * Filter files for excluded paths
      *
      * @param array $files
-     * @param array|string $excludedPatterPattern
+     * @param array|string $excludedPattern
      * @return array
      */
     protected function filterFiles($files, $excludedPattern)

@@ -22,7 +22,7 @@ class Editorconfig
      * @param string $file
      * @return array
      */
-    public function getRulesForFiletype($editorconfig, $file)
+    public function getRulesForFile($editorconfig, $file)
     {
         $fileType = pathinfo($file, PATHINFO_EXTENSION);
 
@@ -31,7 +31,7 @@ class Editorconfig
             $fileType = 'Makefile';
         }
 
-        $ftRules = $this->getEditorconfigRules($editorconfig, $fileType);
+        $ftRules = $this->getRulesForFiletype($editorconfig, $fileType);
 
         if ($ftRules !== false) {
             $rules = $ftRules;
@@ -47,7 +47,7 @@ class Editorconfig
      * @param string $fileType
      * @return array
      */
-    public function getEditorconfigRules($editorconfig, $fileType)
+    protected function getRulesForFiletype($editorconfig, $fileType)
     {
         $globalRules = [];
         $ftRules = [];
