@@ -15,6 +15,11 @@
         "issues": "https://github.com/https://github.com/editorconfig-checker/editorconfig-checker.php/issues",
         "source": "https://github.com/editorconfig-checker/editorconfig-checker.php"
     },
+    "config": {
+        "plattform": {
+            "php": "7"
+        }
+    },
     "require": {},
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.7.1",
