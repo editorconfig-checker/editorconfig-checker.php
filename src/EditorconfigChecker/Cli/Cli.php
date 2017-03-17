@@ -36,17 +36,20 @@ class Cli
         $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
         $files = $this->getFiles($fileGlobs, $dots, $excludedPattern);
+        $fileCount = count($files);
 
         if ($showFiles) {
             foreach ($files as $file) {
                 printf('%s' . PHP_EOL, $file);
             }
-            printf('total: %d files' . PHP_EOL, count($files));
+            printf('total: %d files' . PHP_EOL, $fileCount);
         }
 
-        if (count($files) > 0) {
+        if ($fileCount > 0) {
             ValidationProcessor::validateFiles($editorconfigPath, $files);
         }
+
+        Logger::getInstance()->setFiles($fileCount);
     }
 
     /**

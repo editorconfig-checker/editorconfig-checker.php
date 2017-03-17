@@ -32,5 +32,6 @@ if ($count = $logger->countErrors()) {
     $logger->printErrors();
     $count < 255 ? exit($count) : exit(255);
 } else {
+    $logger->printSuccessMessage();
     exit(0);
 }

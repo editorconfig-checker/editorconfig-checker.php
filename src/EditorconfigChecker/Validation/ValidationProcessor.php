@@ -3,6 +3,7 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Editorconfig\Editorconfig;
+use EditorconfigChecker\Cli\Logger;
 
 class ValidationProcessor
 {
@@ -47,6 +48,7 @@ class ValidationProcessor
         if (isset($lineNumber)) {
             FinalNewlineValidator::validate($rules, $file, $content);
             LineEndingValidator::validate($rules, $file, file_get_contents($file), $lineNumber);
+            Logger::getInstance()->addLines($lineNumber);
         }
     }
 }

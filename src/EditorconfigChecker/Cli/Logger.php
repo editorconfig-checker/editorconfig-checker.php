@@ -9,6 +9,10 @@ class Logger
      */
     protected $errors = array();
 
+    protected $lines = 0;
+
+    protected $files = 0;
+
     /**
      * @var Logger
      */
@@ -90,5 +94,20 @@ class Logger
     public function clearErrors()
     {
         $this->errors = array();
+    }
+
+    public function printSuccessMessage()
+    {
+        printf('Successfully checked %d lines in %d files :)'. PHP_EOL, $this->lines, $this->files);
+    }
+
+    public function setFiles($files)
+    {
+        $this->files = $files;
+    }
+
+    public function addLines($lines)
+    {
+        $this->lines = $this->lines + $lines;
     }
 }
