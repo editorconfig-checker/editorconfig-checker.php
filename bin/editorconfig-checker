@@ -10,27 +10,28 @@
 function bsdCompatibleReadLink() {
 	local TARGET_FILE="$1"
 
-	cd `dirname $TARGET_FILE`
-	TARGET_FILE=`basename $TARGET_FILE`
+	cd "$(dirname "$TARGET_FILE")" || exit
+	TARGET_FILE=$(basename "$TARGET_FILE")
 
 	# Iterate down a (possible) chain of symlinks
 	while [ -L "$TARGET_FILE" ]
 	do
-	    TARGET_FILE=`readlink $TARGET_FILE`
-	    cd `dirname $TARGET_FILE`
-	    TARGET_FILE=`basename $TARGET_FILE`
+	    TARGET_FILE=$(readlink "$TARGET_FILE")
+	    cd "$(dirname "$TARGET_FILE")" || exit
+	    TARGET_FILE=$(basename "$TARGET_FILE")
 	done
 
 	# Compute the canonicalized name by finding the physical path
 	# for the directory we're in and appending the target file.
-	PHYS_DIR=`pwd -P`
+	PHYS_DIR=$(pwd -P)
 	RESULT=$PHYS_DIR/$TARGET_FILE
-	echo $RESULT
+	echo "$RESULT"
 }
 
 # see http://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
 BIN_DIR="$(dirname "$(bsdCompatibleReadLink "$0")")"
 SRC_DIR="$BIN_DIR/../src"
-args="$@"
+args=$*
 
-php $SRC_DIR/EditorconfigChecker.php $args
+# I don't quote $args because I'm using globbing here :)
+php "$SRC_DIR"/EditorconfigChecker.php $args
