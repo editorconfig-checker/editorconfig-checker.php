@@ -1,6 +1,9 @@
 # Required to run your project under the correct environment.
 language: php
 
+notifications:
+  email: false
+
 # Versions of PHP you want your project run with.
 php:
   - 7.0
