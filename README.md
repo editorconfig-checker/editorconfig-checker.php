@@ -112,5 +112,5 @@ Please be aware that this is still experimental.
 
 If you encounter any bugs or anything else please open an issue with as many details as possible.
 
-You should use the `-f` option when after installing and configuring this tool to see if all files are
+You should use the `-f` option after installing and configuring this tool to see if all files are
 checked.
