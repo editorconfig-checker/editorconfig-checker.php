@@ -20,9 +20,18 @@ Installation via composer is recommended:
 
 ```
 composer require --dev editorconfig-checker/editorconfig-checker
+./vendor/bin/editorconfig-checker
+
+# or in a composer-script just
+editorconfig-checker
 ```
 
 Otherwise you could clone the repository and execute the script manually.
+
+```
+git clone git@github.com:editorconfig-checker/editorconfig-checker.php.git
+./editorconfig-checker.php/bin/editorconfig-checker
+```
 
 ## Usage
 
@@ -48,19 +57,28 @@ Some examples:
 ```sh
 # will filter all files which has vendor, .git, .png or .lock in their name
 bin/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
+bin/editorconfig-checker --dots --exclude 'vendor|.git|.png|.lock' ./*
 
 # will only filter all files which has vendor in their name
 bin/editorconfig-checker -d -e vendor ./*
+bin/editorconfig-checker --dots -exclude vendor ./*
 
 # will filter all files which has vendor or .git in their name
 bin/editorconfig-checker -d -e vendor -e .git ./*
+bin/editorconfig-checker --dots -exclude vendor -e .git ./*
 
-# will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git)
+# will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml)
 bin/editorconfig-checker -e vendor  ./*
+bin/editorconfig-checker --exclude vendor  ./*
 ```
 
-So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise, and there are many more.
-If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once.
+So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise, and there are many more special characters.
+If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
+
+```sh
+bin/editorconfig-checker -d -e vendor -e .git -e .png -e .lock' ./*
+bin/editorconfig-checker --dots --exclude vendor --exclude .git --exclude .png --exclude .lock' ./*
+```
 
 If you installed it manually you would have to do something like this:
 
@@ -91,6 +109,8 @@ available options:
 I use semantic versioning so every breaking change will result in the increase of the major version.
 
 Please be aware that this is still experimental.
+
 If you encounter any bugs or anything else please open an issue with as many details as possible.
+
 You should use the `-f` option when after installing and configuring this tool to see if all files are
 checked.
