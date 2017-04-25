@@ -20,7 +20,9 @@
             "php": "7"
         }
     },
-    "require": {},
+    "require": {
+        "webmozart/glob": "^4.1"
+    },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.7.1",
         "phpunit/phpunit": "^6.0"

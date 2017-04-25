@@ -1,14 +1,19 @@
 <?php
-
 namespace EditorconfigChecker;
 
 use EditorconfigChecker\Cli\Cli;
 use EditorconfigChecker\Cli\Logger;
 
-spl_autoload_register(function ($class) {
-    $newClass = str_replace('\\', '/', $class);
-    require_once($newClass . '.php');
-});
+$paths = [
+    __DIR__.'/../vendor/autoload.php',
+    __DIR__.'/../../../autoload.php'
+];
+foreach ($paths as $path) {
+    if (file_exists($path)) {
+        require_once $path;
+        break;
+    }
+}
 
 array_shift($argv);
 
