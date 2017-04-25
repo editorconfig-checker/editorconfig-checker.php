@@ -26,7 +26,7 @@ class Editorconfig
      */
     public function getRulesForFile($editorconfig, $fileName)
     {
-        return array_reduce(array_keys($editorconfig), function($carry, $pattern) use ($editorconfig, $fileName) {
+        return array_reduce(array_keys($editorconfig), function ($carry, $pattern) use ($editorconfig, $fileName) {
             $rules = $editorconfig[$pattern];
 
             return Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute($pattern, getcwd())) ?
