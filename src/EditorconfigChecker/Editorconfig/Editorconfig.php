@@ -1,6 +1,8 @@
 <?php
-
 namespace EditorconfigChecker\Editorconfig;
+
+use Webmozart\Glob\Glob;
+use Webmozart\PathUtil\Path;
 
 class Editorconfig
 {
@@ -19,49 +21,16 @@ class Editorconfig
      * Returns the editorconfig rules for a file
      *
      * @param array $editorconfig
-     * @param string $file
+     * @param string $fileName
      * @return array
      */
-    public function getRulesForFile($editorconfig, $file)
+    public function getRulesForFile($editorconfig, $fileName)
     {
-        $fileType = pathinfo($file, PATHINFO_EXTENSION);
+        return array_reduce(array_keys($editorconfig), function($carry, $pattern) use ($editorconfig, $fileName) {
+            $rules = $editorconfig[$pattern];
 
-        /* temporary ;), dirty hack for makefile */
-        if (!$fileType && $file === 'Makefile') {
-            $fileType = 'Makefile';
-        }
-
-        $ftRules = $this->getRulesForFiletype($editorconfig, $fileType);
-
-        if ($ftRules !== false) {
-            $rules = $ftRules;
-        }
-
-        return $rules;
-    }
-
-    /**
-     * Returns an array of the merged rules from a specific filetype and global ones
-     *
-     * @param array $editorconfig
-     * @param string $fileType
-     * @return array
-     */
-    protected function getRulesForFiletype($editorconfig, $fileType)
-    {
-        $globalRules = [];
-        $ftRules = [];
-
-        foreach ($editorconfig as $key => $value) {
-            if ($key === '*') {
-                $globalRules = $value;
-            }
-            /* files with no extension have an empty filetype */
-            if (strlen($fileType) && strpos($key, $fileType) !== false) {
-                $ftRules = $value;
-            }
-        }
-
-        return array_merge($globalRules, $ftRules);
+            return Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute($pattern, getcwd())) ?
+                array_merge($carry, $rules) : $carry;
+        }, []);
     }
 }

@@ -30,6 +30,6 @@ final class EditorconfigTest extends TestCase
 
         $editorconfig = new Editorconfig();
         $rules = $editorconfig->getRulesForFile($allRules, 'Readme.md');
-        $this->assertEquals($rules, $expectedRules);
+        $this->assertEquals($expectedRules, $rules);
     }
 }
