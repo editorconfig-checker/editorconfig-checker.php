@@ -2,7 +2,7 @@
 
 ![Logo](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.php/master/Docs/logo.png "Logo")
 
-This is a __dependency-free__ tool to check if given files implement your .editorconfig rules.
+This is a command-line tool to check if given files implement your .editorconfig rules.
 
 [![Build Status](https://travis-ci.org/editorconfig-checker/editorconfig-checker.php.svg?branch=master)](https://travis-ci.org/editorconfig-checker/editorconfig-checker.php)
 [![Latest Stable Version](https://poser.pugx.org/editorconfig-checker/editorconfig-checker/v/stable)](https://packagist.org/packages/editorconfig-checker/editorconfig-checker)
