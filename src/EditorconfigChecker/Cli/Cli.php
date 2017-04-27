@@ -35,18 +35,18 @@ class Cli
         isset($options['dots']) || isset($options['d']) ? $dots = true : $dots = false;
         $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
-        $files = $this->getFiles($fileGlobs, $dots, $excludedPattern);
-        $fileCount = count($files);
+        $fileNames = $this->getFileNames($fileGlobs, $dots, $excludedPattern);
+        $fileCount = count($fileNames);
 
         if ($showFiles) {
-            foreach ($files as $file) {
-                printf('%s' . PHP_EOL, $file);
+            foreach ($fileNames as $fileName) {
+                printf('%s' . PHP_EOL, $fileName);
             }
             printf('total: %d files' . PHP_EOL, $fileCount);
         }
 
         if ($fileCount > 0) {
-            ValidationProcessor::validateFiles($editorconfigPath, $files);
+            ValidationProcessor::validateFiles($editorconfigPath, $fileNames);
         }
 
         Logger::getInstance()->setFiles($fileCount);
@@ -64,22 +64,22 @@ class Cli
      * @param array $excludedPattern
      * @return array
      */
-    protected function getFiles($fileGlobs, $dots, $excludedPattern)
+    protected function getFileNames($fileGlobs, $dots, $excludedPattern)
     {
-        $files = array();
+        $fileNames = array();
         foreach ($fileGlobs as $fileGlob) {
             /* if the glob is only a file */
             /* add it to the file array an continue the loop */
             if (is_file($fileGlob)) {
-                if (!in_array($fileGlob, $files)) {
-                    array_push($files, $fileGlob);
+                if (!in_array($fileGlob, $fileNames)) {
+                    array_push($fileNames, $fileGlob);
                 }
 
                 continue;
             }
 
             $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
-            $fileType = pathinfo($fileGlob, PATHINFO_EXTENSION);
+            $fileExtension = pathinfo($fileGlob, PATHINFO_EXTENSION);
 
             if (is_dir($dirPattern)) {
                 $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
@@ -88,15 +88,15 @@ class Cli
                     if (!$this->isSpecialDir($fileName) &&
                         /* filter for dotfiles */
                         ($dots || strpos($fileName, './.') !== 0)) {
-                        if ($fileType && $fileType === pathinfo($fileName, PATHINFO_EXTENSION)) {
+                        if ($fileExtension && $fileExtension === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $files)) {
-                                array_push($files, $fileName);
+                            if (!in_array($fileName, $fileNames)) {
+                                array_push($fileNames, $fileName);
                             }
-                        } elseif (!strlen($fileType)) {
+                        } elseif (!strlen($fileExtension)) {
                             /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $files)) {
-                                array_push($files, $fileName);
+                            if (!in_array($fileName, $fileNames)) {
+                                array_push($fileNames, $fileName);
                             }
                         }
                     }
@@ -105,9 +105,9 @@ class Cli
         }
 
         if ($excludedPattern) {
-            return $this->filterFiles($files, $excludedPattern);
+            return $this->filterFiles($fileNames, $excludedPattern);
         } else {
-            return $files;
+            return $fileNames;
         }
     }
 
@@ -118,17 +118,17 @@ class Cli
      * @param array|string $excludedPattern
      * @return array
      */
-    protected function filterFiles($files, $excludedPattern)
+    protected function filterFiles($fileNames, $excludedPattern)
     {
-        $filteredFiles = [];
+        $filteredFileNames = [];
 
-        foreach ($files as $file) {
-            if (preg_match($excludedPattern, $file) != 1) {
-                array_push($filteredFiles, $file);
+        foreach ($fileNames as $fileName) {
+            if (preg_match($excludedPattern, $fileName) != 1) {
+                array_push($filteredFileNames, $fileName);
             }
         }
 
-        return $filteredFiles;
+        return $filteredFileNames;
     }
 
     /**

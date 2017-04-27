@@ -22,7 +22,7 @@ class ValidationProcessor
         $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath);
 
         foreach ($files as $file) {
-            $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, $file);
+            $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, substr($file, 2));
             ValidationProcessor::validateFile($rules, $file);
         }
     }
