@@ -29,7 +29,7 @@ class Editorconfig
         return array_reduce(array_keys($editorconfig), function ($carry, $pattern) use ($editorconfig, $fileName) {
             $rules = $editorconfig[$pattern];
 
-            return Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute($pattern, getcwd())) ?
+            return Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute('**/' . $pattern, getcwd())) ?
                 array_merge($carry, $rules) : $carry;
         }, []);
     }
