@@ -45,39 +45,46 @@ Then you could create a script in your `composer.json` like this:
 ```
 
 __ATTENTION!__: You could not use shell-like globbing like `src/**/*.php` to find all files.
-You have to explicitly specify the directory under which is searched for certain filetypes.
-So the above example would become to `src/*.php` to find all `.php` files in src and it's subdirectories.
+You have to explicitly specify the directory under which is searched for certain file types.
+So the above example would become to `src/*.php` to find all `.php` files in `src` and it's subdirectories.
 
 You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
 
-If you want to filter the files you could do this via the `-e|--exclude` parameter - __CAUTION__ after using this parameter you __HAVE TO__ write a single
-regex or string or your files you want to check will be interpreted as the exclude pattern.
+If you want to filter the files you could do this via the `-e|--exclude` parameter 
+
+__CAUTION__ after using this parameter you __HAVE TO__ write a single
+regular expression or string or your files you want to check will be interpreted as the exclude pattern.
+
+If you use a regular expression you should __always__ put single quotes around it otherwise it would be interpreted by your shell before.
 
 Some examples:
 ```sh
-# will filter all files which has vendor, .git, .png or .lock in their name
-bin/editorconfig-checker -d -e 'vendor|.git|.png|.lock' ./*
-bin/editorconfig-checker --dots --exclude 'vendor|.git|.png|.lock' ./*
+# will filter all files which has vendor in their name or git, png or lock as extension
+bin/editorconfig-checker -d -e 'vendor|\.git$|\.png$|\.lock$' ./*
+bin/editorconfig-checker --dots --exclude 'vendor|.git$|.png$|.lock$' ./*
+
+# will filter all files with png and json extension
+bin/editorconfig-checker -d -e '\.png$|\.json$' ./*
+bin/editorconfig-checker --dots --exclude '\.png$|\.json$' ./*
 
 # will only filter all files which has vendor in their name
 bin/editorconfig-checker -d -e vendor ./*
 bin/editorconfig-checker --dots -exclude vendor ./*
 
 # will filter all files which has vendor or .git in their name
-bin/editorconfig-checker -d -e vendor -e .git ./*
-bin/editorconfig-checker --dots -exclude vendor -e .git ./*
+bin/editorconfig-checker -d -e vendor -e '\.git' ./*
+bin/editorconfig-checker --dots -exclude vendor -e '\.git' ./*
 
 # will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml)
 bin/editorconfig-checker -e vendor  ./*
 bin/editorconfig-checker --exclude vendor  ./*
 ```
 
-So basically: if you want to filter for a pattern you should quote it because the `|` for example is interpreted by the bash else wise, and there are many more special characters.
 If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
 
 ```sh
-bin/editorconfig-checker -d -e vendor -e .git -e .png -e .lock' ./*
-bin/editorconfig-checker --dots --exclude vendor --exclude .git --exclude .png --exclude .lock' ./*
+bin/editorconfig-checker -d -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
+bin/editorconfig-checker --dots --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
 ```
 
 If you installed it manually you would have to do something like this:
@@ -107,8 +114,6 @@ available options:
 ## Additional Notes
 
 I use semantic versioning so every breaking change will result in the increase of the major version.
-
-Please be aware that this is still experimental.
 
 If you encounter any bugs or anything else please open an issue with as many details as possible.
 
