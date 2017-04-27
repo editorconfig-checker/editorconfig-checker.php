@@ -55,7 +55,8 @@ If you want to filter the files you could do this via the `-e|--exclude` paramet
 __CAUTION__ after using this parameter you __HAVE TO__ write a single
 regular expression or string or your files you want to check will be interpreted as the exclude pattern.
 
-If you use a regular expression you should __always__ put single quotes around it otherwise it would be interpreted by your shell before.
+If you use a regular expression you should __always__ put single quotes around it 
+because the special characters(e.g. `|`, `*`, `.` or whatever) will be interpreted by your shell before if you don't.
 
 Some examples:
 ```sh
