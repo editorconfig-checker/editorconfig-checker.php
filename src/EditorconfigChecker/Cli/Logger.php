@@ -21,7 +21,7 @@ class Logger
     /**
      * Returns an instance of this class
      * If there is already an instance this would be returned
-     * elsewise a new one is created
+     * else wise a new one is created
      *
      * @return Logger
      */
@@ -70,7 +70,7 @@ class Logger
             printf(PHP_EOL);
         }
 
-        printf('%d errors occured' . PHP_EOL, $this->countErrors());
+        printf('%d errors occurred' . PHP_EOL, $this->countErrors());
         printf('Check log above and fix the issues.' . PHP_EOL);
     }
 
@@ -87,7 +87,7 @@ class Logger
     /**
      * Clears all former added errors
      * This is just for the tests and should not be called
-     * within the normal workflow
+     * within the normal work flow
      *
      * @return void
      */
@@ -97,7 +97,7 @@ class Logger
     }
 
     /**
-     * This message is printed on the end if no error occured
+     * This message is printed on the end if no error occurred
      *
      * @return void
      */
@@ -107,7 +107,7 @@ class Logger
     }
 
     /**
-     * Set number of fiels for success message
+     * Set number of files for success message
      *
      * @param int $files
      * @return void

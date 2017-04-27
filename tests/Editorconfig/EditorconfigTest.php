@@ -23,7 +23,7 @@ final class EditorconfigTest extends TestCase
             'end_of_line' => 'lf',
             'insert_final_newline' => 1,
             'charset' => 'utf-8',
-            'trim_trailing_whitespace' => 1,
+            'trim_trailing_whitespace' => '',
             'indent_style' => 'space',
             'indent_size' => 4
         ];
