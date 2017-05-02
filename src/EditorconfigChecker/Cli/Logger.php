@@ -76,7 +76,7 @@ class Logger
             printf(PHP_EOL);
         }
 
-        printf('%d errors occurred' . PHP_EOL, $this->countErrors());
+        printf('%d files checked, %d errors occurred' . PHP_EOL, $this->getFiles(), $this->countErrors());
         printf('Check log above and fix the issues.' . PHP_EOL);
     }
 
@@ -113,14 +113,24 @@ class Logger
     }
 
     /**
-     * Set number of files for success message
+     * Set number of checked files
      *
      * @param int $files
      * @return void
      */
-    public function setFiles($files)
+    public function setFiles(int $files)
     {
         $this->files = $files;
+    }
+
+    /**
+     * Get the numer of checked files
+     *
+     * @return int
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**
