@@ -64,18 +64,28 @@ class Logger
             return;
         }
 
-        foreach ($this->errors as $errorNumber => $error) {
-            printf('Error #%d' . PHP_EOL, $errorNumber);
-            printf('  %s' . PHP_EOL, $error['message']);
-            if (isset($error['lineNumber'])) {
-                printf('  on line %d' . PHP_EOL, $error['lineNumber']);
+        // sort error log by filename
+        array_multisort(array_map(function ($element) {
+            return $element['fileName'];
+        }, $this->errors), SORT_ASC, $this->errors);
+
+        $lastFile = '';
+        $errorSegment = 0;
+        foreach ($this->errors as $error) {
+            if ($lastFile !== $error['fileName']) {
+                $errorSegment++;
+                $lastFile = $error['fileName'];
+                printf('%04d) %s' . PHP_EOL, $errorSegment, $error['fileName']);
             }
-            if (isset($error['fileName'])) {
-                printf('  in file %s' . PHP_EOL, $error['fileName']);
+
+            printf('      %s', $error['message']);
+            if (false === empty($error['lineNumber'])) {
+                printf(' on line %d', $error['lineNumber']);
             }
             printf(PHP_EOL);
         }
 
+        printf(PHP_EOL);
         printf('%d files checked, %d errors occurred' . PHP_EOL, $this->getFiles(), $this->countErrors());
         printf('Check log above and fix the issues.' . PHP_EOL);
     }
