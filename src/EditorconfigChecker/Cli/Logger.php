@@ -58,6 +58,12 @@ class Logger
      */
     public function printErrors()
     {
+        // only 1 error and no filename given = Fatal Error! (Eg. ".editorconfig not found!")
+        if ($this->errors[0]['fileName'] === null && $this->countErrors() === 1) {
+            printf('Fatal Error: %s' . PHP_EOL, $this->errors[0]['message']);
+            return;
+        }
+
         foreach ($this->errors as $errorNumber => $error) {
             printf('Error #%d' . PHP_EOL, $errorNumber);
             printf('  %s' . PHP_EOL, $error['message']);
