@@ -5,10 +5,10 @@ use EditorconfigChecker\Editorconfig\Editorconfig;
 
 final class EditorconfigTest extends TestCase
 {
-    public function getRulesArray()
+    public function getRulesArray($fileName)
     {
         $rootDir = getcwd();
-        $editorconfigPath = $rootDir . '/.editorconfig';
+        $editorconfigPath = $rootDir . '/' . $fileName;
 
         $editorconfig = new Editorconfig();
         $rules = $editorconfig->getRulesAsArray($editorconfigPath);
@@ -17,7 +17,7 @@ final class EditorconfigTest extends TestCase
 
     public function testGetRulesForFile()
     {
-        $allRules = $this->getRulesArray();
+        $allRules = $this->getRulesArray('.editorconfig');
 
         $expectedRules = [
             'end_of_line' => 'lf',

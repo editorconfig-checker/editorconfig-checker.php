@@ -35,7 +35,7 @@ class Logger
     }
 
     /**
-     * Private constructor so no one else can access it
+     * Protected constructor so no one else can access it
      */
     protected function __construct()
     {
@@ -125,6 +125,6 @@ class Logger
      */
     public function addLines($lines)
     {
-        $this->lines = $this->lines + $lines;
+        $this->lines += $lines;
     }
 }

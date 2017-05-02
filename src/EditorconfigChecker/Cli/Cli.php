@@ -16,7 +16,7 @@ class Cli
      */
     public function run($options, $fileGlobs)
     {
-        count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']) ? $usage = true : $usage = false;
+        $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['f']) || isset($options['files']);
 
         if ($usage) {
