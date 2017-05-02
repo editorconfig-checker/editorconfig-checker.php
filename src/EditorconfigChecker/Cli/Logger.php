@@ -50,7 +50,7 @@ class Logger
      */
     public function addError($message, $fileName = null, $lineNumber = null)
     {
-        array_push($this->errors, ["lineNumber" => $lineNumber, "fileName" => $fileName, "message" => $message]);
+        array_push($this->errors, ['lineNumber' => $lineNumber, 'fileName' => $fileName, 'message' => $message]);
     }
 
     /**
@@ -59,13 +59,13 @@ class Logger
     public function printErrors()
     {
         foreach ($this->errors as $errorNumber => $error) {
-            printf("Error #%d" . PHP_EOL, $errorNumber);
-            printf("\t %s" . PHP_EOL, $error['message']);
+            printf('Error #%d' . PHP_EOL, $errorNumber);
+            printf('  %s' . PHP_EOL, $error['message']);
             if (isset($error['lineNumber'])) {
-                printf("\t on line %d" . PHP_EOL, $error['lineNumber']);
+                printf('  on line %d' . PHP_EOL, $error['lineNumber']);
             }
             if (isset($error['fileName'])) {
-                printf("\t in file %s" . PHP_EOL, $error['fileName']);
+                printf('  in file %s' . PHP_EOL, $error['fileName']);
             }
             printf(PHP_EOL);
         }
