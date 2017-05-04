@@ -50,7 +50,7 @@ class Logger
      */
     public function addError($message, $fileName = null, $lineNumber = null)
     {
-        array_push($this->errors, ["lineNumber" => $lineNumber, "fileName" => $fileName, "message" => $message]);
+        $this->errors[] = ['lineNumber' => $lineNumber, 'fileName' => $fileName, 'message' => $message];
     }
 
     /**
@@ -58,19 +58,35 @@ class Logger
      */
     public function printErrors()
     {
-        foreach ($this->errors as $errorNumber => $error) {
-            printf("Error #%d" . PHP_EOL, $errorNumber);
-            printf("\t %s" . PHP_EOL, $error['message']);
-            if (isset($error['lineNumber'])) {
-                printf("\t on line %d" . PHP_EOL, $error['lineNumber']);
+        // only 1 error and no filename given = Fatal Error! (Eg. ".editorconfig not found!")
+        if ($this->errors[0]['fileName'] === null && $this->countErrors() === 1) {
+            printf('Fatal Error: %s' . PHP_EOL, $this->errors[0]['message']);
+            return;
+        }
+
+        // sort error log by filename
+        array_multisort(array_map(function ($element) {
+            return $element['fileName'];
+        }, $this->errors), SORT_ASC, $this->errors);
+
+        $lastFile = '';
+        $errorSegment = 0;
+        foreach ($this->errors as $error) {
+            if ($lastFile !== $error['fileName']) {
+                $errorSegment++;
+                $lastFile = $error['fileName'];
+                printf('%04d) %s' . PHP_EOL, $errorSegment, $error['fileName']);
             }
-            if (isset($error['file'])) {
-                printf("\t in file %s" . PHP_EOL, $error['file']);
+
+            printf('      %s', $error['message']);
+            if (false === empty($error['lineNumber'])) {
+                printf(' on line %d', $error['lineNumber']);
             }
             printf(PHP_EOL);
         }
 
-        printf('%d errors occurred' . PHP_EOL, $this->countErrors());
+        printf(PHP_EOL);
+        printf('%d files checked, %d errors occurred' . PHP_EOL, $this->getFiles(), $this->countErrors());
         printf('Check log above and fix the issues.' . PHP_EOL);
     }
 
@@ -107,14 +123,24 @@ class Logger
     }
 
     /**
-     * Set number of files for success message
+     * Set number of checked files
      *
      * @param int $files
      * @return void
      */
-    public function setFiles($files)
+    public function setFiles(int $files)
     {
         $this->files = $files;
+    }
+
+    /**
+     * Get the numer of checked files
+     *
+     * @return int
+     */
+    public function getFiles()
+    {
+        return $this->files;
     }
 
     /**
