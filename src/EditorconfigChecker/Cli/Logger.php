@@ -120,6 +120,11 @@ class Logger
         $this->errors = array();
     }
 
+    public function errorFixed()
+    {
+        $this->fixed = true;
+    }
+
     /**
      * This message is printed on the end if no error occurred
      *
