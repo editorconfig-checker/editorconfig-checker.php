@@ -18,25 +18,4 @@ class FinalNewlineFix
 
         return false;
     }
-
-    /**
-     * Removes a final newline at the end of the file
-     *
-     * @param string $file
-     * @return boolean
-     */
-    public static function remove($filename)
-    {
-        if (is_file($filename)) {
-            $lines = file($filename);
-            $last = sizeof($lines) - 1 ;
-            unset($lines[$last]);
-
-            $fp = fopen($filename, 'w');
-            fwrite($fp, implode('', $lines));
-            fclose($fp);
-        }
-
-        return false;
-    }
 }
