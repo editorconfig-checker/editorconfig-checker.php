@@ -198,5 +198,7 @@ class Cli
         printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
+        printf('-a, --auto-fix' . PHP_EOL);
+        printf("\twill automatically fix fixable issues(insert_final_newline)" . PHP_EOL);
     }
 }
