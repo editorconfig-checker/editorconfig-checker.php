@@ -15,8 +15,8 @@ class TrailingWhitespaceFix
         if (is_file($filename)) {
             $lines = file($filename);
 
-            foreach ($lines as $index => $line) {
-                $lines[$index] = rtrim($line);
+            foreach ($lines as &$line) {
+                $line = rtrim($line);
             }
 
             $fp = fopen($filename, 'w');
