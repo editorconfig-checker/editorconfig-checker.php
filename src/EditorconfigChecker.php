@@ -17,8 +17,8 @@ foreach ($paths as $path) {
 
 array_shift($argv);
 
-$shortOpts = 'hfde:';
-$longOpts  = ['help', 'files', 'dots', 'exclude:'];
+$shortOpts = 'hlde:';
+$longOpts  = ['help', 'list-files', 'dots', 'exclude:'];
 $options = getopt($shortOpts, $longOpts);
 
 foreach ($options as $option) {
