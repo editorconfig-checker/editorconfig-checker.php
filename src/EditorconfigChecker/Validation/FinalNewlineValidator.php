@@ -38,7 +38,10 @@ class FinalNewlineValidator
 
                 if ($error) {
                     Logger::getInstance()->addError('Missing final newline', $file);
-                    FinalNewlineFix::insert($file);
+                    if (FinalNewlineFix::insert($file)) {
+                        Logger::errorFixed();
+                    }
+
                     return false;
                 }
             } else {
@@ -49,6 +52,9 @@ class FinalNewlineValidator
 
                 if ($error) {
                     Logger::getInstance()->addError('Incorrect final newline', $file);
+                    if (FinalNewlineFix::remove($file)) {
+                        Logger::errorFixed();
+                    }
                     return false;
                 }
             }
