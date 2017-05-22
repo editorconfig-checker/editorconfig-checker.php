@@ -3,6 +3,7 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Fix\FinalNewlineFix;
 
 class FinalNewlineValidator
 {

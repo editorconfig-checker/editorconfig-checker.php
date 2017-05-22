@@ -15,12 +15,12 @@ class TrailingWhitespaceFix
         if (is_file($filename)) {
             $lines = file($filename);
 
-            foreach ($lines as $line) {
-                $line = rtrim($line);
+            foreach ($lines as $index => $line) {
+                $lines[$index] = rtrim($line);
             }
 
             $fp = fopen($filename, 'w');
-            fwrite($fp, implode('', $lines));
+            fwrite($fp, implode(PHP_EOL, $lines));
             fclose($fp);
 
             return true;

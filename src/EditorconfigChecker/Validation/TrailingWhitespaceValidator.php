@@ -23,7 +23,7 @@ class TrailingWhitespaceValidator
                 Logger::getInstance()->addError('Trailing whitespace', $file, $lineNumber + 1);
 
                 if (TrailingWhitespaceFix::trim($file)) {
-                    Logger::getInstanc()->errorFixed();
+                    Logger::getInstance()->errorFixed();
                 }
 
                 return false;
