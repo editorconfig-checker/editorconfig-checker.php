@@ -3,6 +3,7 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Fix\TrailingWhitespaceFix;
 
 class TrailingWhitespaceValidator
 {
@@ -20,6 +21,11 @@ class TrailingWhitespaceValidator
             preg_match('/^.*[\t ]+$/', $line, $matches);
             if (isset($matches[0])) {
                 Logger::getInstance()->addError('Trailing whitespace', $file, $lineNumber + 1);
+
+                if (TrailingWhitespaceFix::trim($file)) {
+                    Logger::getInstanc()->errorFixed();
+                }
+
                 return false;
             }
         }

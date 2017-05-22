@@ -3,7 +3,6 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
-use EditorconfigChecker\Fix\FinalNewlineFix;
 
 class FinalNewlineValidator
 {
@@ -41,15 +40,15 @@ class FinalNewlineValidator
                 preg_match('/(.*\r\n\Z)/', $lastLine, $matchesCRLF);
                 $error = !(isset($matchesLF[1]) || isset($matchesCR[1]) || isset($matchesCRLF[1]));
             }
-        }
 
-        if ($error) {
-            Logger::getInstance()->addError('Missing final newline', $file);
-            if (FinalNewlineFix::insert($file)) {
-                Logger::errorFixed();
+            if ($error) {
+                Logger::getInstance()->addError('Missing final newline', $file);
+                if (FinalNewlineFix::insert($file)) {
+                    Logger::getInstance()->errorFixed();
+                }
+
+                return false;
             }
-
-            return false;
         }
 
         return true;
