@@ -38,7 +38,6 @@ class LineEndingValidator
                 }
             } else {
                 if ($eols !== $lineNumbers) {
-                    var_dump($eols, $lineNumbers);
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
                     return false;
                 }
