@@ -22,8 +22,9 @@ class TrailingWhitespaceValidator
             preg_match('/^.*[\t ]+$/', $line, $matches);
             if (isset($matches[0])) {
                 Logger::getInstance()->addError('Trailing whitespace', $filename, $lineNumber + 1);
+                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
 
-                if (TrailingWhitespaceFix::trim($filename)) {
+                if (TrailingWhitespaceFix::trim($filename, $lineNumber, $eolChar)) {
                     Logger::getInstance()->errorFixed();
                 }
 

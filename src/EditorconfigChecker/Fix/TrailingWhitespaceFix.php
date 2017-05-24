@@ -10,17 +10,14 @@ class TrailingWhitespaceFix
      * @param string $filename
      * @return boolean
      */
-    public static function trim($filename)
+    public static function trim($filename, $lineNumber, $eolChar)
     {
         if (is_file($filename)) {
             $lines = file($filename);
-
-            foreach ($lines as &$line) {
-                $line = rtrim($line);
-            }
+            $lines[$lineNumber] = rtrim($lines[$lineNumber]) . $eolChar;
 
             $fp = fopen($filename, 'w');
-            fwrite($fp, implode(PHP_EOL, $lines));
+            fwrite($fp, implode('', $lines));
             fclose($fp);
 
             return true;
