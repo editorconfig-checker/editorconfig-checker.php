@@ -7,13 +7,13 @@ class FinalNewlineFix
     /**
      * Insert a final newline at the end of the file
      *
-     * @param string $file
+     * @param string $filename
      * @return boolean
      */
-    public static function insert($filename)
+    public static function insert($filename, $eolChar)
     {
         if (is_file($filename)) {
-            return file_put_contents($filename, PHP_EOL, FILE_APPEND);
+            return file_put_contents($filename, $eolChar, FILE_APPEND);
         }
 
         return false;

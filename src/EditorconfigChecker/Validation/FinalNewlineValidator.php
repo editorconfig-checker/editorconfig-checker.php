@@ -11,11 +11,11 @@ class FinalNewlineValidator
      * Checks a file for final newline if needed
      *
      * @param array $rules
-     * @param string $file
+     * @param string $filename
      * @param array $content
      * @return boolean
      */
-    public static function validate($rules, $file, $content)
+    public static function validate($rules, $filename, $content)
     {
         if (isset($rules['insert_final_newline']) && $rules['insert_final_newline'] && count($content)) {
             $lastLine = $content[count($content) - 1];
@@ -43,8 +43,9 @@ class FinalNewlineValidator
             }
 
             if ($error) {
-                Logger::getInstance()->addError('Missing final newline', $file);
-                if (FinalNewlineFix::insert($file)) {
+                Logger::getInstance()->addError('Missing final newline', $filename);
+                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : $rules['end_of_line'] == 'cr' ? "\r" : "\r\n";
+                if (FinalNewlineFix::insert($filename, $eolChar)) {
                     Logger::getInstance()->errorFixed();
                 }
 
