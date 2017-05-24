@@ -15,7 +15,7 @@ class FinalNewlineValidator
      * @param array $content
      * @return boolean
      */
-    public static function validate($rules, $filename, $content)
+    public static function validate($rules, $filename, $content, $autoFix)
     {
         if (isset($rules['insert_final_newline']) && $rules['insert_final_newline'] && count($content)) {
             $lastLine = $content[count($content) - 1];
@@ -44,8 +44,11 @@ class FinalNewlineValidator
 
             if ($error) {
                 Logger::getInstance()->addError('Missing final newline', $filename);
+
+                // @TODO only if autofix
+                // AND use utility
                 $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
-                if (FinalNewlineFix::insert($filename, $eolChar)) {
+                if ($autoFix && FinalNewlineFix::insert($filename, $eolChar)) {
                     Logger::getInstance()->errorFixed();
                 }
 

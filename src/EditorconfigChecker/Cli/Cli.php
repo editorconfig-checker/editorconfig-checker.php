@@ -18,6 +18,7 @@ class Cli
     {
         $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
+        $autoFix = isset($options['a']) || isset($options['auto-fix']);
 
         if ($usage) {
             $this->printUsage();
@@ -46,7 +47,7 @@ class Cli
         }
 
         if ($fileCount > 0) {
-            ValidationProcessor::validateFiles($editorconfigPath, $fileNames);
+            ValidationProcessor::validateFiles($editorconfigPath, $fileNames, $autoFix);
         }
 
         Logger::getInstance()->setFiles($fileCount);

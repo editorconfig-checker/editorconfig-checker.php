@@ -15,7 +15,7 @@ class ValidationProcessor
      * @param array $files
      * @return void
      */
-    public static function validateFiles($editorconfigPath, $files)
+    public static function validateFiles($editorconfigPath, $files, $autoFix)
     {
         $editorconfig = new Editorconfig();
         /* because that should not happen on every loop cycle */
@@ -23,7 +23,7 @@ class ValidationProcessor
 
         foreach ($files as $file) {
             $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, substr($file, 2));
-            ValidationProcessor::validateFile($rules, $file);
+            ValidationProcessor::validateFile($rules, $file, $autoFix);
         }
     }
 
@@ -34,20 +34,20 @@ class ValidationProcessor
      * @param string $file
      * @return void
      */
-    public static function validateFile($rules, $file)
+    public static function validateFile($rules, $file, $autoFix)
     {
         $content = file($file);
         $lastIndentSize = null;
 
         foreach ($content as $lineNumber => $line) {
             $lastIndentSize = IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file);
-            TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file);
+            TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file, $autoFix);
         }
 
         /* to prevent checking of empty files */
         if (isset($lineNumber)) {
-            FinalNewlineValidator::validate($rules, $file, $content);
-            LineEndingValidator::validate($rules, $file, file_get_contents($file), $lineNumber);
+            FinalNewlineValidator::validate($rules, $file, $content, $autoFix);
+            LineEndingValidator::validate($rules, $file, file_get_contents($file), $lineNumber, $autoFix);
             Logger::getInstance()->addLines($lineNumber);
         }
     }

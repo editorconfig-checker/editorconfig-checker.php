@@ -16,15 +16,17 @@ class TrailingWhitespaceValidator
      * @param string $filename
      * @return boolean
      */
-    public static function validate($rules, $line, $lineNumber, $filename)
+    public static function validate($rules, $line, $lineNumber, $filename, $autoFix)
     {
         if (strlen($line) > 0 && isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
             preg_match('/^.*[\t ]+$/', $line, $matches);
             if (isset($matches[0])) {
                 Logger::getInstance()->addError('Trailing whitespace', $filename, $lineNumber + 1);
-                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
 
-                if (TrailingWhitespaceFix::trim($filename, $lineNumber, $eolChar)) {
+                // @TODO only if autofix
+                // AND use utility
+                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
+                if ($autoFix && TrailingWhitespaceFix::trim($filename, $lineNumber, $eolChar)) {
                     Logger::getInstance()->errorFixed();
                 }
 

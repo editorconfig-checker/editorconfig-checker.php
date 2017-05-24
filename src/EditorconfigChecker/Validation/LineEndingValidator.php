@@ -17,7 +17,7 @@ class LineEndingValidator
      * @return void
      *
      */
-    public static function validate($rules, $filename, $content, $lineNumbers)
+    public static function validate($rules, $filename, $content, $lineNumbers, $autoFix)
     {
         if (isset($rules['end_of_line'])) {
             if ($rules['end_of_line'] === 'lf') {
@@ -35,15 +35,24 @@ class LineEndingValidator
             if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
                 if ($eols !== $lineNumbers + 1) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
+
+                    // @TODO only if autofix
+                    // AND use utility
                     $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
+                    if ($autoFix && LineEndingFix::replace($filename, $eolChar)) {
+                        Logger::getInstance()->errorFixed();
+                    }
                     return false;
                 }
             } else {
                 if ($eols !== $lineNumbers) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
+
+                    // @TODO only if autofix
+                    // AND use utility
                     $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
 
-                    if (LineEndingFix::replace($filename, $eolChar)) {
+                    if ($autoFix && LineEndingFix::replace($filename, $eolChar)) {
                         Logger::getInstance()->errorFixed();
                     }
 
