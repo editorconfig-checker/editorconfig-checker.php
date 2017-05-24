@@ -44,7 +44,7 @@ class FinalNewlineValidator
 
             if ($error) {
                 Logger::getInstance()->addError('Missing final newline', $filename);
-                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : $rules['end_of_line'] == 'cr' ? "\r" : "\r\n";
+                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
                 if (FinalNewlineFix::insert($filename, $eolChar)) {
                     Logger::getInstance()->errorFixed();
                 }
