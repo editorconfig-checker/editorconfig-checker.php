@@ -38,6 +38,8 @@
         "bin/editorconfig-checker"
     ],
     "autoload": {
-        "psr-0": { "EditorconfigChecker": "src/" }
+        "psr-4": {
+            "EditorconfigChecker\\": "src/EditorconfigChecker"
+        }
     }
 }
