@@ -18,6 +18,7 @@ class Cli
     {
         $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
+        $autoFix = isset($options['a']) || isset($options['auto-fix']);
 
         if ($usage) {
             $this->printUsage();
@@ -46,7 +47,7 @@ class Cli
         }
 
         if ($fileCount > 0) {
-            ValidationProcessor::validateFiles($editorconfigPath, $fileNames);
+            ValidationProcessor::validateFiles($editorconfigPath, $fileNames, $autoFix);
         }
 
         Logger::getInstance()->setFiles($fileCount);
@@ -198,5 +199,7 @@ class Cli
         printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
+        printf('-a, --auto-fix' . PHP_EOL);
+        printf("\twill automatically fix fixable issues(insert_final_newline)" . PHP_EOL);
     }
 }

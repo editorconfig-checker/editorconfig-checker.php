@@ -3,6 +3,8 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Fix\FinalNewlineFix;
+use EditorconfigChecker\Utilities\Utilities;
 
 class FinalNewlineValidator
 {
@@ -10,11 +12,12 @@ class FinalNewlineValidator
      * Checks a file for final newline if needed
      *
      * @param array $rules
-     * @param string $file
+     * @param string $filename
      * @param array $content
+     * @param boolean $autoFix
      * @return boolean
      */
-    public static function validate($rules, $file, $content)
+    public static function validate($rules, $filename, $content, $autoFix)
     {
         if (isset($rules['insert_final_newline']) && $rules['insert_final_newline'] && count($content)) {
             $lastLine = $content[count($content) - 1];
@@ -42,7 +45,12 @@ class FinalNewlineValidator
             }
 
             if ($error) {
-                Logger::getInstance()->addError('Missing final newline', $file);
+                Logger::getInstance()->addError('Missing final newline', $filename);
+
+                if ($autoFix && FinalNewlineFix::insert($filename, Utilities::getEndOfLineChar($rules))) {
+                    Logger::getInstance()->errorFixed();
+                }
+
                 return false;
             }
         }

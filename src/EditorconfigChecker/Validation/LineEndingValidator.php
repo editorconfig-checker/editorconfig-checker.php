@@ -3,6 +3,8 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Fix\LineEndingFix;
+use EditorconfigChecker\Utilities\Utilities;
 
 class LineEndingValidator
 {
@@ -10,13 +12,14 @@ class LineEndingValidator
      * Checks for line endings if needed
      *
      * @param array $rules
-     * @param string $file
+     * @param string $filename
      * @param string $content
      * @param int $lineNumbers
+     * @param boolean $autoFix
      * @return void
      *
      */
-    public static function validate($rules, $file, $content, $lineNumbers)
+    public static function validate($rules, $filename, $content, $lineNumbers, $autoFix)
     {
         if (isset($rules['end_of_line'])) {
             if ($rules['end_of_line'] === 'lf') {
@@ -33,12 +36,21 @@ class LineEndingValidator
 
             if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
                 if ($eols !== $lineNumbers + 1) {
-                    Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
+                    Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
+
+                    if ($autoFix && LineEndingFix::replace($filename, Utilities::getEndOfLineChar($rules))) {
+                        Logger::getInstance()->errorFixed();
+                    }
                     return false;
                 }
             } else {
                 if ($eols !== $lineNumbers) {
-                    Logger::getInstance()->addError('Not all lines have the correct end of line character!', $file);
+                    Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
+
+                    if ($autoFix && LineEndingFix::replace($filename, Utilities::getEndOfLineChar($rules))) {
+                        Logger::getInstance()->errorFixed();
+                    }
+
                     return false;
                 }
             }

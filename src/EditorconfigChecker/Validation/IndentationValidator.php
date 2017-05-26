@@ -13,15 +13,17 @@ class IndentationValidator
      * @param string $line
      * @param int $lineNumber
      * @param int $lastIndentSize
-     * @param string $file
+     * @param string $filename
      * @return int
      */
-    public static function validate($rules, $line, $lineNumber, $lastIndentSize, $file)
+    public static function validate($rules, $line, $lineNumber, $lastIndentSize, $filename)
     {
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
-            $lastIndentSize = IndentationValidator::validateSpace($rules, $line, $lineNumber, $lastIndentSize, $file);
+            $lastIndentSize =
+                IndentationValidator::validateSpace($rules, $line, $lineNumber, $lastIndentSize, $filename);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
-            $lastIndentSize = IndentationValidator::validateTab($rules, $line, $lineNumber, $lastIndentSize, $file);
+            $lastIndentSize =
+                IndentationValidator::validateTab($rules, $line, $lineNumber, $lastIndentSize, $filename);
         } else {
             $lastIndentSize = 0;
         }
@@ -36,10 +38,10 @@ class IndentationValidator
      * @param string $line
      * @param int $lineNumber
      * @param int $lastIndentSize
-     * @param string $file
+     * @param string $filename
      * @return void
      */
-    protected static function validateSpace($rules, $line, $lineNumber, $lastIndentSize, $file)
+    protected static function validateSpace($rules, $line, $lineNumber, $lastIndentSize, $filename)
     {
         preg_match('/^( +)/', $line, $matches);
 
@@ -49,11 +51,19 @@ class IndentationValidator
             /* check if the indentation size could be a valid one */
             /* the * is for block comments */
             if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
-                Logger::getInstance()->addError('Not the right amount of spaces', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Not the right amount of spaces',
+                    $filename,
+                    $lineNumber + 1
+                );
             }
 
             if ($line[$indentSize] === "\t") {
-                Logger::getInstance()->addError('Mixed indentation', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Mixed indentation',
+                    $filename,
+                    $lineNumber + 1
+                );
             }
 
             /* because the following example would not work I have to check it this way */
@@ -66,7 +76,7 @@ class IndentationValidator
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
                 Logger::getInstance()->addError(
                     'Not the right relation of spaces between lines',
-                    $file,
+                    $filename,
                     $lineNumber + 1
                 );
             }
@@ -75,7 +85,11 @@ class IndentationValidator
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
-                Logger::getInstance()->addError('Wrong indentation type', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Wrong indentation type',
+                    $filename,
+                    $lineNumber + 1
+                );
             }
         }
 
@@ -93,10 +107,10 @@ class IndentationValidator
      * @param string $line
      * @param int $lineNumber
      * @param int $lastIndentSize
-     * @param string $file
+     * @param string $filename
      * @return void
      */
-    protected static function validateTab($rules, $line, $lineNumber, $lastIndentSize, $file)
+    protected static function validateTab($rules, $line, $lineNumber, $lastIndentSize, $filename)
     {
         preg_match('/^(\t+)/', $line, $matches);
 
@@ -111,18 +125,30 @@ class IndentationValidator
             /*         world');  <--- this is the critial part */
             /* } */
             if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
-                Logger::getInstance()->addError('Not the right relation of tabs between lines', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Not the right relation of tabs between lines',
+                    $filename,
+                    $lineNumber + 1
+                );
             }
 
             if (substr($line, $indentSize, 1) === ' ' && substr($line, $indentSize + 1, 1) !== '*') {
-                Logger::getInstance()->addError('Mixed indentation', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Mixed indentation',
+                    $filename,
+                    $lineNumber + 1
+                );
             }
 
             $lastIndentSize = $indentSize;
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
             if (isset($matches[1]) && strpos($line, ' *') !== 0) {
-                Logger::getInstance()->addError('Wrong indentation type', $file, $lineNumber + 1);
+                Logger::getInstance()->addError(
+                    'Wrong indentation type',
+                    $filename,
+                    $lineNumber + 1
+                );
             }
         }
 

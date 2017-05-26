@@ -9,6 +9,8 @@ class Logger
      */
     protected $errors = array();
 
+    protected $fixed = false;
+
     protected $lines = 0;
 
     protected $files = 0;
@@ -88,6 +90,12 @@ class Logger
         printf(PHP_EOL);
         printf('%d files checked, %d errors occurred' . PHP_EOL, $this->getFiles(), $this->countErrors());
         printf('Check log above and fix the issues.' . PHP_EOL);
+
+        if ($this->fixed) {
+            printf(
+                'Some of the errors are automatically fixed by this tool, remember to add them to your git repository.'
+            );
+        }
     }
 
     /**
@@ -110,6 +118,11 @@ class Logger
     public function clearErrors()
     {
         $this->errors = array();
+    }
+
+    public function errorFixed()
+    {
+        $this->fixed = true;
     }
 
     /**
