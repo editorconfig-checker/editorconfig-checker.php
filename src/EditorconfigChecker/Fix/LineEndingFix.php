@@ -13,7 +13,7 @@ class LineEndingFix
      */
     public static function replace($filename, $eolChar)
     {
-        if (is_file($filename)) {
+        if (is_file($filename) && $eolChar) {
             $lines = file($filename);
 
             foreach ($lines as &$line) {

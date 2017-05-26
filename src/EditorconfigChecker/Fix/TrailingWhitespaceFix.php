@@ -14,7 +14,7 @@ class TrailingWhitespaceFix
      */
     public static function trim($filename, $lineNumber, $eolChar)
     {
-        if (is_file($filename)) {
+        if (is_file($filename) && $eolChar) {
             $lines = file($filename);
             $lines[$lineNumber] = rtrim($lines[$lineNumber]) . $eolChar;
 

@@ -13,7 +13,11 @@ class Utilities
     public static function getEndOfLineChar($rules)
     {
         if (isset($rules['end_of_line'])) {
-            return $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
+            return
+                ($rules['end_of_line'] == 'lf' ? "\n" :
+                ($rules['end_of_line'] == 'cr' ? "\r" :
+                ($rules['end_of_line'] == 'crlf' ? "\r\n" :
+                null)));
         }
 
         return null;
