@@ -5,7 +5,7 @@ namespace EditorconfigChecker\Fix;
 class TrailingWhitespaceFix
 {
     /**
-     * Insert a final newline at the end of the file
+     * Trims trailing whitespace from line
      *
      * @param string $filename
      * @param int $lineNumber

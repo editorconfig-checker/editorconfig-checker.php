@@ -5,7 +5,7 @@ namespace EditorconfigChecker\Fix;
 class LineEndingFix
 {
     /**
-     * Insert a final newline at the end of the file
+     * Replaces end of line characters
      *
      * @param string $filename
      * @param string $eolChar

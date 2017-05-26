@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
 use EditorconfigChecker\Fix\TrailingWhitespaceFix;
+use EditorconfigChecker\Utilities\Utilities;
 
 class TrailingWhitespaceValidator
 {
