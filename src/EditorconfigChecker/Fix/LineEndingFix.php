@@ -8,6 +8,7 @@ class LineEndingFix
      * Insert a final newline at the end of the file
      *
      * @param string $filename
+     * @param string $eolChar
      * @return boolean
      */
     public static function replace($filename, $eolChar)

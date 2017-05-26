@@ -8,6 +8,8 @@ class TrailingWhitespaceFix
      * Insert a final newline at the end of the file
      *
      * @param string $filename
+     * @param int $lineNumber
+     * @param string $eolChar
      * @return boolean
      */
     public static function trim($filename, $lineNumber, $eolChar)

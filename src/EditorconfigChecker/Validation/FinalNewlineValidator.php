@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
 use EditorconfigChecker\Fix\FinalNewlineFix;
+use EditorconfigChecker\Utilities\Utilities;
 
 class FinalNewlineValidator
 {
@@ -13,6 +14,7 @@ class FinalNewlineValidator
      * @param array $rules
      * @param string $filename
      * @param array $content
+     * @param boolean $autoFix
      * @return boolean
      */
     public static function validate($rules, $filename, $content, $autoFix)
@@ -45,10 +47,7 @@ class FinalNewlineValidator
             if ($error) {
                 Logger::getInstance()->addError('Missing final newline', $filename);
 
-                // @TODO only if autofix
-                // AND use utility
-                $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
-                if ($autoFix && FinalNewlineFix::insert($filename, $eolChar)) {
+                if ($autoFix && FinalNewlineFix::insert($filename, Utilities::getEndOfLineChar($rules))) {
                     Logger::getInstance()->errorFixed();
                 }
 

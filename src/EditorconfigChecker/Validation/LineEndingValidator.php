@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
 use EditorconfigChecker\Fix\LineEndingFix;
+use EditorconfigChecker\Utilities\Utilities;
 
 class LineEndingValidator
 {
@@ -14,6 +15,7 @@ class LineEndingValidator
      * @param string $filename
      * @param string $content
      * @param int $lineNumbers
+     * @param boolean $autoFix
      * @return void
      *
      */
@@ -36,10 +38,7 @@ class LineEndingValidator
                 if ($eols !== $lineNumbers + 1) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
 
-                    // @TODO only if autofix
-                    // AND use utility
-                    $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
-                    if ($autoFix && LineEndingFix::replace($filename, $eolChar)) {
+                    if ($autoFix && LineEndingFix::replace($filename, Utilities::getEndOfLineChar($rules))) {
                         Logger::getInstance()->errorFixed();
                     }
                     return false;
@@ -48,11 +47,7 @@ class LineEndingValidator
                 if ($eols !== $lineNumbers) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
 
-                    // @TODO only if autofix
-                    // AND use utility
-                    $eolChar = $rules['end_of_line'] == 'lf' ? "\n" : ($rules['end_of_line'] == 'cr' ? "\r" : "\r\n");
-
-                    if ($autoFix && LineEndingFix::replace($filename, $eolChar)) {
+                    if ($autoFix && LineEndingFix::replace($filename, Utilities::getEndOfLineChar($rules))) {
                         Logger::getInstance()->errorFixed();
                     }
 

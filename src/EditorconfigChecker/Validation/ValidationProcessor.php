@@ -13,6 +13,7 @@ class ValidationProcessor
      *
      * @param array $editorconfig
      * @param array $files
+     * @param boolean $autoFix
      * @return void
      */
     public static function validateFiles($editorconfigPath, $files, $autoFix)
