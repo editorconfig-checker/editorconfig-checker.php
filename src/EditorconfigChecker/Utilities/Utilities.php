@@ -4,6 +4,12 @@ namespace EditorconfigChecker\Utilities;
 
 class Utilities
 {
+    /**
+     * returns the end of line character from editorconfig rules
+     *
+     * @param array $rules
+     * @returns string
+     */
     public static function getEndOfLineChar($rules)
     {
         if (isset($rules['end_of_line'])) {
