@@ -11,8 +11,7 @@ class ValidationProcessor
      * Loop over files and get the editorconfig rules for this file
      * and invokes the acutal validation
      *
-     * @param array $editorconfig
-     * @param array $files
+     * @param array $fileNames
      * @param boolean $autoFix
      * @return void
      */
@@ -32,7 +31,8 @@ class ValidationProcessor
      * Proccesses all validations for a single file
      *
      * @param array $rules
-     * @param string $file
+     * @param string $fileName
+     * @param boolean $autoFix
      * @return void
      */
     public static function validateFile($rules, $fileName, $autoFix)

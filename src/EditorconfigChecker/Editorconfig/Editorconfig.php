@@ -17,6 +17,12 @@ class Editorconfig
         return parse_ini_file($editorconfigPath, true);
     }
 
+    /**
+     * Get the nearest editorconfig to the given path
+     *
+     * @param string $baseDir
+     * @return array
+     */
     protected function getNearestEditorconfigRulesAsArray($baseDir)
     {
         $baseEditorconfig = $baseDir . '/.editorconfig';
@@ -27,6 +33,12 @@ class Editorconfig
         }
     }
 
+    /**
+     * Merge editorconfig rules for a given file
+     *
+     * @param string $fileName
+     * @return array
+     */
     protected function mergeRulesForFile($fileName)
     {
         $editorconfig = $this->getNearestEditorconfigRulesAsArray(getcwd() . pathinfo(substr($fileName, 1))['dirname']);
@@ -44,6 +56,7 @@ class Editorconfig
 
     /**
      * Returns the editorconfig rules for a given file
+     * until root=true
      *
      * @param string $fileName
      * @return array
