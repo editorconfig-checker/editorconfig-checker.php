@@ -11,19 +11,18 @@ class ValidationProcessor
      * Loop over files and get the editorconfig rules for this file
      * and invokes the acutal validation
      *
-     * @param array $editorconfig
-     * @param array $files
+     * @param array $fileNames
      * @param boolean $autoFix
      * @return void
      */
-    public static function validateFiles($editorconfigPath, $fileNames, $autoFix)
+    public static function validateFiles($fileNames, $autoFix)
     {
         $editorconfig = new Editorconfig();
         /* because that should not happen on every loop cycle */
-        $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath);
+        /* $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath); */
 
         foreach ($fileNames as $fileName) {
-            $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, substr($fileName, 2));
+            $rules = $editorconfig->getRulesForFile($fileName);
             ValidationProcessor::validateFile($rules, $fileName, $autoFix);
         }
     }
@@ -32,7 +31,8 @@ class ValidationProcessor
      * Proccesses all validations for a single file
      *
      * @param array $rules
-     * @param string $file
+     * @param string $fileName
+     * @param boolean $autoFix
      * @return void
      */
     public static function validateFile($rules, $fileName, $autoFix)
