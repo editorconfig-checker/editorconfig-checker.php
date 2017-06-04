@@ -16,15 +16,15 @@ class ValidationProcessor
      * @param boolean $autoFix
      * @return void
      */
-    public static function validateFiles($editorconfigPath, $files, $autoFix)
+    public static function validateFiles($editorconfigPath, $fileNames, $autoFix)
     {
         $editorconfig = new Editorconfig();
         /* because that should not happen on every loop cycle */
         $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath);
 
-        foreach ($files as $file) {
-            $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, substr($file, 2));
-            ValidationProcessor::validateFile($rules, $file, $autoFix);
+        foreach ($fileNames as $fileName) {
+            $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, substr($fileName, 2));
+            ValidationProcessor::validateFile($rules, $fileName, $autoFix);
         }
     }
 
@@ -35,20 +35,20 @@ class ValidationProcessor
      * @param string $file
      * @return void
      */
-    public static function validateFile($rules, $file, $autoFix)
+    public static function validateFile($rules, $fileName, $autoFix)
     {
-        $content = file($file);
+        $content = file($fileName);
         $lastIndentSize = null;
 
         foreach ($content as $lineNumber => $line) {
-            $lastIndentSize = IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $file);
-            TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $file, $autoFix);
+            $lastIndentSize = IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $fileName);
+            TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $fileName, $autoFix);
         }
 
         /* to prevent checking of empty files */
         if (isset($lineNumber)) {
-            FinalNewlineValidator::validate($rules, $file, $content, $autoFix);
-            LineEndingValidator::validate($rules, $file, file_get_contents($file), $lineNumber, $autoFix);
+            FinalNewlineValidator::validate($rules, $fileName, $content, $autoFix);
+            LineEndingValidator::validate($rules, $fileName, file_get_contents($fileName), $lineNumber, $autoFix);
             Logger::getInstance()->addLines($lineNumber);
         }
     }
