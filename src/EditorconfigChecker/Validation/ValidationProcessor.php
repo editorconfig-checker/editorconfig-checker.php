@@ -16,14 +16,14 @@ class ValidationProcessor
      * @param boolean $autoFix
      * @return void
      */
-    public static function validateFiles($editorconfigPath, $fileNames, $autoFix)
+    public static function validateFiles($fileNames, $autoFix)
     {
         $editorconfig = new Editorconfig();
         /* because that should not happen on every loop cycle */
-        $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath);
+        /* $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath); */
 
         foreach ($fileNames as $fileName) {
-            $rules = $editorconfig->getRulesForFile($editorconfigRulesArray, substr($fileName, 2));
+            $rules = $editorconfig->getRulesForFile($fileName);
             ValidationProcessor::validateFile($rules, $fileName, $autoFix);
         }
     }

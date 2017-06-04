@@ -25,14 +25,6 @@ class Cli
             return;
         }
 
-        $rootDir = getcwd();
-        $editorconfigPath = $rootDir . '/.editorconfig';
-
-        if (!is_file($editorconfigPath)) {
-            Logger::getInstance()->addError('No .editorconfig found');
-            return;
-        }
-
         isset($options['dots']) || isset($options['d']) ? $dots = true : $dots = false;
         $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
@@ -47,7 +39,7 @@ class Cli
         }
 
         if ($fileCount > 0) {
-            ValidationProcessor::validateFiles($editorconfigPath, $fileNames, $autoFix);
+            ValidationProcessor::validateFiles($fileNames, $autoFix);
         }
 
         Logger::getInstance()->setFiles($fileCount);

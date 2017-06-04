@@ -17,15 +17,26 @@ class Editorconfig
         return parse_ini_file($editorconfigPath, true);
     }
 
+    protected function getNearestEditorconfigRules($baseDir)
+    {
+        $baseEditorconfig = $baseDir . '/.editorconfig';
+        if (is_file($baseEditorconfig)) {
+            return $this->getRulesAsArray($baseEditorconfig);
+        } else {
+            return $this->getNearestEditorconfigRules(dirname($baseDir));
+        }
+    }
+
     /**
      * Returns the editorconfig rules for a file
      *
-     * @param array $editorconfig
      * @param string $fileName
      * @return array
      */
-    public function getRulesForFile($editorconfig, $fileName)
+    public function getRulesForFile($fileName)
     {
+        $editorconfig = $this->getNearestEditorconfigRules(getcwd() . pathinfo(substr($fileName, 1))['dirname']);
+
         return array_reduce(array_keys($editorconfig), function ($carry, $pattern) use ($editorconfig, $fileName) {
             $rules = $editorconfig[$pattern];
 
