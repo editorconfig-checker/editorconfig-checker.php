@@ -26,6 +26,7 @@ class Editorconfig
     protected function getNearestEditorconfigRulesAsArray($baseDir)
     {
         $baseEditorconfig = $baseDir . '/.editorconfig';
+
         if (is_file($baseEditorconfig)) {
             return $this->getRulesAsArray($baseEditorconfig);
         } else {
