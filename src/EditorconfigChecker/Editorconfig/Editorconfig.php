@@ -44,6 +44,7 @@ class Editorconfig
      * @param string $filePath
      * @param string $fileBasename
      * @param string $rootDir
+     * @return array
      */
     protected function getNearestMatchingEditorconfigRules($filePath, $fileBasename, $rootDir)
     {
@@ -52,8 +53,8 @@ class Editorconfig
 
         do {
             if (is_file($currentPath . '/.editorconfig')) {
-                $editorconfig = $this->getRulesAsArray($currentPath . '/.editorconfig');
-                $editorconfig = $this->mergeRulesForFile($fileBasename, $editorconfig);
+                $rawEditorconfig = $this->getRulesAsArray($currentPath . '/.editorconfig');
+                $editorconfig = $this->mergeRulesForFile($fileBasename, $rawEditorconfig);
             }
             $currentPath = dirname($currentPath);
         } while (strpos($currentPath, $rootDir) === 0 && sizeof($editorconfig) === 0);
