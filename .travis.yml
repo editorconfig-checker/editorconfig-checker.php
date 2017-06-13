@@ -7,6 +7,7 @@ notifications:
 # Versions of PHP you want your project run with.
 php:
   - 7.0
+  - 7.1
 
 # Commands to be run before your environment runs.
 before_script:
