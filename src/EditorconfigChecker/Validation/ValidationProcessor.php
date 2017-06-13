@@ -17,12 +17,12 @@ class ValidationProcessor
      */
     public static function validateFiles($fileNames, $autoFix)
     {
+        /* Maybe make this an option? */
+        $rootDir = getcwd();
         $editorconfig = new Editorconfig();
-        /* because that should not happen on every loop cycle */
-        /* $editorconfigRulesArray = $editorconfig->getRulesAsArray($editorconfigPath); */
 
         foreach ($fileNames as $fileName) {
-            $rules = $editorconfig->getRulesForFile($fileName);
+            $rules = $editorconfig->getRulesForFile($fileName, $rootDir);
             ValidationProcessor::validateFile($rules, $fileName, $autoFix);
         }
     }

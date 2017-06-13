@@ -5,30 +5,42 @@ use EditorconfigChecker\Editorconfig\Editorconfig;
 
 final class EditorconfigTest extends TestCase
 {
-    public function getRulesArray($fileName)
-    {
-        $rootDir = getcwd();
-        $editorconfigPath = $rootDir . '/' . $fileName;
-
-        $editorconfig = new Editorconfig();
-        $rules = $editorconfig->getRulesAsArray($editorconfigPath);
-        return $rules;
-    }
-
     public function testGetRulesForFile()
     {
         $expectedRules = [
-            'end_of_line' => 'lf',
-            'insert_final_newline' => 1,
-            'charset' => 'utf-8',
-            'trim_trailing_whitespace' => '',
             'indent_style' => 'space',
             'indent_size' => 4,
             'root' => 1
         ];
 
         $editorconfig = new Editorconfig();
-        $rules = $editorconfig->getRulesForFile('./Readme.md');
+
+        $rootDir = getcwd();
+        $rules = $editorconfig->getRulesForFile('./Build/TestFiles/Editorconfig/myFile.php', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
+
+        $rootDir = getcwd() . '/Build/TestFiles/Editorconfig';
+        $rules = $editorconfig->getRulesForFile('./Build/TestFiles/Editorconfig/myFile.php', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
+
+        $rootDir = getcwd() . '/Build/TestFiles/Editorconfig';
+        $rules = $editorconfig->getRulesForFile('./Build/TestFiles/Editorconfig/onlyJsonRules/myFile.php', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
+
+        $expectedRules['indent_size'] = 2;
+        $rootDir = getcwd() . '/Build/TestFiles/Editorconfig';
+        $rules = $editorconfig->getRulesForFile('./Build/TestFiles/Editorconfig/onlyJsonRules/myFile.json', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
+
+
+        $expectedRules = [
+            'indent_style' => 'tab',
+            'trim_trailing_whitespace' => 1,
+            'insert_final_newline' => 1
+        ];
+
+        $rootDir = getcwd() . '/Build/TestFiles/Editorconfig';
+        $rules = $editorconfig->getRulesForFile('./ComposedRules/myFile.php', $rootDir);
         $this->assertEquals($expectedRules, $rules);
     }
 }

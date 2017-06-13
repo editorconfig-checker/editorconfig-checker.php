@@ -68,10 +68,9 @@ class Editorconfig
      * @param string $fileName
      * @return array
      */
-    public function getRulesForFile($fileName)
+    public function getRulesForFile($fileName, $rootDir)
     {
-        $pathinfo = pathinfo(getcwd() . substr($fileName, 1));
-        $rootDir = getcwd();
+        $pathinfo = pathinfo($rootDir . substr($fileName, 1));
         $filePath = $pathinfo['dirname'];
         $fileBasename = $pathinfo['basename'];
 
