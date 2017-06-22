@@ -14,15 +14,9 @@ class LineEndingFix
     public static function replace($filename, $eolChar)
     {
         if (is_file($filename) && $eolChar) {
-            $lines = file($filename);
-
-            foreach ($lines as &$line) {
-                $line = rtrim($line);
-            }
-
-            $fp = fopen($filename, 'w');
-            fwrite($fp, implode($eolChar, $lines));
-            fclose($fp);
+            $content = file_get_contents($filename);
+            $content = preg_replace('~\R~u', $eolChar, $content);
+            file_put_contents($filename, $content);
 
             return true;
         }
