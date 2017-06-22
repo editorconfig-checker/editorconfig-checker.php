@@ -2,6 +2,8 @@
 
 namespace EditorconfigChecker\Fix;
 
+use EditorconfigChecker\Utilities\Utilities;
+
 class TrailingWhitespaceFix
 {
     /**
@@ -14,7 +16,7 @@ class TrailingWhitespaceFix
      */
     public static function trim($filename, $lineNumber, $eolChar)
     {
-        if (is_file($filename) && $eolChar) {
+        if (Utilities::backupFile($filename) && $eolChar) {
             $lines = file($filename);
             $lines[$lineNumber] = rtrim($lines[$lineNumber]) . $eolChar;
 

@@ -22,4 +22,13 @@ class Utilities
 
         return null;
     }
+
+    public static function backupFile($filename)
+    {
+        if (is_file($filename)) {
+            return copy($filename, '/tmp/' . pathinfo($filename)['basename'] . '-editorconfig-checker.' . time());
+        }
+
+        return false;
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace EditorconfigChecker\Fix;
 
+use EditorconfigChecker\Utilities\Utilities;
+
 class FinalNewlineFix
 {
     /**
@@ -13,7 +15,7 @@ class FinalNewlineFix
      */
     public static function insert($filename, $eolChar)
     {
-        if (is_file($filename) && $eolChar) {
+        if (Utilities::backupFile($filename) && $eolChar) {
             return file_put_contents($filename, $eolChar, FILE_APPEND);
         }
 

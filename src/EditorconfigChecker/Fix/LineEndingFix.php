@@ -2,6 +2,8 @@
 
 namespace EditorconfigChecker\Fix;
 
+use EditorconfigChecker\Utilities\Utilities;
+
 class LineEndingFix
 {
     /**
@@ -13,7 +15,7 @@ class LineEndingFix
      */
     public static function replace($filename, $eolChar)
     {
-        if (is_file($filename) && $eolChar) {
+        if (Utilities::backupFile($filename) && $eolChar) {
             $content = file_get_contents($filename);
             $content = preg_replace('~\R~u', $eolChar, $content);
             file_put_contents($filename, $content);
