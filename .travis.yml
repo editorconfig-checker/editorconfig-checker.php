@@ -16,5 +16,8 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
-    - composer run-script lint
-    - composer run-script test
+  - composer run-script lint
+  - composer run-script test
+
+after_script:
+  - ./codeclimate.sh
