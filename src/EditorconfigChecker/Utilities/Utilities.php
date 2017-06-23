@@ -31,8 +31,12 @@ class Utilities
      */
     public static function backupFile($filename)
     {
-        if (is_file($filename)) {
-            return copy($filename, '/tmp/' . pathinfo($filename)['basename'] . '-editorconfig-checker.' . time());
+        $tmpPath = '/tmp/editorconfig-checker.php/';
+        if (is_file($filename) && (is_dir($tmpPath) || mkdir($tmpPath))) {
+            return copy(
+                $filename,
+                $tmpPath . pathinfo($filename)['basename'] . '-' . time() . '-' . sha1_file($filename)
+            );
         }
 
         return false;
