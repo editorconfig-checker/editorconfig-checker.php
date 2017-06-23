@@ -79,6 +79,10 @@ bin/editorconfig-checker --dotfiles -exclude vendor -e '\.git' ./*
 # will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml)
 bin/editorconfig-checker -e vendor  ./*
 bin/editorconfig-checker --exclude vendor  ./*
+
+# will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml) and will try to fix issues if they occur
+bin/editorconfig-checker -a -e vendor  ./*
+bin/editorconfig-checker --auto-fix --exclude vendor  ./*
 ```
 
 If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
@@ -103,15 +107,15 @@ Usage:
 editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>
 available options:
 -a, --auto-fix
-	will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)
+    will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)
 -d, --dotfiles
-	use this flag if you want to also include dotfiles/dotdirectories
+    use this flag if you want to also include dotfiles/dotdirectories
 -e <PATTERN>, --exclude <PATTERN>
-	string or regex to filter files which should not be checked
+    string or regex to filter files which should not be checked
 -h, --help
-	will print this help text
+    will print this help text
 -l, --list-files
-	will print all files which are checked to stdout
+    will print all files which are checked to stdout
 ```
 
 ## Additional Notes
@@ -122,3 +126,5 @@ If you encounter any bugs or anything else please open an issue with as many det
 
 You should use the `-f` option after installing and configuring this tool to see if all files are
 checked.
+
+The `auto-fix` parameter puts a copy of every original file which gets fixed in `/tmp/editorconfig-checker.php/<filename>-<timestamp>-<sha1>`
