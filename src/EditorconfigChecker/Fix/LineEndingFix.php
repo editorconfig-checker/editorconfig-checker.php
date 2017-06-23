@@ -17,7 +17,8 @@ class LineEndingFix
     {
         if (Utilities::backupFile($filename) && $eolChar) {
             $content = file_get_contents($filename);
-            $content = preg_replace('~\R~u', $eolChar, $content);
+            /* $content = preg_replace('~\R~u', $eolChar, $content); */
+            $content = preg_replace('~(*BSR_ANYCRLF)\R~', $eolChar, $content);
             file_put_contents($filename, $content);
 
             return true;

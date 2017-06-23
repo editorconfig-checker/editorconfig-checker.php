@@ -23,6 +23,12 @@ class Utilities
         return null;
     }
 
+    /**
+     * Saves a backup of the given file to /tmp
+     *
+     * @param string $filename
+     * @return boolean
+     */
     public static function backupFile($filename)
     {
         if (is_file($filename)) {
