@@ -62,19 +62,19 @@ Some examples:
 ```sh
 # will filter all files which has vendor in their name or git, png or lock as extension
 bin/editorconfig-checker -d -e 'vendor|\.git$|\.png$|\.lock$' ./*
-bin/editorconfig-checker --dots --exclude 'vendor|.git$|.png$|.lock$' ./*
+bin/editorconfig-checker --dotfiles --exclude 'vendor|.git$|.png$|.lock$' ./*
 
 # will filter all files with png and json extension
 bin/editorconfig-checker -d -e '\.png$|\.json$' ./*
-bin/editorconfig-checker --dots --exclude '\.png$|\.json$' ./*
+bin/editorconfig-checker --dotfiles --exclude '\.png$|\.json$' ./*
 
 # will only filter all files which has vendor in their name
 bin/editorconfig-checker -d -e vendor ./*
-bin/editorconfig-checker --dots -exclude vendor ./*
+bin/editorconfig-checker --dotfiles -exclude vendor ./*
 
 # will filter all files which has vendor or .git in their name
 bin/editorconfig-checker -d -e vendor -e '\.git' ./*
-bin/editorconfig-checker --dots -exclude vendor -e '\.git' ./*
+bin/editorconfig-checker --dotfiles -exclude vendor -e '\.git' ./*
 
 # will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml)
 bin/editorconfig-checker -e vendor  ./*
@@ -85,7 +85,7 @@ If you just want to filter for one string you don't have to worry and if you wan
 
 ```sh
 bin/editorconfig-checker -d -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
-bin/editorconfig-checker --dots --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
+bin/editorconfig-checker --dotfiles --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
 ```
 
 If you installed it manually you would have to do something like this:
@@ -102,14 +102,16 @@ Usage output:
 Usage:
 editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>
 available options:
--h, --help
-        will print this help text
--f, --files
-        will print all files which are checked to stdout
--d, --dots
-        use this flag if you want to also include dotfiles/dotdirectories
+-a, --auto-fix
+	will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)
+-d, --dotfiles
+	use this flag if you want to also include dotfiles/dotdirectories
 -e <PATTERN>, --exclude <PATTERN>
-        string or regex to filter files which should not be checked
+	string or regex to filter files which should not be checked
+-h, --help
+	will print this help text
+-l, --list-files
+	will print all files which are checked to stdout
 ```
 
 ## Additional Notes

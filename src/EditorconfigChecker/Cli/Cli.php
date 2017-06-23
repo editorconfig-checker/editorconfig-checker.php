@@ -25,10 +25,10 @@ class Cli
             return;
         }
 
-        isset($options['dots']) || isset($options['d']) ? $dots = true : $dots = false;
+        isset($options['dotfiles']) || isset($options['d']) ? $dotfiles = true : $dotfiles = false;
         $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
-        $fileNames = $this->getFileNames($fileGlobs, $dots, $excludedPattern);
+        $fileNames = $this->getFileNames($fileGlobs, $dotfiles, $excludedPattern);
         $fileCount = count($fileNames);
 
         if ($showFiles) {
@@ -47,17 +47,17 @@ class Cli
 
     /**
      * Returns an array of files matching the fileglobs
-     * if dots is true dotfiles will be added too otherwise
+     * if dotfiles is true dotfiles will be added too otherwise
      * dotfiles will be ignored
      * if excludedPattern is provided the files will be filtered
      * for the excludedPattern
      *
      * @param array $fileGlobs
-     * @param boolean $dots
+     * @param boolean $dotfiles
      * @param array $excludedPattern
      * @return array
      */
-    protected function getFileNames($fileGlobs, $dots, $excludedPattern)
+    protected function getFileNames($fileGlobs, $dotfiles, $excludedPattern)
     {
         $fileNames = array();
         foreach ($fileGlobs as $fileGlob) {
@@ -80,7 +80,7 @@ class Cli
                     /* . and .. */
                     if (!$this->isSpecialDir($fileName) &&
                         /* filter for dotfiles */
-                        ($dots || strpos($fileName, './.') !== 0)) {
+                        ($dotfiles || strpos($fileName, './.') !== 0)) {
                         if ($fileExtension && $fileExtension === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $fileNames)) {
@@ -183,15 +183,18 @@ class Cli
         printf('Usage:' . PHP_EOL);
         printf('editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);
         printf('available options:' . PHP_EOL);
+        printf('-a, --auto-fix' . PHP_EOL);
+        printf(
+            "\twill automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)"
+            . PHP_EOL
+        );
+        printf('-d, --dotfiles' . PHP_EOL);
+        printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
+        printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
+        printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
         printf('-h, --help'. PHP_EOL);
         printf("\twill print this help text" . PHP_EOL);
         printf('-l, --list-files'. PHP_EOL);
         printf("\twill print all files which are checked to stdout" . PHP_EOL);
-        printf('-d, --dots' . PHP_EOL);
-        printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
-        printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
-        printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
-        printf('-a, --auto-fix' . PHP_EOL);
-        printf("\twill automatically fix fixable issues(insert_final_newline)" . PHP_EOL);
     }
 }

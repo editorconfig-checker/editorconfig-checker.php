@@ -18,7 +18,7 @@ foreach ($paths as $path) {
 array_shift($argv);
 
 $shortOpts = 'ahlde:';
-$longOpts  = ['auto-fix', 'help', 'list-files', 'dots', 'exclude:'];
+$longOpts  = ['auto-fix', 'help', 'list-files', 'dotfiles', 'exclude:'];
 $options = getopt($shortOpts, $longOpts);
 
 foreach ($options as $option) {
