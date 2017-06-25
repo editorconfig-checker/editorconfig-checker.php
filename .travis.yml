@@ -16,7 +16,6 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
-  - php -ini | grep -i 'xdebug support'
   - composer run-script lint
   - composer run-script test:coverage
 after_success:
