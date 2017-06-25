@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-        backupGlobals="true"
-        colors="true"
-        stopOnFailure="false"
-        bootstrap="vendor/autoload.php">
+    backupGlobals="true"
+    colors="true"
+    stopOnFailure="false"
+    bootstrap="vendor/autoload.php">
 
     <filter>
         <whitelist>
