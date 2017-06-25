@@ -42,5 +42,9 @@ final class EditorconfigTest extends TestCase
         $rootDir = getcwd() . '/Build/TestFiles/Editorconfig';
         $rules = $editorconfig->getRulesForFile('./ComposedRules/myFile.php', $rootDir);
         $this->assertEquals($expectedRules, $rules);
+
+        /* test if files with non leading ./ return the same result */
+        $rules = $editorconfig->getRulesForFile('ComposedRules/myFile.php', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
     }
 }

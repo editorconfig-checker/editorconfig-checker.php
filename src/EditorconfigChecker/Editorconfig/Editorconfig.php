@@ -70,12 +70,28 @@ class Editorconfig
      */
     public function getRulesForFile($fileName, $rootDir)
     {
-        $pathinfo = pathinfo($rootDir . substr($fileName, 1));
+        $pathinfo = pathinfo($rootDir . '/' . $this->normalizeFileName($fileName));
         $filePath = $pathinfo['dirname'];
         $fileBasename = $pathinfo['basename'];
 
         $rules = $this->getNearestMatchingEditorconfigRules($filePath, $fileBasename, $rootDir);
 
         return $rules;
+    }
+
+    /**
+     * Normalizes the filename in terms of stripping the optional
+     * leading ./ from the fileName
+     *
+     * @param string $fileName
+     * @return string
+     */
+    private function normalizeFileName($fileName)
+    {
+        if (strpos($fileName, './') === 0) {
+            return substr($fileName, 2);
+        }
+
+        return $fileName;
     }
 }
