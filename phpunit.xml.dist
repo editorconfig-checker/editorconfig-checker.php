@@ -14,6 +14,11 @@
             </exclude>
         </whitelist>
     </filter>
+    <testsuites>
+        <testsuite name="Editorconfig-Checker Test suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
     <logging>
         <!-- and this is where your report will be written -->
         <log type="coverage-clover" target="./clover.xml"/>
