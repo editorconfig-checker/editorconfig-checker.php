@@ -14,10 +14,6 @@
             </exclude>
         </whitelist>
     </filter>
-
-    <testsuite name="CalculatorApp Test Suite">
-        <directory suffix=".php">./tests</directory>
-    </testsuite>
     <logging>
         <!-- and this is where your report will be written -->
         <log type="coverage-clover" target="./clover.xml"/>
