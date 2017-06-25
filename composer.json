@@ -26,7 +26,8 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.7.1",
         "phpunit/phpunit": "^6.0",
-        "satooshi/php-coveralls": "^1.0"
+        "satooshi/php-coveralls": "^1.0",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "scripts": {
         "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
