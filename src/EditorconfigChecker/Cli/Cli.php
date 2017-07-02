@@ -99,9 +99,9 @@ class Cli
 
         if ($excludedPattern) {
             return $this->filterFiles($fileNames, $excludedPattern);
-        } else {
-            return $fileNames;
         }
+
+        return $fileNames;
     }
 
     /**
@@ -132,6 +132,8 @@ class Cli
      */
     protected function getExcludedPatternFromOptions($options)
     {
+        $pattern = false;
+
         if (isset($options['e']) && !isset($options['exclude'])) {
             $excludedPattern = $options['e'];
         } elseif (!isset($options['e']) && isset($options['exclude'])) {
@@ -148,8 +150,6 @@ class Cli
             } else {
                 $excludedPattern = [$options['e'], $options['exclude']];
             }
-        } else {
-            return false;
         }
 
         if (is_array($excludedPattern)) {

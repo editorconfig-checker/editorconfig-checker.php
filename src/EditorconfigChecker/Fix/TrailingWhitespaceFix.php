@@ -20,9 +20,9 @@ class TrailingWhitespaceFix
             $lines = file($filename);
             $lines[$lineNumber] = rtrim($lines[$lineNumber]) . $eolChar;
 
-            $fp = fopen($filename, 'w');
-            fwrite($fp, implode('', $lines));
-            fclose($fp);
+            $filepointer = fopen($filename, 'w');
+            fwrite($filepointer, implode('', $lines));
+            fclose($filepointer);
 
             return true;
         }
