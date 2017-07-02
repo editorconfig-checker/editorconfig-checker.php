@@ -94,6 +94,7 @@ class Logger
         if ($this->fixed) {
             printf(
                 'Some of the errors are automatically fixed by this tool, remember to add them to your git repository.'
+                . PHP_EOL
             );
         }
     }
