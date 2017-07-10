@@ -46,5 +46,21 @@ final class EditorconfigTest extends TestCase
         /* test if files with non leading ./ return the same result */
         $rules = $editorconfig->getRulesForFile('ComposedRules/myFile.php', $rootDir);
         $this->assertEquals($expectedRules, $rules);
+
+
+        $expectedRules = [
+            'root' => 1,
+            'indent_style' => 'tab'
+        ];
+
+        $rules = $editorconfig->getRulesForFile('SubRoot/myFile.php', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
+
+        $expectedRules = [
+            'root' => 1
+        ];
+
+        $rules = $editorconfig->getRulesForFile('SubRoot/myFile.json', $rootDir);
+        $this->assertEquals($expectedRules, $rules);
     }
 }
