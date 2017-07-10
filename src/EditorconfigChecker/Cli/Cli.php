@@ -151,11 +151,12 @@ class Cli
                 $excludedPattern = [$options['e'], $options['exclude']];
             }
         }
-
-        if (is_array($excludedPattern)) {
-            $pattern = '/' . implode('|', $excludedPattern) . '/';
-        } else {
-            $pattern = '/' . $excludedPattern . '/';
+        if (isset($excludedPattern)) {
+            if (is_array($excludedPattern)) {
+                $pattern = '/' . implode('|', $excludedPattern) . '/';
+            } else {
+                $pattern = '/' . $excludedPattern . '/';
+            }
         }
 
         return $pattern;
