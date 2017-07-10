@@ -1,0 +1,4 @@
+root = true
+
+[*.php]
+indent_style = tab

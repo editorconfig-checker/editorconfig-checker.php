@@ -80,7 +80,7 @@ class Cli
                     /* . and .. */
                     if (!$this->isSpecialDir($fileName) &&
                         /* filter for dotfiles */
-                        ($dotfiles || strpos($fileName, './.') !== 0)) {
+                        ($dotfiles || strpos(basename($fileName), '.') !== 0)) {
                         if ($fileExtension && $fileExtension === pathinfo($fileName, PATHINFO_EXTENSION)) {
                             /* if I not specify a file extension as argv I get files twice */
                             if (!in_array($fileName, $fileNames)) {
@@ -151,11 +151,12 @@ class Cli
                 $excludedPattern = [$options['e'], $options['exclude']];
             }
         }
-
-        if (is_array($excludedPattern)) {
-            $pattern = '/' . implode('|', $excludedPattern) . '/';
-        } else {
-            $pattern = '/' . $excludedPattern . '/';
+        if (isset($excludedPattern)) {
+            if (is_array($excludedPattern)) {
+                $pattern = '/' . implode('|', $excludedPattern) . '/';
+            } else {
+                $pattern = '/' . $excludedPattern . '/';
+            }
         }
 
         return $pattern;
