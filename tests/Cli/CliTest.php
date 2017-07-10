@@ -10,7 +10,7 @@ final class CliTest extends TestCase
         $rootDir = getcwd() . '/Build/TestFiles/FileNames/';
         return array(
             'oneDirectoryWithExcludeWithoutDotfiles' => array(
-                array($rootDir . '*'),
+                array($rootDir . '**/*'),
                 false,
                 '/ExcludedDirectory/',
                 array(
@@ -20,7 +20,7 @@ final class CliTest extends TestCase
                 )
             ),
             'oneDirectoryWithExcludeWithDotfiles' => array(
-                array($rootDir . '*'),
+                array($rootDir . '**/*'),
                 true,
                 '/ExcludedDirectory/',
                 array(
@@ -32,7 +32,7 @@ final class CliTest extends TestCase
                 )
             ),
             'oneDirectoryWithoutExcludeWithDotfiles' => array(
-                array($rootDir . '*'),
+                array($rootDir . '**/*'),
                 true,
                 false,
                 array(

@@ -4,6 +4,8 @@ namespace EditorconfigChecker\Cli;
 
 use EditorconfigChecker\Editorconfig\Editorconfig;
 use EditorconfigChecker\Validation\ValidationProcessor;
+use Webmozart\Glob\Glob;
+use Webmozart\PathUtil\Path;
 
 class Cli
 {
@@ -61,67 +63,22 @@ class Cli
     {
         $fileNames = array();
         foreach ($fileGlobs as $fileGlob) {
-            /* if the glob is only a file */
-            /* add it to the file array an continue the loop */
-            if (is_file($fileGlob)) {
-                if (!in_array($fileGlob, $fileNames)) {
-                    array_push($fileNames, $fileGlob);
+            $absoluteGlob = Path::makeAbsolute($fileGlob, getcwd());
+
+            $globResult = array_filter(
+                Glob::glob($absoluteGlob),
+                function ($path) use ($dotfiles, $excludedPattern) {
+                    // No directories, no excluded files, and potentially no dotfiles
+                    return !is_dir($path) &&
+                        (!$excludedPattern || !preg_match($excludedPattern, $path)) &&
+                        ($dotfiles || strpos(basename($path), '.') !== 0);
                 }
+            );
 
-                continue;
-            }
-
-            $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
-            $fileExtension = pathinfo($fileGlob, PATHINFO_EXTENSION);
-
-            if (is_dir($dirPattern)) {
-                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
-                foreach ($objects as $fileName => $object) {
-                    /* . and .. */
-                    if (!$this->isSpecialDir($fileName) &&
-                        /* filter for dotfiles */
-                        ($dotfiles || strpos(basename($fileName), '.') !== 0)) {
-                        if ($fileExtension && $fileExtension === pathinfo($fileName, PATHINFO_EXTENSION)) {
-                            /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $fileNames)) {
-                                array_push($fileNames, $fileName);
-                            }
-                        } elseif (!strlen($fileExtension)) {
-                            /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $fileNames)) {
-                                array_push($fileNames, $fileName);
-                            }
-                        }
-                    }
-                }
-            }
+            $fileNames = array_merge($fileNames, $globResult);
         }
 
-        if ($excludedPattern) {
-            return $this->filterFiles($fileNames, $excludedPattern);
-        }
-
-        return $fileNames;
-    }
-
-    /**
-     * Filter files for excluded paths
-     *
-     * @param array $files
-     * @param array|string $excludedPattern
-     * @return array
-     */
-    protected function filterFiles($fileNames, $excludedPattern)
-    {
-        $filteredFileNames = [];
-
-        foreach ($fileNames as $fileName) {
-            if (preg_match($excludedPattern, $fileName) != 1) {
-                array_push($filteredFileNames, $fileName);
-            }
-        }
-
-        return $filteredFileNames;
+        return array_unique($fileNames);
     }
 
     /**
