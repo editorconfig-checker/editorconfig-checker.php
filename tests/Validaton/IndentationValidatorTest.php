@@ -8,7 +8,6 @@ final class IndentationValidatorTest extends TestCase
 {
     public function testValidateTabs()
     {
-        $rules = ['indent_style' => 'tab'];
         $lineNumber = 1;
         $file = 'src';
 
@@ -16,39 +15,39 @@ final class IndentationValidatorTest extends TestCase
         Logger::getInstance()->clearErrors();
 
         $line = "\tHi";
-        $this->assertTrue(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertTrue(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
         $line = "\t\tHi";
-        $this->assertTrue(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertTrue(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
         $line = "\tHi\t";
-        $this->assertTrue(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertTrue(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
         $line = "Hi\t";
-        $this->assertTrue(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertTrue(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
         $line = "\t *Hi";
-        $this->assertTrue(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertTrue(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
         $line = " *Hi";
-        $this->assertTrue(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertTrue(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 0);
 
         $line = "\t  Hi";
-        $this->assertFalse(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertFalse(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 1);
 
         $line = "\t Hi";
-        $this->assertFalse(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertFalse(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 2);
 
         $line = "    Hi\t";
-        $this->assertFalse(IndentationValidator::validate($rules, $line, $lineNumber, $file));
+        $this->assertFalse(IndentationValidator::validate($line, $lineNumber, $file));
         $this->assertEquals(Logger::getInstance()->countErrors(), 3);
     }
 
