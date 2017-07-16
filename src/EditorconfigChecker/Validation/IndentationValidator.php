@@ -91,7 +91,7 @@ class IndentationValidator
      * @param string $filename
      * @return boolean
      */
-    protected static function validateTab($rules, $line, $lineNumber, $filename)
+    protected static function validateTab($line, $lineNumber, $filename)
     {
         $valid = true;
         preg_match('/^(\t+)/', $line, $matches);
