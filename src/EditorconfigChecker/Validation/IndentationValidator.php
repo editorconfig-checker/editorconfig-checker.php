@@ -39,7 +39,6 @@ class IndentationValidator
      */
     protected static function validateSpace($rules, $line, $lineNumber, $filename)
     {
-        $valid = true;
         preg_match('/^( +)/', $line, $matches);
 
         if (isset($matches[1])) {
@@ -54,7 +53,7 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                $valid = false;
+                return $false;
             }
 
             if ($line[$indentSize] === "\t") {
@@ -64,7 +63,7 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                $valid = false;
+                return $false;
             }
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
@@ -75,11 +74,11 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                $valid = false;
+                return false;
             }
         }
 
-        return $valid;
+        return true;
     }
 
     /**
@@ -93,7 +92,6 @@ class IndentationValidator
      */
     protected static function validateTab($line, $lineNumber, $filename)
     {
-        $valid = true;
         preg_match('/^(\t+)/', $line, $matches);
 
         if (isset($matches[1])) {
@@ -106,7 +104,7 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                $valid = false;
+                return false;
             }
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
@@ -117,10 +115,10 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                $valid = false;
+                return false;
             }
         }
 
-        return $valid;
+        return true;
     }
 }
