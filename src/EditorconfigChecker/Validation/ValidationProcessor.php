@@ -38,10 +38,9 @@ class ValidationProcessor
     public static function validateFile($rules, $fileName, $autoFix)
     {
         $content = file($fileName);
-        $lastIndentSize = null;
 
         foreach ($content as $lineNumber => $line) {
-            $lastIndentSize = IndentationValidator::validate($rules, $line, $lineNumber, $lastIndentSize, $fileName);
+            IndentationValidator::validate($rules, $line, $lineNumber, $fileName);
             TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $fileName, $autoFix);
         }
 
