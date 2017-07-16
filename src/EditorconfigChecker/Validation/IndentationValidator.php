@@ -70,7 +70,7 @@ class IndentationValidator
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
                 Logger::getInstance()->addError(
-                    'Wrong indentation type',
+                    'Wrong indentation type(tabs instead of spaces)',
                     $filename,
                     $lineNumber + 1
                 );
@@ -112,7 +112,7 @@ class IndentationValidator
             preg_match('/^( +)/', $line, $matches);
             if (isset($matches[1]) && strpos($line, ' *') !== 0) {
                 Logger::getInstance()->addError(
-                    'Wrong indentation type',
+                    'Wrong indentation type(spaces instead of tabs)',
                     $filename,
                     $lineNumber + 1
                 );
