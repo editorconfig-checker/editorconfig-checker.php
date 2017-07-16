@@ -12,23 +12,20 @@ class IndentationValidator
      * @param array $rules
      * @param string $line
      * @param int $lineNumber
-     * @param int $lastIndentSize
      * @param string $filename
      * @return int
      */
-    public static function validate($rules, $line, $lineNumber, $lastIndentSize, $filename)
+    public static function validate($rules, $line, $lineNumber, $filename)
     {
+        $valid = true;
+
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
-            $lastIndentSize =
-                IndentationValidator::validateSpace($rules, $line, $lineNumber, $lastIndentSize, $filename);
+            $valid = IndentationValidator::validateSpace($rules, $line, $lineNumber, $filename);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
-            $lastIndentSize =
-                IndentationValidator::validateTab($rules, $line, $lineNumber, $lastIndentSize, $filename);
-        } else {
-            $lastIndentSize = 0;
+            $valid = IndentationValidator::validateTab($rules, $line, $lineNumber, $filename);
         }
 
-        return $lastIndentSize;
+        return $valid;
     }
 
     /**
@@ -37,12 +34,12 @@ class IndentationValidator
      * @param array $rules
      * @param string $line
      * @param int $lineNumber
-     * @param int $lastIndentSize
      * @param string $filename
-     * @return void
+     * @return boolean
      */
-    protected static function validateSpace($rules, $line, $lineNumber, $lastIndentSize, $filename)
+    protected static function validateSpace($rules, $line, $lineNumber, $filename)
     {
+        $valid = true;
         preg_match('/^( +)/', $line, $matches);
 
         if (isset($matches[1])) {
@@ -56,6 +53,8 @@ class IndentationValidator
                     $filename,
                     $lineNumber + 1
                 );
+
+                $valid = false;
             }
 
             if ($line[$indentSize] === "\t") {
@@ -64,24 +63,9 @@ class IndentationValidator
                     $filename,
                     $lineNumber + 1
                 );
-            }
 
-            /* because the following example would not work I have to check it this way */
-            /* ... maybe it should not? */
-            /* if (xyz) */
-            /* { */
-            /*     throw new Exception('hello */
-            /*         world');  <--- this is the critial part */
-            /* } */
-            if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > $rules['indent_size']) {
-                Logger::getInstance()->addError(
-                    'Not the right relation of spaces between lines',
-                    $filename,
-                    $lineNumber + 1
-                );
+                $valid = false;
             }
-
-            $lastIndentSize = $indentSize;
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
@@ -90,14 +74,12 @@ class IndentationValidator
                     $filename,
                     $lineNumber + 1
                 );
+
+                $valid = false;
             }
         }
 
-        if (!isset($indentSize)) {
-            $indentSize = null;
-        }
-
-        return $indentSize;
+        return $valid;
     }
 
     /**
@@ -106,31 +88,16 @@ class IndentationValidator
      * @param array $rules
      * @param string $line
      * @param int $lineNumber
-     * @param int $lastIndentSize
      * @param string $filename
-     * @return void
+     * @return boolean
      */
-    protected static function validateTab($rules, $line, $lineNumber, $lastIndentSize, $filename)
+    protected static function validateTab($rules, $line, $lineNumber, $filename)
     {
+        $valid = true;
         preg_match('/^(\t+)/', $line, $matches);
 
         if (isset($matches[1])) {
             $indentSize = strlen($matches[1]);
-
-            /* because the following example would not work I have to check it this way */
-            /* ... maybe it should not? */
-            /* if (xyz) */
-            /* { */
-            /*     throw new Exception('hello */
-            /*         world');  <--- this is the critial part */
-            /* } */
-            if (isset($lastIndentSize) && ($indentSize - $lastIndentSize) > 1) {
-                Logger::getInstance()->addError(
-                    'Not the right relation of tabs between lines',
-                    $filename,
-                    $lineNumber + 1
-                );
-            }
 
             if (substr($line, $indentSize, 1) === ' ' && substr($line, $indentSize + 1, 1) !== '*') {
                 Logger::getInstance()->addError(
@@ -138,9 +105,9 @@ class IndentationValidator
                     $filename,
                     $lineNumber + 1
                 );
-            }
 
-            $lastIndentSize = $indentSize;
+                $valid = false;
+            }
         } else { /* if no matching leading tabs found check if spaces are there instead */
             preg_match('/^( +)/', $line, $matches);
             if (isset($matches[1]) && strpos($line, ' *') !== 0) {
@@ -149,13 +116,11 @@ class IndentationValidator
                     $filename,
                     $lineNumber + 1
                 );
+
+                $valid = false;
             }
         }
 
-        if (!isset($indentSize)) {
-            $indentSize = null;
-        }
-
-        return $indentSize;
+        return $valid;
     }
 }
