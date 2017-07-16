@@ -22,7 +22,7 @@ class IndentationValidator
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
             $valid = IndentationValidator::validateSpace($rules, $line, $lineNumber, $filename);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
-            $valid = IndentationValidator::validateTab($rules, $line, $lineNumber, $filename);
+            $valid = IndentationValidator::validateTab($line, $lineNumber, $filename);
         }
 
         return $valid;
