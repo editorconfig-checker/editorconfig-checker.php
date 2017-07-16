@@ -53,7 +53,7 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                return $false;
+                return false;
             }
 
             if ($line[$indentSize] === "\t") {
@@ -63,7 +63,7 @@ class IndentationValidator
                     $lineNumber + 1
                 );
 
-                return $false;
+                return false;
             }
         } else { /* if no matching leading spaces found check if tabs are there instead */
             preg_match('/^(\t+)/', $line, $matches);
