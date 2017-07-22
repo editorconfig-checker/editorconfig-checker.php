@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Cli;
 
 use EditorconfigChecker\Editorconfig\Editorconfig;
 use EditorconfigChecker\Validation\ValidationProcessor;
+use Symfony\Component\Finder\Finder;
 
 class Cli
 {
@@ -16,7 +17,7 @@ class Cli
      */
     public function run($options, $fileGlobs)
     {
-        $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
+        $usage = isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
         $autoFix = isset($options['a']) || isset($options['auto-fix']);
 
@@ -47,58 +48,57 @@ class Cli
 
     /**
      * Returns an array of files matching the fileglobs
-     * if dotfiles is true dotfiles will be added too otherwise
-     * dotfiles will be ignored
      * if excludedPattern is provided the files will be filtered
      * for the excludedPattern
      *
      * @param array $fileGlobs
-     * @param boolean $dotfiles
-     * @param array $excludedPattern
+     * @param boolean $ignoreDotFiles
+     * @param array $excludeOptions
      * @return array
      */
-    protected function getFileNames($fileGlobs, $dotfiles, $excludedPattern)
+    protected function getFileNames($fileGlobs, $ignoreDotFiles, $excludeOptions)
     {
         $fileNames = array();
-        foreach ($fileGlobs as $fileGlob) {
-            /* if the glob is only a file */
-            /* add it to the file array an continue the loop */
-            if (is_file($fileGlob)) {
-                if (!in_array($fileGlob, $fileNames)) {
-                    array_push($fileNames, $fileGlob);
-                }
+        $finder = new Finder();
 
-                continue;
+        if (is_array($excludeOptions['dirs'])) {
+            foreach ($excludeOptions['dirs'] as $dir) {
+                $finder->notPath($dir);
             }
-
-            $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
-            $fileExtension = pathinfo($fileGlob, PATHINFO_EXTENSION);
-
-            if (is_dir($dirPattern)) {
-                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
-                foreach ($objects as $fileName => $object) {
-                    /* . and .. */
-                    if (!$this->isSpecialDir($fileName) &&
-                        /* filter for dotfiles */
-                        ($dotfiles || strpos(basename($fileName), '.') !== 0)) {
-                        if ($fileExtension && $fileExtension === pathinfo($fileName, PATHINFO_EXTENSION)) {
-                            /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $fileNames)) {
-                                array_push($fileNames, $fileName);
-                            }
-                        } elseif (!strlen($fileExtension)) {
-                            /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $fileNames)) {
-                                array_push($fileNames, $fileName);
-                            }
-                        }
-                    }
-                }
-            }
+        } elseif (isset($excludeOptions['dirs'])) {
+            $finder->notPath($excludeOptions['dirs']);
         }
 
-        if ($excludedPattern) {
-            return $this->filterFiles($fileNames, $excludedPattern);
+        if (is_array($excludeOptions['files'])) {
+            foreach ($excludeOptions['files'] as $file) {
+                $finder->files()->notName($file);
+            }
+        } elseif (isset($excludeOptions['files'])) {
+            $finder->notPath($excludeOptions['files']);
+        }
+
+        if (count($fileGlobs)) {
+            foreach ($fileGlobs as $fileGlob) {
+                if (is_file($fileGlob)) {
+                    array_push($fileNames, $fileGlob);
+                    continue;
+                }
+
+                $pathinfo = pathinfo($fileGlob);
+                $useBasename = $pathinfo['dirname'] !== '.';
+                $useBasename ? $dirname = $pathinfo['dirname'] : $dirname = $pathinfo['basename'];
+                $useBasename ?
+                    $finder->files()->in($dirname)->name($pathinfo['basename'])->ignoreDotFiles($ignoreDotFiles) :
+                    $finder->files()->in($dirname)->ignoreDotFiles($ignoreDotFiles);
+            }
+        } else {
+            $finder->files()->in(getcwd())->ignoreDotFiles($ignoreDotFiles);
+        }
+
+        foreach ($finder as $file) {
+            if (!in_array($file->getPathName(), $fileNames)) {
+                array_push($fileNames, $file->getPathName());
+            }
         }
 
         return $fileNames;
