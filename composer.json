@@ -21,7 +21,8 @@
         }
     },
     "require": {
-        "webmozart/glob": "^4.1"
+        "webmozart/glob": "^4.1",
+        "symfony/finder": "^3.3"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.7.1",
