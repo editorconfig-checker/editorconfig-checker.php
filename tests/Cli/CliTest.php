@@ -62,8 +62,8 @@ final class CliTest extends TestCase
         ));
 
         $this->assertEquals(
-            $fileNames,
-            $expectedFiles
+            sort($fileNames),
+            sort($expectedFiles)
         );
     }
 
