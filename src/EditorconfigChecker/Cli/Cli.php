@@ -26,10 +26,10 @@ class Cli
             return;
         }
 
-        isset($options['dotfiles']) || isset($options['d']) ? $dotfiles = true : $dotfiles = false;
-        $excludedPattern = $this->getExcludedPatternFromOptions($options);
+        isset($options['dotfiles']) || isset($options['d']) ? $ignoreDotFiles = true : $ignoreDotFiles = false;
+        $excludeOptions = $this->getExcludeOptionsFromOptions($options);
 
-        $fileNames = $this->getFileNames($fileGlobs, $dotfiles, $excludedPattern);
+        $fileNames = $this->getFileNames($fileGlobs, $ignoreDotFiles, $excludeOptions);
         $fileCount = count($fileNames);
 
         if ($showFiles) {
@@ -61,20 +61,12 @@ class Cli
         $fileNames = array();
         $finder = new Finder();
 
-        if (is_array($excludeOptions['dirs'])) {
-            foreach ($excludeOptions['dirs'] as $dir) {
-                $finder->notPath($dir);
-            }
-        } elseif (isset($excludeOptions['dirs'])) {
-            $finder->notPath($excludeOptions['dirs']);
+        foreach ($excludeOptions['dirs'] as $dir) {
+            $finder->notPath($dir);
         }
 
-        if (is_array($excludeOptions['files'])) {
-            foreach ($excludeOptions['files'] as $file) {
-                $finder->files()->notName($file);
-            }
-        } elseif (isset($excludeOptions['files'])) {
-            $finder->notPath($excludeOptions['files']);
+        foreach ($excludeOptions['files'] as $file) {
+            $finder->files()->notName($file);
         }
 
         if (count($fileGlobs)) {
@@ -85,11 +77,8 @@ class Cli
                 }
 
                 $pathinfo = pathinfo($fileGlob);
-                $useBasename = $pathinfo['dirname'] !== '.';
-                $useBasename ? $dirname = $pathinfo['dirname'] : $dirname = $pathinfo['basename'];
-                $useBasename ?
-                    $finder->files()->in($dirname)->name($pathinfo['basename'])->ignoreDotFiles($ignoreDotFiles) :
-                    $finder->files()->in($dirname)->ignoreDotFiles($ignoreDotFiles);
+                $pathinfo['dirname'] !== '.' ? $dirname = $pathinfo['dirname'] : $dirname = getcwd();
+                $finder->files()->in($dirname)->ignoreDotFiles($ignoreDotFiles);
             }
         } else {
             $finder->files()->in(getcwd())->ignoreDotFiles($ignoreDotFiles);
@@ -105,61 +94,60 @@ class Cli
     }
 
     /**
-     * Filter files for excluded paths
-     *
-     * @param array $files
-     * @param array|string $excludedPattern
-     * @return array
-     */
-    protected function filterFiles($fileNames, $excludedPattern)
-    {
-        $filteredFileNames = [];
-
-        foreach ($fileNames as $fileName) {
-            if (preg_match($excludedPattern, $fileName) != 1) {
-                array_push($filteredFileNames, $fileName);
-            }
-        }
-
-        return $filteredFileNames;
-    }
-
-    /**
-     * Get the excluded pattern from the options
+     * Builds an two dimensional array with
+     * array['dirs'] and array['files']
      *
      * @param array $options
      * @return array
      */
-    protected function getExcludedPatternFromOptions($options)
+    protected function getExcludeOptionsFromOptions($options)
     {
-        $pattern = false;
+        $excludeOptions['dirs'] = array();
+        $excludeOptions['files'] = array();
 
-        if (isset($options['e']) && !isset($options['exclude'])) {
-            $excludedPattern = $options['e'];
-        } elseif (!isset($options['e']) && isset($options['exclude'])) {
-            $excludedPattern = $options['exclude'];
-        } elseif (isset($options['e']) && isset($options['exclude'])) {
-            if (is_array($options['e']) && is_array($options['exclude'])) {
-                $excludedPattern = array_merge($options['e'], $options['exclude']);
-            } elseif (is_array($options['e']) && !is_array($options['exclude'])) {
-                array_push($options['e'], $options['exclude']);
-                $excludedPattern = $options['e'];
-            } elseif (!is_array($options['e']) && is_array($options['exclude'])) {
-                array_push($options['exclude'], $options['e']);
-                $excludedPattern = $options['exclude'];
-            } else {
-                $excludedPattern = [$options['e'], $options['exclude']];
-            }
-        }
-        if (isset($excludedPattern)) {
-            if (is_array($excludedPattern)) {
-                $pattern = '/' . implode('|', $excludedPattern) . '/';
-            } else {
-                $pattern = '/' . $excludedPattern . '/';
-            }
-        }
+        /* die; */
 
-        return $pattern;
+        isset($options['p']) && is_array($options['p']) ? (
+            array_push($excludeOptions['dirs'], explode(',', implode(',', $options['p'])))
+        ) : (
+            isset($options['p']) ?
+                array_push($excludeOptions['dirs'], explode(',', $options['p'])) :
+                'NOP'
+            );
+
+        isset($options['exclude-path']) && is_array($options['exclude-path']) ? (
+            array_push($excludeOptions['dirs'], explode(',', implode(',', $options['exclude-path'])))
+        ) : (
+            isset($options['exclude-path']) ?
+                array_push($excludeOptions['dirs'], explode(',', $options['exclude-path'])) :
+                'NOP'
+        );
+
+        isset($options['f']) && is_array($options['f']) ? (
+            array_push($excludeOptions['files'], explode(',', implode(',', $options['f'])))
+        ) : (
+            isset($options['f']) ?
+                array_push($excludeOptions['files'], explode(',', $options['f'])) :
+                'NOP'
+        );
+
+        isset($options['exclude-file']) && is_array($options['exclude-file']) ? (
+            array_push($excludeOptions['files'], explode(',', implode(',', $options['exclude-file'])))
+        ) : (
+            isset($options['exclude-file']) ?
+                array_push($excludeOptions['files'], explode(',', $options['exclude-file'])) :
+                'NOP'
+        );
+
+
+        isset($excludeOptions['dirs']) && is_array($excludeOptions['dirs']) && count($excludeOptions['dirs']) === 1 ?
+            $excludeOptions['dirs'] = $excludeOptions['dirs'][0] :
+            'NOP';
+        isset($excludeOptions['files']) && is_array($excludeOptions['files']) && count($excludeOptions['files']) === 1 ?
+            $excludeOptions['files'] = $excludeOptions['files'][0] :
+            'NOP';
+
+        return $excludeOptions;
     }
 
     /**
@@ -190,7 +178,7 @@ class Cli
             . PHP_EOL
         );
         printf('-d, --dotfiles' . PHP_EOL);
-        printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
+        printf("\tuse this flag if you want to also include dotfiles" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
         printf('-h, --help'. PHP_EOL);
