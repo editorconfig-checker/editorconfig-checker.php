@@ -112,7 +112,7 @@ available options:
 -a, --auto-fix
     will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)
 -d, --dotfiles
-    use this flag if you want to also include dotfiles/dotdirectories
+    use this flag if you want to exclude dotfiles
 -e <PATTERN>, --exclude <PATTERN>
     string or regex to filter files which should not be checked
 -h, --help

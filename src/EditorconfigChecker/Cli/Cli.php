@@ -155,7 +155,7 @@ class Cli
             . PHP_EOL
         );
         printf('-d, --dotfiles' . PHP_EOL);
-        printf("\tuse this flag if you want to also include dotfiles" . PHP_EOL);
+        printf("\tuse this flag if you want exclude dotfiles" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
         printf('-h, --help'. PHP_EOL);
