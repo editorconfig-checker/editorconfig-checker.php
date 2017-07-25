@@ -89,26 +89,6 @@ class Cli
     }
 
     /**
-     * Filter files for excluded paths
-     *
-     * @param array $files
-     * @param array|string $excludedPattern
-     * @return array
-     */
-    protected function filterFiles($fileNames, $excludedPattern)
-    {
-        $filteredFileNames = [];
-
-        foreach ($fileNames as $fileName) {
-            if (preg_match($excludedPattern, $fileName) != 1) {
-                array_push($filteredFileNames, $fileName);
-            }
-        }
-
-        return $filteredFileNames;
-    }
-
-    /**
      * Get the excluded pattern from the options
      *
      * @param array $options
