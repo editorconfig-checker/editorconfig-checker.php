@@ -128,18 +128,6 @@ class Cli
     }
 
     /**
-     * Checks if a filename ends with /. or /..
-     * because this are special unix files
-     *
-     * @param string $filename
-     * @return boolean
-     */
-    protected function isSpecialDir($fileName)
-    {
-        return substr($fileName, -2) === '/.' || substr($fileName, -3) === '/..';
-    }
-
-    /**
      * Prints the usage
      *
      * @return void
