@@ -77,13 +77,15 @@ class Logger
             if ($lastFile !== $error['fileName']) {
                 $errorSegment++;
                 $lastFile = $error['fileName'];
-                printf('%04d) %s' . PHP_EOL, $errorSegment, $error['fileName']);
+                printf("\033[33m%04d) %s\033[0m" . PHP_EOL, $errorSegment, $error['fileName']);
             }
 
-            printf('      %s', $error['message']);
             if (false === empty($error['lineNumber'])) {
-                printf(' on line %d', $error['lineNumber']);
+                printf("      \033[31m%d\033[0m: ", $error['lineNumber']);
+            } else {
+                printf('      ');
             }
+            printf('%s', $error['message']);
             printf(PHP_EOL);
         }
 

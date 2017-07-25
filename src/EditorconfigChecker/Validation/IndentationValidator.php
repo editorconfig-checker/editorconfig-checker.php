@@ -48,7 +48,7 @@ class IndentationValidator
             /* the * is for block comments */
             if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
                 Logger::getInstance()->addError(
-                    'Not the right amount of spaces',
+                    'Wrong amount of spaces(expected multiple of ' . $rules['indent_size'] . ')',
                     $filename,
                     $lineNumber + 1
                 );
@@ -58,7 +58,7 @@ class IndentationValidator
 
             if ($line[$indentSize] === "\t") {
                 Logger::getInstance()->addError(
-                    'Mixed indentation',
+                    'Mixed indentation(expected multiple of ' . $rules['indent_size'] . ' spaces)',
                     $filename,
                     $lineNumber + 1
                 );
@@ -69,7 +69,8 @@ class IndentationValidator
             preg_match('/^(\t+)/', $line, $matches);
             if (isset($matches[1])) {
                 Logger::getInstance()->addError(
-                    'Wrong indentation type(tabs instead of spaces)',
+                    'Wrong indentation type(tabs instead of spaces(expected multiple of '
+                    . $rules['indent_size'] . '))',
                     $filename,
                     $lineNumber + 1
                 );
