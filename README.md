@@ -43,13 +43,9 @@ Then you could create a script in your `composer.json` like this:
 
 ```json
 "scripts": {
-    "check-editorconfig": "editorconfig-checker src/*.php"
+    "check-editorconfig": "editorconfig-checker src/*"
 }
 ```
-
-__ATTENTION!__: You could not use shell-like globbing like `src/**/*.php` to find all files.
-You have to explicitly specify the directory under which is searched for certain file types.
-So the above example would become to `src/*.php` to find all `.php` files in `src` and it's subdirectories.
 
 You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
 
@@ -64,35 +60,35 @@ because the special characters(e.g. `|`, `*`, `.` or whatever) will be interpret
 Some examples:
 ```sh
 # will filter all files which has vendor in their name or git, png or lock as extension
-bin/editorconfig-checker -d -e 'vendor|\.git$|\.png$|\.lock$' ./*
-bin/editorconfig-checker --dotfiles --exclude 'vendor|.git$|.png$|.lock$' ./*
+bin/editorconfig-checker -e 'vendor|\.git$|\.png$|\.lock$' ./*
+bin/editorconfig-checker --exclude 'vendor|.git$|.png$|.lock$' ./*
 
 # will filter all files with png and json extension
-bin/editorconfig-checker -d -e '\.png$|\.json$' ./*
-bin/editorconfig-checker --dotfiles --exclude '\.png$|\.json$' ./*
+bin/editorconfig-checker -e '\.png$|\.json$' ./*
+bin/editorconfig-checker --exclude '\.png$|\.json$' ./*
 
 # will only filter all files which has vendor in their name
-bin/editorconfig-checker -d -e vendor ./*
-bin/editorconfig-checker --dotfiles -exclude vendor ./*
+bin/editorconfig-checker -e vendor ./*
+bin/editorconfig-checker --exclude vendor ./*
 
 # will filter all files which has vendor or .git in their name
-bin/editorconfig-checker -d -e vendor -e '\.git' ./*
-bin/editorconfig-checker --dotfiles -exclude vendor -e '\.git' ./*
+bin/editorconfig-checker -e vendor -e '\.git' ./*
+bin/editorconfig-checker --exclude vendor -e '\.git' ./*
 
 # will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml)
-bin/editorconfig-checker -e vendor  ./*
-bin/editorconfig-checker --exclude vendor  ./*
+bin/editorconfig-checker -d -e vendor  ./*
+bin/editorconfig-checker --dotfiles --exclude vendor  ./*
 
 # will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml) and will try to fix issues if they occur
-bin/editorconfig-checker -a -e vendor  ./*
-bin/editorconfig-checker --auto-fix --exclude vendor  ./*
+bin/editorconfig-checker -a -d -e vendor  ./*
+bin/editorconfig-checker --auto-fix --dotfiles --exclude vendor  ./*
 ```
 
 If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
 
 ```sh
-bin/editorconfig-checker -d -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
-bin/editorconfig-checker --dotfiles --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
+bin/editorconfig-checker -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
+bin/editorconfig-checker --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
 ```
 
 If you installed it manually you would have to do something like this:
@@ -112,7 +108,7 @@ available options:
 -a, --auto-fix
     will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)
 -d, --dotfiles
-    use this flag if you want to also include dotfiles/dotdirectories
+    use this flag if you want to exclude dotfiles
 -e <PATTERN>, --exclude <PATTERN>
     string or regex to filter files which should not be checked
 -h, --help

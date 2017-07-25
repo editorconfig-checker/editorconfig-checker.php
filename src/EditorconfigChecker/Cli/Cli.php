@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Cli;
 
 use EditorconfigChecker\Editorconfig\Editorconfig;
 use EditorconfigChecker\Validation\ValidationProcessor;
+use Symfony\Component\Finder\Finder;
 
 class Cli
 {
@@ -47,81 +48,52 @@ class Cli
 
     /**
      * Returns an array of files matching the fileglobs
-     * if dotfiles is true dotfiles will be added too otherwise
-     * dotfiles will be ignored
      * if excludedPattern is provided the files will be filtered
      * for the excludedPattern
      *
      * @param array $fileGlobs
-     * @param boolean $dotfiles
+     * @param boolean $ignoreDotFiles
      * @param array $excludedPattern
      * @return array
      */
-    protected function getFileNames($fileGlobs, $dotfiles, $excludedPattern)
+    protected function getFileNames($fileGlobs, $ignoreDotFiles, $excludedPattern)
     {
         $fileNames = array();
-        foreach ($fileGlobs as $fileGlob) {
-            /* if the glob is only a file */
-            /* add it to the file array an continue the loop */
-            if (is_file($fileGlob)) {
-                if (!in_array($fileGlob, $fileNames)) {
+        $finder = new Finder();
+
+        if (count($fileGlobs)) {
+            // prefilter fileGlobs due to perfomance issues if it is done after
+            $prefilteredGlobs = $fileGlobs;
+            if ($excludedPattern) {
+                $prefilteredGlobs = array_filter($fileGlobs, function ($glob) use ($excludedPattern) {
+                    return preg_match($excludedPattern, $glob) !== 1;
+                });
+            }
+
+            foreach ($prefilteredGlobs as $fileGlob) {
+                if (is_file($fileGlob)
+                    && !in_array($fileGlob, $fileNames)
+                    && (!$excludedPattern || preg_match($excludedPattern, $fileGlob) !== 1)) {
                     array_push($fileNames, $fileGlob);
+                    continue;
                 }
 
-                continue;
+                $pathinfo = pathinfo($fileGlob);
+                $pathinfo['dirname'] !== '.' ? $dirname = $pathinfo['dirname'] : $dirname = getcwd();
+                $finder->files()->in($dirname)->ignoreDotFiles($ignoreDotFiles);
             }
-
-            $dirPattern = pathinfo($fileGlob, PATHINFO_DIRNAME);
-            $fileExtension = pathinfo($fileGlob, PATHINFO_EXTENSION);
-
-            if (is_dir($dirPattern)) {
-                $objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirPattern));
-                foreach ($objects as $fileName => $object) {
-                    /* . and .. */
-                    if (!$this->isSpecialDir($fileName) &&
-                        /* filter for dotfiles */
-                        ($dotfiles || strpos(basename($fileName), '.') !== 0)) {
-                        if ($fileExtension && $fileExtension === pathinfo($fileName, PATHINFO_EXTENSION)) {
-                            /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $fileNames)) {
-                                array_push($fileNames, $fileName);
-                            }
-                        } elseif (!strlen($fileExtension)) {
-                            /* if I not specify a file extension as argv I get files twice */
-                            if (!in_array($fileName, $fileNames)) {
-                                array_push($fileNames, $fileName);
-                            }
-                        }
-                    }
-                }
-            }
+        } else {
+            $finder->files()->in(getcwd())->ignoreDotFiles($ignoreDotFiles);
         }
 
-        if ($excludedPattern) {
-            return $this->filterFiles($fileNames, $excludedPattern);
+        foreach ($finder as $file) {
+            if (!in_array($file->getPathName(), $fileNames)
+                && (!$excludedPattern || preg_match($excludedPattern, $file->getPathName()) !== 1)) {
+                array_push($fileNames, $file->getPathName());
+            }
         }
 
         return $fileNames;
-    }
-
-    /**
-     * Filter files for excluded paths
-     *
-     * @param array $files
-     * @param array|string $excludedPattern
-     * @return array
-     */
-    protected function filterFiles($fileNames, $excludedPattern)
-    {
-        $filteredFileNames = [];
-
-        foreach ($fileNames as $fileName) {
-            if (preg_match($excludedPattern, $fileName) != 1) {
-                array_push($filteredFileNames, $fileName);
-            }
-        }
-
-        return $filteredFileNames;
     }
 
     /**
@@ -151,6 +123,7 @@ class Cli
                 $excludedPattern = [$options['e'], $options['exclude']];
             }
         }
+
         if (isset($excludedPattern)) {
             if (is_array($excludedPattern)) {
                 $pattern = '/' . implode('|', $excludedPattern) . '/';
@@ -160,18 +133,6 @@ class Cli
         }
 
         return $pattern;
-    }
-
-    /**
-     * Checks if a filename ends with /. or /..
-     * because this are special unix files
-     *
-     * @param string $filename
-     * @return boolean
-     */
-    protected function isSpecialDir($fileName)
-    {
-        return substr($fileName, -2) === '/.' || substr($fileName, -3) === '/..';
     }
 
     /**
@@ -190,7 +151,7 @@ class Cli
             . PHP_EOL
         );
         printf('-d, --dotfiles' . PHP_EOL);
-        printf("\tuse this flag if you want to also include dotfiles/dotdirectories" . PHP_EOL);
+        printf("\tuse this flag if you want exclude dotfiles" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
         printf('-h, --help'. PHP_EOL);
