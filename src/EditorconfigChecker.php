@@ -17,17 +17,12 @@ foreach ($paths as $path) {
 
 array_shift($argv);
 
-$shortOpts = 'adf:hlp:';
-$longOpts  = ['auto-fix', 'dotfiles', 'exclude-path:', 'exclude-file:', 'help', 'list-files'];
+$shortOpts = 'ahlde:';
+$longOpts  = ['auto-fix', 'help', 'list-files', 'dotfiles', 'exclude:'];
 $options = getopt($shortOpts, $longOpts);
 
 foreach ($options as $option) {
-    if (is_array($option)) {
-        foreach ($option as $opt) {
-            array_shift($argv);
-            array_shift($argv);
-        }
-    } elseif ($option) {
+    if ($option) {
         array_shift($argv);
     }
 

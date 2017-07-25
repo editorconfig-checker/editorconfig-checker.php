@@ -17,7 +17,7 @@ class Cli
      */
     public function run($options, $fileGlobs)
     {
-        $usage = isset($options['h']) || isset($options['help']);
+        $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
         $autoFix = isset($options['a']) || isset($options['auto-fix']);
 
@@ -26,10 +26,10 @@ class Cli
             return;
         }
 
-        isset($options['dotfiles']) || isset($options['d']) ? $ignoreDotFiles = true : $ignoreDotFiles = false;
-        $excludeOptions = $this->getExcludeOptionsFromOptions($options);
+        isset($options['dotfiles']) || isset($options['d']) ? $dotfiles = true : $dotfiles = false;
+        $excludedPattern = $this->getExcludedPatternFromOptions($options);
 
-        $fileNames = $this->getFileNames($fileGlobs, $ignoreDotFiles, $excludeOptions);
+        $fileNames = $this->getFileNames($fileGlobs, $dotfiles, $excludedPattern);
         $fileCount = count($fileNames);
 
         if ($showFiles) {
@@ -61,17 +61,12 @@ class Cli
         $fileNames = array();
         $finder = new Finder();
 
-        foreach ($excludeOptions['dirs'] as $dir) {
-            $finder->notPath($dir);
-        }
-
-        foreach ($excludeOptions['files'] as $file) {
-            $finder->files()->notName($file);
-        }
-
         if (count($fileGlobs)) {
             foreach ($fileGlobs as $fileGlob) {
-                if (is_file($fileGlob)) {
+                if (is_file($fileGlob) &&
+                    !in_array($fileGlob, $fileNames) &&
+
+                    preg_match($excludeOptions, $fileGlob) !== 1) {
                     array_push($fileNames, $fileGlob);
                     continue;
                 }
@@ -85,12 +80,72 @@ class Cli
         }
 
         foreach ($finder as $file) {
-            if (!in_array($file->getPathName(), $fileNames)) {
+            if (!in_array($file->getPathName(), $fileNames) &&
+                preg_match($excludeOptions, $file->getPathName()) !== 1) {
                 array_push($fileNames, $file->getPathName());
             }
         }
 
         return $fileNames;
+    }
+
+    /**
+     * Filter files for excluded paths
+     *
+     * @param array $files
+     * @param array|string $excludedPattern
+     * @return array
+     */
+    protected function filterFiles($fileNames, $excludedPattern)
+    {
+        $filteredFileNames = [];
+
+        foreach ($fileNames as $fileName) {
+            if (preg_match($excludedPattern, $fileName) != 1) {
+                array_push($filteredFileNames, $fileName);
+            }
+        }
+
+        return $filteredFileNames;
+    }
+
+    /**
+     * Get the excluded pattern from the options
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function getExcludedPatternFromOptions($options)
+    {
+        $pattern = false;
+
+        if (isset($options['e']) && !isset($options['exclude'])) {
+            $excludedPattern = $options['e'];
+        } elseif (!isset($options['e']) && isset($options['exclude'])) {
+            $excludedPattern = $options['exclude'];
+        } elseif (isset($options['e']) && isset($options['exclude'])) {
+            if (is_array($options['e']) && is_array($options['exclude'])) {
+                $excludedPattern = array_merge($options['e'], $options['exclude']);
+            } elseif (is_array($options['e']) && !is_array($options['exclude'])) {
+                array_push($options['e'], $options['exclude']);
+                $excludedPattern = $options['e'];
+            } elseif (!is_array($options['e']) && is_array($options['exclude'])) {
+                array_push($options['exclude'], $options['e']);
+                $excludedPattern = $options['exclude'];
+            } else {
+                $excludedPattern = [$options['e'], $options['exclude']];
+            }
+        }
+
+        if (isset($excludedPattern)) {
+            if (is_array($excludedPattern)) {
+                $pattern = '/' . implode('|', $excludedPattern) . '/';
+            } else {
+                $pattern = '/' . $excludedPattern . '/';
+            }
+        }
+
+        return $pattern;
     }
 
     /**
