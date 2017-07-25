@@ -123,7 +123,7 @@ I use semantic versioning so every breaking change will result in the increase o
 
 If you encounter any bugs or anything else please open an issue with as many details as possible.
 
-You should use the `-f` option after installing and configuring this tool to see if all files are
+You should use the `-l` option after installing and configuring this tool to see if all files are
 checked.
 
 The `auto-fix` parameter puts a copy of every original file which gets fixed in `/tmp/editorconfig-checker.php/<filename>-<timestamp>-<sha1>`
