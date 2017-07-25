@@ -53,10 +53,10 @@ class Cli
      *
      * @param array $fileGlobs
      * @param boolean $ignoreDotFiles
-     * @param array $excludeOptions
+     * @param array $excludedPattern
      * @return array
      */
-    protected function getFileNames($fileGlobs, $ignoreDotFiles, $excludeOptions)
+    protected function getFileNames($fileGlobs, $ignoreDotFiles, $excludedPattern)
     {
         $fileNames = array();
         $finder = new Finder();
@@ -65,7 +65,7 @@ class Cli
             foreach ($fileGlobs as $fileGlob) {
                 if (is_file($fileGlob)
                     && !in_array($fileGlob, $fileNames)
-                    && (!$excludeOptions || preg_match($excludeOptions, $fileGlob) !== 1)) {
+                    && (!$excludedPattern || preg_match($excludedPattern, $fileGlob) !== 1)) {
                     array_push($fileNames, $fileGlob);
                     continue;
                 }
@@ -80,7 +80,7 @@ class Cli
 
         foreach ($finder as $file) {
             if (!in_array($file->getPathName(), $fileNames)
-                && (!$excludeOptions || preg_match($excludeOptions, $file->getPathName()) !== 1)) {
+                && (!$excludedPattern || preg_match($excludedPattern, $file->getPathName()) !== 1)) {
                 array_push($fileNames, $file->getPathName());
             }
         }
