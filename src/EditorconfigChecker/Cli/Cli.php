@@ -148,63 +148,6 @@ class Cli
     }
 
     /**
-     * Builds an two dimensional array with
-     * array['dirs'] and array['files']
-     *
-     * @param array $options
-     * @return array
-     */
-    protected function getExcludeOptionsFromOptions($options)
-    {
-        $excludeOptions['dirs'] = array();
-        $excludeOptions['files'] = array();
-
-        /* die; */
-
-        isset($options['p']) && is_array($options['p']) ? (
-            array_push($excludeOptions['dirs'], explode(',', implode(',', $options['p'])))
-        ) : (
-            isset($options['p']) ?
-                array_push($excludeOptions['dirs'], explode(',', $options['p'])) :
-                'NOP'
-            );
-
-        isset($options['exclude-path']) && is_array($options['exclude-path']) ? (
-            array_push($excludeOptions['dirs'], explode(',', implode(',', $options['exclude-path'])))
-        ) : (
-            isset($options['exclude-path']) ?
-                array_push($excludeOptions['dirs'], explode(',', $options['exclude-path'])) :
-                'NOP'
-        );
-
-        isset($options['f']) && is_array($options['f']) ? (
-            array_push($excludeOptions['files'], explode(',', implode(',', $options['f'])))
-        ) : (
-            isset($options['f']) ?
-                array_push($excludeOptions['files'], explode(',', $options['f'])) :
-                'NOP'
-        );
-
-        isset($options['exclude-file']) && is_array($options['exclude-file']) ? (
-            array_push($excludeOptions['files'], explode(',', implode(',', $options['exclude-file'])))
-        ) : (
-            isset($options['exclude-file']) ?
-                array_push($excludeOptions['files'], explode(',', $options['exclude-file'])) :
-                'NOP'
-        );
-
-
-        isset($excludeOptions['dirs']) && is_array($excludeOptions['dirs']) && count($excludeOptions['dirs']) === 1 ?
-            $excludeOptions['dirs'] = $excludeOptions['dirs'][0] :
-            'NOP';
-        isset($excludeOptions['files']) && is_array($excludeOptions['files']) && count($excludeOptions['files']) === 1 ?
-            $excludeOptions['files'] = $excludeOptions['files'][0] :
-            'NOP';
-
-        return $excludeOptions;
-    }
-
-    /**
      * Checks if a filename ends with /. or /..
      * because this are special unix files
      *
