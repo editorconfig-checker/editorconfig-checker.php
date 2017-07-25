@@ -63,10 +63,9 @@ class Cli
 
         if (count($fileGlobs)) {
             foreach ($fileGlobs as $fileGlob) {
-                if (is_file($fileGlob) &&
-                    !in_array($fileGlob, $fileNames) &&
-
-                    preg_match($excludeOptions, $fileGlob) !== 1) {
+                if (is_file($fileGlob)
+                    && !in_array($fileGlob, $fileNames)
+                    && (!$excludeOptions || preg_match($excludeOptions, $fileGlob) !== 1)) {
                     array_push($fileNames, $fileGlob);
                     continue;
                 }
@@ -80,8 +79,8 @@ class Cli
         }
 
         foreach ($finder as $file) {
-            if (!in_array($file->getPathName(), $fileNames) &&
-                preg_match($excludeOptions, $file->getPathName()) !== 1) {
+            if (!in_array($file->getPathName(), $fileNames)
+                && (!$excludeOptions || preg_match($excludeOptions, $file->getPathName()) !== 1)) {
                 array_push($fileNames, $file->getPathName());
             }
         }
