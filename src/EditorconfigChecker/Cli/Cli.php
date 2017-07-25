@@ -62,7 +62,15 @@ class Cli
         $finder = new Finder();
 
         if (count($fileGlobs)) {
-            foreach ($fileGlobs as $fileGlob) {
+            // prefilter fileGlobs due to perfomance issues if it is done after
+            $prefilteredGlobs = $fileGlobs;
+            if ($excludedPattern) {
+                $prefilteredGlobs = array_filter($fileGlobs, function ($glob) use ($excludedPattern) {
+                    return preg_match($excludedPattern, $glob) !== 1;
+                });
+            }
+
+            foreach ($prefilteredGlobs as $fileGlob) {
                 if (is_file($fileGlob)
                     && !in_array($fileGlob, $fileNames)
                     && (!$excludedPattern || preg_match($excludedPattern, $fileGlob) !== 1)) {
