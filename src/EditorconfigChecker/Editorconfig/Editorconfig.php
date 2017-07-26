@@ -29,7 +29,6 @@ class Editorconfig
     {
         return array_reduce(array_keys($editorconfig), function ($carry, $pattern) use ($editorconfig, $fileName) {
             $rules = $editorconfig[$pattern];
-            $fileName = substr($fileName, 2);
 
             return $pattern === 'root' ? ['root' => $editorconfig[$pattern]] : (
                 Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute('**/' . $pattern, getcwd())) ?
