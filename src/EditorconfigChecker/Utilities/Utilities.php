@@ -41,4 +41,34 @@ class Utilities
 
         return false;
     }
+
+    /**
+     * returns the default exclude pattern
+     *
+     * @return string
+     */
+    public function getDefaultExcludes($asArray = true)
+    {
+        $defaults = [
+            'vendor',
+            'node_modules',
+            '\.gif$',
+            '\.png$',
+            '\.bmp$',
+            '\.jpg$',
+            '\.svg$',
+            '\.ico$',
+            '\.lock$',
+            '\.eot$',
+            '\.woff$',
+            '\.woff2$',
+            '\.ttf$',
+            '\.bak$',
+            '\.bin$',
+            '\.min.js$',
+            '\.min.css$'
+        ];
+
+        return ($asArray ? $defaults : implode('|', $defaults));
+    }
 }

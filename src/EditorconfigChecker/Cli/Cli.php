@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Cli;
 
 use EditorconfigChecker\Editorconfig\Editorconfig;
 use EditorconfigChecker\Validation\ValidationProcessor;
+use EditorconfigChecker\Utilities\Utilities;
 use Symfony\Component\Finder\Finder;
 
 class Cli
@@ -124,11 +125,13 @@ class Cli
             }
         }
 
+        $utilities = new Utilities();
+
         if (isset($excludedPattern)) {
             if (is_array($excludedPattern)) {
-                $pattern = '/' . implode('|', $excludedPattern) . '/';
+                $pattern = '/' . implode('|', array_merge($excludedPattern, $utilities->getDefaultExcludes())) . '/';
             } else {
-                $pattern = '/' . $excludedPattern . '/';
+                $pattern = '/' . $utilities->getDefaultExcludes(false) . '|' . $excludedPattern . '/';
             }
         }
 
