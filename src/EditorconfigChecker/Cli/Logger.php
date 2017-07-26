@@ -90,12 +90,13 @@ class Logger
         }
 
         printf(PHP_EOL);
-        printf('%d files checked, %d errors occurred' . PHP_EOL, $this->getFiles(), $this->countErrors());
+        printf("\033[31m%d files checked, %d errors occurred\033[0m" .
+            PHP_EOL, $this->getFiles(), $this->countErrors());
         printf('Check log above and fix the issues.' . PHP_EOL);
 
         if ($this->fixed) {
             printf(
-                'Some of the errors are automatically fixed by this tool, remember to add them to your git repository.'
+                "\033[33mSome errors are automatically fixed, remember to add them to your git repository.\033[0m"
                 . PHP_EOL
             );
         }
