@@ -135,7 +135,7 @@ class Logger
      */
     public function printSuccessMessage()
     {
-        printf('Successfully checked %d lines in %d files :)'. PHP_EOL, $this->lines, $this->files);
+        printf("\033[32mSuccessfully checked %d lines in %d files :)\033[0m". PHP_EOL, $this->lines, $this->files);
     }
 
     /**
