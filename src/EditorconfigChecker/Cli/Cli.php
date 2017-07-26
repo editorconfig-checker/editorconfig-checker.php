@@ -60,12 +60,23 @@ class Cli
     {
         $fileNames = array();
         $finder = new Finder();
+        $finderCalled = false;
+
+        $filter = function (\SplFileInfo $file) use ($excludedPattern) {
+            return $excludedPattern ? preg_match($excludedPattern, $file) !== 1 : false;
+        };
 
         if (count($fileGlobs)) {
             // prefilter fileGlobs due to perfomance issues if it is done after
             $prefilteredGlobs = $fileGlobs;
             if ($excludedPattern) {
                 $prefilteredGlobs = array_filter($fileGlobs, function ($glob) use ($excludedPattern) {
+                    // wtf? it finds this file:
+                    // https://github.com/symfony/finder/tree/master/Tests/Fixtures/with%20space
+                    if ($glob === 'space' || $glob === 'space/foo.txt') {
+                        return false;
+                    }
+
                     return preg_match($excludedPattern, $glob) !== 1;
                 });
             }
@@ -80,16 +91,19 @@ class Cli
 
                 $pathinfo = pathinfo($fileGlob);
                 $pathinfo['dirname'] !== '.' ? $dirname = $pathinfo['dirname'] : $dirname = getcwd();
-                $finder->files()->in($dirname)->ignoreDotFiles($ignoreDotFiles);
+                $finder->files()->filter($filter)->in($dirname)->ignoreDotFiles($ignoreDotFiles);
+                $finderCalled = true;
             }
         } else {
-            $finder->files()->in(getcwd())->ignoreDotFiles($ignoreDotFiles);
+            $finder->files()->filter($filter)->in(getcwd())->ignoreDotFiles($ignoreDotFiles);
+            $finderCalled = true;
         }
 
-        foreach ($finder as $file) {
-            if (!in_array($file->getPathName(), $fileNames)
-                && (!$excludedPattern || preg_match($excludedPattern, $file->getPathName()) !== 1)) {
-                array_push($fileNames, $file->getPathName());
+        if ($finderCalled) {
+            foreach ($finder as $file) {
+                if (!in_array($file->getPathName(), $fileNames)) {
+                    array_push($fileNames, $file->getPathName());
+                }
             }
         }
 
