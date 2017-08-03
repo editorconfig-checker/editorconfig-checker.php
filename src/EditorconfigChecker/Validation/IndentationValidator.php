@@ -15,7 +15,7 @@ class IndentationValidator
      * @param string $filename
      * @return int
      */
-    public static function validate($rules, $line, $lineNumber, $filename)
+    public static function validate(array $rules, string $line, int $lineNumber, string $filename) : bool
     {
         $valid = true;
 
@@ -37,7 +37,7 @@ class IndentationValidator
      * @param string $filename
      * @return boolean
      */
-    protected static function validateSpace($rules, $line, $lineNumber, $filename)
+    protected static function validateSpace(array $rules, string $line, int $lineNumber, string $filename) : bool
     {
         preg_match('/^( +)/', $line, $matches);
 
@@ -95,7 +95,7 @@ class IndentationValidator
      * @param string $filename
      * @return boolean
      */
-    protected static function validateTab($line, $lineNumber, $filename)
+    protected static function validateTab(string $line, int $lineNumber, string $filename) : bool
     {
         preg_match('/^(\t+)/', $line, $matches);
 

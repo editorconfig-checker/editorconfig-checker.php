@@ -10,17 +10,17 @@ class Utilities
      * @param array $rules
      * @returns string
      */
-    public static function getEndOfLineChar($rules)
+    public function getEndOfLineChar(array $rules) : string
     {
         if (isset($rules['end_of_line'])) {
             return
                 ($rules['end_of_line'] == 'lf' ? "\n" :
                 ($rules['end_of_line'] == 'cr' ? "\r" :
                 ($rules['end_of_line'] == 'crlf' ? "\r\n" :
-                null)));
+                '')));
         }
 
-        return null;
+        return '';
     }
 
     /**
@@ -29,7 +29,7 @@ class Utilities
      * @param string $filename
      * @return boolean
      */
-    public static function backupFile($filename)
+    public function backupFile(string $filename) : bool
     {
         $tmpPath = '/tmp/editorconfig-checker.php/';
         if (is_file($filename) && (is_dir($tmpPath) || mkdir($tmpPath))) {
@@ -47,7 +47,7 @@ class Utilities
      *
      * @return string
      */
-    public function getDefaultExcludes($asArray = true)
+    public function getDefaultExcludes(bool $asArray = true)
     {
         $defaults = [
             'vendor',

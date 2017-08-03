@@ -16,7 +16,7 @@ class Cli
      * @param array $fileGlobs
      * @return void
      */
-    public function run($options, $fileGlobs)
+    public function run(array $options, array $fileGlobs) : void
     {
         $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
@@ -57,7 +57,7 @@ class Cli
      * @param array $excludedPattern
      * @return array
      */
-    protected function getFileNames($fileGlobs, $ignoreDotFiles, $excludedPattern)
+    protected function getFileNames(array $fileGlobs, bool $ignoreDotFiles, $excludedPattern) : array
     {
         $fileNames = array();
         $finder = new Finder();
@@ -115,9 +115,9 @@ class Cli
      * Get the excluded pattern from the options
      *
      * @param array $options
-     * @return array
+     * @return string
      */
-    protected function getExcludedPatternFromOptions($options)
+    protected function getExcludedPatternFromOptions(array $options) : string
     {
         $pattern = false;
         $ignoreDefaults = isset($options['i']) || isset($options['ignore-defaults']);
@@ -164,7 +164,7 @@ class Cli
      *
      * @return void
      */
-    protected function printUsage()
+    protected function printUsage() : void
     {
         printf('Usage:' . PHP_EOL);
         printf('editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);

@@ -7,19 +7,21 @@ final class UtilitiesTest extends TestCase
 {
     public function testGetEndOfLineChar()
     {
+        $utilities = new Utilities();
+
         $rules = ['end_of_line' => 'lf'];
-        $this->assertEquals(Utilities::getEndOfLineChar($rules), "\n");
+        $this->assertEquals($utilities->getEndOfLineChar($rules), "\n");
 
         $rules = ['end_of_line' => 'cr'];
-        $this->assertEquals(Utilities::getEndOfLineChar($rules), "\r");
+        $this->assertEquals($utilities->getEndOfLineChar($rules), "\r");
 
         $rules = ['end_of_line' => 'crlf'];
-        $this->assertEquals(Utilities::getEndOfLineChar($rules), "\r\n");
+        $this->assertEquals($utilities->getEndOfLineChar($rules), "\r\n");
 
-        $this->assertEquals(Utilities::getEndOfLineChar(null), null);
+        $this->assertEquals($utilities->getEndOfLineChar([]), '');
 
         $rules = ['end_of_line' => 'abc'];
-        $this->assertEquals(Utilities::getEndOfLineChar($rules), null);
+        $this->assertEquals($utilities->getEndOfLineChar($rules), '');
 
     }
 

@@ -13,9 +13,11 @@ class IndentationFix
      * @param int $amount
      * @return boolean
      */
-    public static function tabsToSpaces($filename, $lineNumber, $amount)
+    public static function tabsToSpaces(string $filename, int $lineNumber, int $amount) : bool
     {
-        if (Utilities::backupFile($filename) && $amount) {
+        $utilities = new Utilities();
+
+        if ($utilities->backupFile($filename)) {
             $lines = file($filename);
             $lines[$lineNumber] = preg_replace('/\t/', str_repeat(' ', $amount), $lines[$lineNumber]);
 

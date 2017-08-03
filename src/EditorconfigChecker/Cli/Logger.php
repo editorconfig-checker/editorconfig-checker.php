@@ -27,7 +27,7 @@ class Logger
      *
      * @return Logger
      */
-    public static function getInstance()
+    public static function getInstance() : Logger
     {
         if (!isset(static::$instance)) {
             static::$instance = new static;
@@ -58,7 +58,7 @@ class Logger
     /**
      * Prints the errors from the logger to stdout
      */
-    public function printErrors()
+    public function printErrors() : void
     {
         // only 1 error and no filename given = Fatal Error! (Eg. ".editorconfig not found!")
         if ($this->errors[0]['fileName'] === null && $this->countErrors() === 1) {
@@ -107,7 +107,7 @@ class Logger
      *
      * @return int
      */
-    public function countErrors()
+    public function countErrors() : int
     {
         return count($this->errors);
     }
@@ -119,12 +119,12 @@ class Logger
      *
      * @return void
      */
-    public function clearErrors()
+    public function clearErrors() : void
     {
         $this->errors = array();
     }
 
-    public function errorFixed()
+    public function errorFixed() : void
     {
         $this->fixed = true;
     }
@@ -134,7 +134,7 @@ class Logger
      *
      * @return void
      */
-    public function printSuccessMessage()
+    public function printSuccessMessage() : void
     {
         printf("\033[32mSuccessfully checked %d lines in %d files :)\033[0m". PHP_EOL, $this->lines, $this->files);
     }
@@ -145,7 +145,7 @@ class Logger
      * @param int $files
      * @return void
      */
-    public function setFiles(int $files)
+    public function setFiles(int $files) : void
     {
         $this->files = $files;
     }
@@ -155,7 +155,7 @@ class Logger
      *
      * @return int
      */
-    public function getFiles()
+    public function getFiles() : int
     {
         return $this->files;
     }
@@ -166,7 +166,7 @@ class Logger
      * @param int $lines
      * @return void
      */
-    public function addLines($lines)
+    public function addLines(int $lines) : void
     {
         $this->lines += $lines;
     }
