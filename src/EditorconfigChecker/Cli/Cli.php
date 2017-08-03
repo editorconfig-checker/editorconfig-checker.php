@@ -4,6 +4,7 @@ namespace EditorconfigChecker\Cli;
 
 use EditorconfigChecker\Editorconfig\Editorconfig;
 use EditorconfigChecker\Validation\ValidationProcessor;
+use EditorconfigChecker\Utilities\Utilities;
 use Symfony\Component\Finder\Finder;
 
 class Cli
@@ -119,6 +120,7 @@ class Cli
     protected function getExcludedPatternFromOptions($options)
     {
         $pattern = false;
+        $ignoreDefaults = isset($options['i']) || isset($options['ignore-defaults']);
 
         if (isset($options['e']) && !isset($options['exclude'])) {
             $excludedPattern = $options['e'];
@@ -138,12 +140,20 @@ class Cli
             }
         }
 
+        $utilities = new Utilities();
+
         if (isset($excludedPattern)) {
-            if (is_array($excludedPattern)) {
+            if (is_array($excludedPattern) && !$ignoreDefaults) {
+                $pattern = '/' . implode('|', array_merge($excludedPattern, $utilities->getDefaultExcludes())) . '/';
+            } elseif (!is_array($excludedPattern) && !$ignoreDefaults) {
+                $pattern = '/' . $excludedPattern . '|' . $utilities->getDefaultExcludes(false) . '/';
+            } elseif (is_array($excludedPattern)) {
                 $pattern = '/' . implode('|', $excludedPattern) . '/';
             } else {
                 $pattern = '/' . $excludedPattern . '/';
             }
+        } else {
+            $pattern = '/' . $utilities->getDefaultExcludes(false) . '/';
         }
 
         return $pattern;
@@ -168,6 +178,8 @@ class Cli
         printf("\tuse this flag if you want exclude dotfiles" . PHP_EOL);
         printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
         printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
+        printf('-i, --ignore-defaults'. PHP_EOL);
+        printf("\twill ignore default excludes, see README for details" . PHP_EOL);
         printf('-h, --help'. PHP_EOL);
         printf("\twill print this help text" . PHP_EOL);
         printf('-l, --list-files'. PHP_EOL);

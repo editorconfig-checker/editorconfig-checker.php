@@ -59,29 +59,29 @@ because the special characters(e.g. `|`, `*`, `.` or whatever) will be interpret
 
 Some examples:
 ```sh
-# will filter all files which has vendor in their name or git, png or lock as extension
-bin/editorconfig-checker -e 'vendor|\.git$|\.png$|\.lock$' ./*
-bin/editorconfig-checker --exclude 'vendor|.git$|.png$|.lock$' ./*
+# will filter all files with json extension
+editorconfig-checker -e '\\.json$' ./*
+editorconfig-checker --exclude '\\.json$' ./*
 
-# will filter all files with png and json extension
-bin/editorconfig-checker -e '\.png$|\.json$' ./*
-bin/editorconfig-checker --exclude '\.png$|\.json$' ./*
+# will only filter all files which has TestFiles in their name
+bin/editorconfig-checker -e TestFiles ./*
+bin/editorconfig-checker --exclude TestFiles ./*
 
-# will only filter all files which has vendor in their name
-bin/editorconfig-checker -e vendor ./*
-bin/editorconfig-checker --exclude vendor ./*
+# will filter all files which has TestFiles in their name and json as extension
+bin/editorconfig-checker -e 'TestFiles|\\.json$' ./*
+bin/editorconfig-checker --exclude 'TestFiles|\\.json$' ./*
 
-# will filter all files which has vendor or .git in their name
-bin/editorconfig-checker -e vendor -e '\.git' ./*
-bin/editorconfig-checker --exclude vendor -e '\.git' ./*
+# will filter all files which has TestFiles in their name and exclude dotfiles
+bin/editorconfig-checker -d -e TestFiles  ./*
+bin/editorconfig-checker --dotfiles --exclude TestFiles  ./*
 
-# will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml)
-bin/editorconfig-checker -d -e vendor  ./*
-bin/editorconfig-checker --dotfiles --exclude vendor  ./*
+# will filter all files which has TestFiles in their name and exclude dotfiles and will try to fix issues if they occur
+bin/editorconfig-checker -a -d -e TestFiles  ./*
+bin/editorconfig-checker --auto-fix --dotfiles --exclude TestFiles  ./*
 
-# will filter all files which has vendor in their name and doesn't include dotfiles/dotdirs (like .git or .travis.yml) and will try to fix issues if they occur
-bin/editorconfig-checker -a -d -e vendor  ./*
-bin/editorconfig-checker --auto-fix --dotfiles --exclude vendor  ./*
+# will don't use default excludes and filter all files which has TestFiles in their name
+bin/editorconfig-checker -a -i -d -e TestFiles  ./*
+bin/editorconfig-checker --auto-fix --ignore-defaults --dotfiles --exclude TestFiles  ./*
 ```
 
 If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
@@ -111,10 +111,35 @@ available options:
     use this flag if you want to exclude dotfiles
 -e <PATTERN>, --exclude <PATTERN>
     string or regex to filter files which should not be checked
+-i, --ignore-defaults
+        will ignore default excludes, see README for details
 -h, --help
     will print this help text
 -l, --list-files
     will print all files which are checked to stdout
+```
+
+
+## Default ignores:
+
+```
+'vendor',
+'node_modules',
+'\.gif$',
+'\.png$',
+'\.bmp$',
+'\.jpg$',
+'\.svg$',
+'\.ico$',
+'\.lock$',
+'\.eot$',
+'\.woff$',
+'\.woff2$',
+'\.ttf$',
+'\.bak$',
+'\.bin$',
+'\.min.js$',
+'\.min.css$'
 ```
 
 ## Additional Notes
