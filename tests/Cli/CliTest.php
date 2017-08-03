@@ -70,37 +70,65 @@ final class CliTest extends TestCase
     public function getExcludedPatternFromOptionsDataProvider()
     {
         return array(
-            'NoExcludeAndNoE' => array(
+            'NoExcludeAndNoEWithoutI' => array(
                 array(),
-                false
+                '/vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
             ),
-            'OneE' => array(
-                array('e' => 'e1'),
+            'OneEWithI' => array(
+                array('e' => 'e1', 'i' => false),
                 '/e1/'
             ),
-            'OneExclude' => array(
-                array('exclude' => 'exclude1'),
+            'OneExcludeWithI' => array(
+                array('exclude' => 'exclude1', 'i' => false),
                 '/exclude1/'
             ),
-            'TwoE' => array(
-                array('e' => array('e1', 'e2')),
+            'TwoEWithI' => array(
+                array('e' => array('e1', 'e2'), 'i' => false),
                 '/e1|e2/'
             ),
-            'TwoExclude' => array(
-                array('exclude' => array('exclude1', 'exclude2')),
+            'TwoExcludeWithI' => array(
+                array('exclude' => array('exclude1', 'exclude2'), 'i' => false),
                 '/exclude1|exclude2/'
             ),
-            'OneExcludeAndOneE' => array(
-                array('exclude' => 'exclude1', 'e' => 'e1'),
+            'OneExcludeAndOneEWithI' => array(
+                array('exclude' => 'exclude1', 'e' => 'e1', 'i' => false),
                 '/e1|exclude1/'
             ),
-            'OneExcludeTwoE' => array(
-                array('exclude' => 'exclude1', 'e' => array('e1', 'e2')),
+            'OneExcludeTwoEWithI' => array(
+                array('exclude' => 'exclude1', 'e' => array('e1', 'e2'), 'i' => false),
                 '/e1|e2|exclude1/'
             ),
-            'TwoExcludeTwoE' => array(
-                array('exclude' => array('exclude1', 'exclude2'), 'e' => array('e1', 'e2')),
+            'TwoExcludeTwoEWithI' => array(
+                array('exclude' => array('exclude1', 'exclude2'), 'e' => array('e1', 'e2'), 'i' => false),
                 '/e1|e2|exclude1|exclude2/'
+            ),
+            'OneEWithoutI' => array(
+                array('e' => 'e1'),
+                '/e1|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
+            ),
+            'OneExcludeWithoutI' => array(
+                array('exclude' => 'exclude1'),
+                '/exclude1|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
+            ),
+            'TwoEWithoutI' => array(
+                array('e' => array('e1', 'e2')),
+                '/e1|e2|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
+            ),
+            'TwoExcludeWithoutI' => array(
+                array('exclude' => array('exclude1', 'exclude2')),
+                '/exclude1|exclude2|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
+            ),
+            'OneExcludeAndOneEWithoutI' => array(
+                array('exclude' => 'exclude1', 'e' => 'e1'),
+                '/e1|exclude1|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
+            ),
+            'OneExcludeTwoEWithoutI' => array(
+                array('exclude' => 'exclude1', 'e' => array('e1', 'e2')),
+                '/e1|e2|exclude1|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
+            ),
+            'TwoExcludeTwoEWithoutI' => array(
+                array('exclude' => array('exclude1', 'exclude2'), 'e' => array('e1', 'e2')),
+                '/e1|e2|exclude1|exclude2|vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$/'
             )
         );
     }
