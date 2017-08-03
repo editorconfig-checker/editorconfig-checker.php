@@ -13,7 +13,7 @@ class FinalNewlineFix
      * @param string $eolChar
      * @return boolean
      */
-    public static function insert(string $filename, string $eolChar) : bool
+    public function insert(string $filename, string $eolChar) : bool
     {
         $utilities = new Utilities();
 

@@ -14,7 +14,7 @@ class TrailingWhitespaceFix
      * @param string $eolChar
      * @return boolean
      */
-    public static function trim(string $filename, int $lineNumber, string $eolChar) : bool
+    public function trim(string $filename, int $lineNumber, string $eolChar) : bool
     {
         $utilities = new Utilities();
         if ($utilities->backupFile($filename)) {

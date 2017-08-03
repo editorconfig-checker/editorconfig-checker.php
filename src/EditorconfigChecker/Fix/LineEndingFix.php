@@ -13,7 +13,7 @@ class LineEndingFix
      * @param string $eolChar
      * @return boolean
      */
-    public static function replace(string $filename, string $eolChar) : bool
+    public function replace(string $filename, string $eolChar) : bool
     {
         $utilities = new Utilities();
 

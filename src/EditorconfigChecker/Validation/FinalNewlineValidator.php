@@ -48,7 +48,9 @@ class FinalNewlineValidator
                 Logger::getInstance()->addError('Missing final newline', $filename);
 
                 $utilities = new Utilities();
-                if ($autoFix && FinalNewlineFix::insert($filename, $utilities->getEndOfLineChar($rules))) {
+                $finalNewlineFix = new FinalNewlineFix();
+
+                if ($autoFix && $finalNewlineFix->insert($filename, $utilities->getEndOfLineChar($rules))) {
                     Logger::getInstance()->errorFixed();
                 }
 

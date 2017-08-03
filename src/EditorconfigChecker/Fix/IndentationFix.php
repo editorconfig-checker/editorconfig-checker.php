@@ -13,7 +13,7 @@ class IndentationFix
      * @param int $amount
      * @return boolean
      */
-    public static function tabsToSpaces(string $filename, int $lineNumber, int $amount) : bool
+    public function tabsToSpaces(string $filename, int $lineNumber, int $amount) : bool
     {
         $utilities = new Utilities();
 

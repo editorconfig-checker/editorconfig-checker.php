@@ -43,7 +43,8 @@ class LineEndingValidator
                 if ($eols !== $lineNumber + 1) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
 
-                    if ($autoFix && LineEndingFix::replace($filename, $utilities->getEndOfLineChar($rules))) {
+                    $lineEdingFix = new LineEndingFix();
+                    if ($autoFix && $lineEdingFix->replace($filename, $utilities->getEndOfLineChar($rules))) {
                         Logger::getInstance()->errorFixed();
                     }
                     return false;
@@ -52,7 +53,7 @@ class LineEndingValidator
                 if ($eols !== $lineNumber) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
 
-                    if ($autoFix && LineEndingFix::replace($filename, $utilities->getEndOfLineChar($rules))) {
+                    if ($autoFix && $lineEdingFix->replace($filename, $utilities->getEndOfLineChar($rules))) {
                         Logger::getInstance()->errorFixed();
                     }
 

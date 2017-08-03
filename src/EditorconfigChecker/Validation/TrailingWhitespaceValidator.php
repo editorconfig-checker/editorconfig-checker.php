@@ -26,8 +26,9 @@ class TrailingWhitespaceValidator
                 Logger::getInstance()->addError('Trailing whitespace', $filename, $lineNumber + 1);
 
                 $utilities = new Utilities();
+                $trailingWhitespaceFix = new TrailingWhitespaceFix();
                 if ($autoFix &&
-                    TrailingWhitespaceFix::trim($filename, $lineNumber, $utilities->getEndOfLineChar($rules))) {
+                    $trailingWhitespaceFix->trim($filename, $lineNumber, $utilities->getEndOfLineChar($rules))) {
                     Logger::getInstance()->errorFixed();
                 }
 

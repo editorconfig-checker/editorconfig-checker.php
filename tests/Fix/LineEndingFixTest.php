@@ -11,7 +11,9 @@ final class LineEndingFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/LineEnding/CrToLf/afterFix.php';
         $eolChar = "\n";
 
-        LineEndingFix::replace($originalFile, $eolChar);
+        $lineEndingFix = new LineEndingFix();
+
+        $lineEndingFix->replace($originalFile, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
@@ -22,7 +24,9 @@ final class LineEndingFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/LineEnding/LfToCr/afterFix.php';
         $eolChar = "\r";
 
-        LineEndingFix::replace($originalFile, $eolChar);
+        $lineEndingFix = new LineEndingFix();
+
+        $lineEndingFix->replace($originalFile, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
@@ -33,7 +37,9 @@ final class LineEndingFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/LineEnding/CrLfToLf/afterFix.php';
         $eolChar = "\n";
 
-        LineEndingFix::replace($originalFile, $eolChar);
+        $lineEndingFix = new LineEndingFix();
+
+        $lineEndingFix->replace($originalFile, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
@@ -44,7 +50,9 @@ final class LineEndingFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/LineEnding/LfToCrLf/afterFix.php';
         $eolChar = "\r\n";
 
-        LineEndingFix::replace($originalFile, $eolChar);
+        $lineEndingFix = new LineEndingFix();
+
+        $lineEndingFix->replace($originalFile, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
@@ -55,7 +63,9 @@ final class LineEndingFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/LineEnding/CrToCrLf/afterFix.php';
         $eolChar = "\r\n";
 
-        LineEndingFix::replace($originalFile, $eolChar);
+        $lineEndingFix = new LineEndingFix();
+
+        $lineEndingFix->replace($originalFile, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
@@ -66,7 +76,9 @@ final class LineEndingFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/LineEnding/CrLfToCr/afterFix.php';
         $eolChar = "\r";
 
-        LineEndingFix::replace($originalFile, $eolChar);
+        $lineEndingFix = new LineEndingFix();
+
+        $lineEndingFix->replace($originalFile, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
