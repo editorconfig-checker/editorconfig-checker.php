@@ -19,7 +19,7 @@ class LineEndingValidator
      * @return void
      *
      */
-    public static function validate(
+    public function validate(
         array $rules,
         string $filename,
         string $content,

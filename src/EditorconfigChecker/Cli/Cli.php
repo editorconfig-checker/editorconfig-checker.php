@@ -41,7 +41,8 @@ class Cli
         }
 
         if ($fileCount > 0) {
-            ValidationProcessor::validateFiles($fileNames, $autoFix);
+            $validationProcessor = new ValidationProcessor();
+            $validationProcessor->validateFiles($fileNames, $autoFix);
         }
 
         Logger::getInstance()->setFiles($fileCount);

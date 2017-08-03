@@ -17,7 +17,7 @@ class FinalNewlineValidator
      * @param boolean $autoFix
      * @return boolean
      */
-    public static function validate(array $rules, string $filename, array $content, bool $autoFix) : bool
+    public function validate(array $rules, string $filename, array $content, bool $autoFix) : bool
     {
         if (isset($rules['insert_final_newline']) && $rules['insert_final_newline'] && count($content)) {
             $lastLine = $content[count($content) - 1];

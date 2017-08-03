@@ -18,7 +18,7 @@ class TrailingWhitespaceValidator
      * @param boolean $autoFix
      * @return boolean
      */
-    public static function validate(array $rules, string $line, int $lineNumber, string $filename, bool $autoFix) : bool
+    public function validate(array $rules, string $line, int $lineNumber, string $filename, bool $autoFix) : bool
     {
         if (strlen($line) > 0 && isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
             preg_match('/^.*[\t ]+$/', $line, $matches);
