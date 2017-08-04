@@ -1,8 +1,7 @@
 <?php
 namespace EditorconfigChecker\Editorconfig;
 
-use Webmozart\Glob\Glob;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Finder\Glob;
 
 class Editorconfig
 {
@@ -31,7 +30,10 @@ class Editorconfig
             $rules = $editorconfig[$pattern];
 
             return $pattern === 'root' ? ['root' => $editorconfig[$pattern]] : (
-                Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute('**/' . $pattern, getcwd())) ?
+                preg_match(
+                    Glob::toRegex(sprintf('%s/**/%s', getcwd(), $pattern)),
+                    sprintf('%s/%s', getcwd(), $fileName)
+                ) ?
                     array_merge($carry, $rules) : $carry
             );
         }, []);

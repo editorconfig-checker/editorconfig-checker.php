@@ -103,8 +103,8 @@ class Cli
 
         if ($finderCalled) {
             foreach ($finder as $file) {
-                if (!in_array($file->getPathName(), $fileNames)) {
-                    array_push($fileNames, $file->getPathName());
+                if (!in_array($file->getRealPath(), $fileNames)) {
+                    array_push($fileNames, $file->getRealPath());
                 }
             }
         }
