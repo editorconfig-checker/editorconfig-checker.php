@@ -39,21 +39,21 @@ class ValidationProcessor
     {
         $content = file($fileName);
 
-        $indentationValidator = new IndentationValidator();
-        $trailingWhitespaceValidator = new TrailingWhitespaceValidator();
+        $indentation = new IndentationValidator();
+        $trailingWhitespace = new TrailingWhitespaceValidator();
 
         foreach ($content as $lineNumber => $line) {
-            $indentationValidator->validate($rules, $line, $lineNumber, $fileName);
-            $trailingWhitespaceValidator->validate($rules, $line, $lineNumber, $fileName, $autoFix);
+            $indentation->validate($rules, $line, $lineNumber, $fileName);
+            $trailingWhitespace->validate($rules, $line, $lineNumber, $fileName, $autoFix);
         }
 
         /* to prevent checking of empty files */
         if (isset($lineNumber)) {
-            $finalNewlineValidator = new FinalNewlineValidator();
-            $lineEndingValidator = new LineEndingValidator();
+            $finalNewline = new FinalNewlineValidator();
+            $lineEnding = new LineEndingValidator();
 
-            $finalNewlineValidator->validate($rules, $fileName, $content, $autoFix);
-            $lineEndingValidator->validate($rules, $fileName, file_get_contents($fileName), $lineNumber, $autoFix);
+            $finalNewline->validate($rules, $fileName, $content, $autoFix);
+            $lineEnding->validate($rules, $fileName, file_get_contents($fileName), $lineNumber, $autoFix);
 
             Logger::getInstance()->addLines($lineNumber);
         }
