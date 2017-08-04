@@ -120,7 +120,7 @@ class Cli
      */
     protected function getExcludedPatternFromOptions(array $options) : string
     {
-        $pattern = false;
+        $pattern = '';
         $ignoreDefaults = isset($options['i']) || isset($options['ignore-defaults']);
 
         if (isset($options['e']) && !isset($options['exclude'])) {
@@ -145,19 +145,19 @@ class Cli
 
         if (isset($excludedPattern)) {
             if (is_array($excludedPattern) && !$ignoreDefaults) {
-                $pattern = '/' . implode('|', array_merge($excludedPattern, $utilities->getDefaultExcludes())) . '/';
+                $pattern = implode('|', array_merge($excludedPattern, $utilities->getDefaultExcludesAsArray()));
             } elseif (!is_array($excludedPattern) && !$ignoreDefaults) {
-                $pattern = '/' . $excludedPattern . '|' . $utilities->getDefaultExcludes(false) . '/';
+                $pattern = $excludedPattern . '|' . $utilities->getDefaultExcludesAsString();
             } elseif (is_array($excludedPattern)) {
-                $pattern = '/' . implode('|', $excludedPattern) . '/';
+                $pattern = implode('|', $excludedPattern);
             } else {
-                $pattern = '/' . $excludedPattern . '/';
+                $pattern = $excludedPattern;
             }
         } else {
-            $pattern = '/' . $utilities->getDefaultExcludes(false) . '/';
+            $pattern = $utilities->getDefaultExcludesAsString();
         }
 
-        return $pattern;
+        return '/' . $pattern . '/';
     }
 
     /**

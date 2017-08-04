@@ -51,8 +51,7 @@ final class UtilitiesTest extends TestCase
 
         $utilities = new Utilities();
 
-        $this->assertEquals($utilities->getDefaultExcludes(), $arr);
-        $this->assertEquals($utilities->getDefaultExcludes(true), $arr);
-        $this->assertEquals($utilities->getDefaultExcludes(false), $str);
+        $this->assertEquals($utilities->getDefaultExcludesAsArray(), $arr);
+        $this->assertEquals($utilities->getDefaultExcludesAsString(), $str);
     }
 }

@@ -4,6 +4,26 @@ namespace EditorconfigChecker\Utilities;
 
 class Utilities
 {
+    protected $defaults = [
+        'vendor',
+        'node_modules',
+        '\.gif$',
+        '\.png$',
+        '\.bmp$',
+        '\.jpg$',
+        '\.svg$',
+        '\.ico$',
+        '\.lock$',
+        '\.eot$',
+        '\.woff$',
+        '\.woff2$',
+        '\.ttf$',
+        '\.bak$',
+        '\.bin$',
+        '\.min.js$',
+        '\.min.css$'
+    ];
+
     /**
      * returns the end of line character from editorconfig rules
      *
@@ -43,32 +63,22 @@ class Utilities
     }
 
     /**
-     * returns the default exclude pattern
+     * returns the default exclude pattern as array
+     *
+     * @return array
+     */
+    public function getDefaultExcludesAsArray() : array
+    {
+        return $this->defaults;
+    }
+
+    /**
+     * returns the default exclude pattern as string
      *
      * @return string
      */
-    public function getDefaultExcludes(bool $asArray = true)
+    public function getDefaultExcludesAsString() : string
     {
-        $defaults = [
-            'vendor',
-            'node_modules',
-            '\.gif$',
-            '\.png$',
-            '\.bmp$',
-            '\.jpg$',
-            '\.svg$',
-            '\.ico$',
-            '\.lock$',
-            '\.eot$',
-            '\.woff$',
-            '\.woff2$',
-            '\.ttf$',
-            '\.bak$',
-            '\.bin$',
-            '\.min.js$',
-            '\.min.css$'
-        ];
-
-        return ($asArray ? $defaults : implode('|', $defaults));
+        return implode('|', $this->defaults);
     }
 }

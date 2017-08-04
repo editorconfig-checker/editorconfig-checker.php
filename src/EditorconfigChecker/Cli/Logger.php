@@ -50,7 +50,7 @@ class Logger
      * @param string $file
      * @param int $lineNumber
      */
-    public function addError($message, $fileName = null, $lineNumber = null)
+    public function addError(string $message, string $fileName = '', string $lineNumber = '')
     {
         $this->errors[] = ['lineNumber' => $lineNumber, 'fileName' => $fileName, 'message' => $message];
     }
