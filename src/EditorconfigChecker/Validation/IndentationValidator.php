@@ -15,14 +15,14 @@ class IndentationValidator
      * @param string $filename
      * @return int
      */
-    public static function validate($rules, $line, $lineNumber, $filename)
+    public function validate(array $rules, string $line, int $lineNumber, string $filename) : bool
     {
         $valid = true;
 
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
-            $valid = IndentationValidator::validateSpace($rules, $line, $lineNumber, $filename);
+            $valid = $this->validateSpace($rules, $line, $lineNumber, $filename);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
-            $valid = IndentationValidator::validateTab($line, $lineNumber, $filename);
+            $valid = $this->validateTab($line, $lineNumber, $filename);
         }
 
         return $valid;
@@ -37,7 +37,7 @@ class IndentationValidator
      * @param string $filename
      * @return boolean
      */
-    protected static function validateSpace($rules, $line, $lineNumber, $filename)
+    protected function validateSpace(array $rules, string $line, int $lineNumber, string $filename) : bool
     {
         preg_match('/^( +)/', $line, $matches);
 
@@ -95,7 +95,7 @@ class IndentationValidator
      * @param string $filename
      * @return boolean
      */
-    protected static function validateTab($line, $lineNumber, $filename)
+    protected function validateTab(string $line, int $lineNumber, string $filename) : bool
     {
         preg_match('/^(\t+)/', $line, $matches);
 

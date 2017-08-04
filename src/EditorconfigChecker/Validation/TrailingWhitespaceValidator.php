@@ -18,15 +18,17 @@ class TrailingWhitespaceValidator
      * @param boolean $autoFix
      * @return boolean
      */
-    public static function validate($rules, $line, $lineNumber, $filename, $autoFix)
+    public function validate(array $rules, string $line, int $lineNumber, string $filename, bool $autoFix) : bool
     {
         if (strlen($line) > 0 && isset($rules['trim_trailing_whitespace']) && $rules['trim_trailing_whitespace']) {
             preg_match('/^.*[\t ]+$/', $line, $matches);
             if (isset($matches[0])) {
                 Logger::getInstance()->addError('Trailing whitespace', $filename, $lineNumber + 1);
 
+                $utilities = new Utilities();
+                $trailingWhitespace = new TrailingWhitespaceFix();
                 if ($autoFix &&
-                    TrailingWhitespaceFix::trim($filename, $lineNumber, Utilities::getEndOfLineChar($rules))) {
+                    $trailingWhitespace->trim($filename, $lineNumber, $utilities->getEndOfLineChar($rules))) {
                     Logger::getInstance()->errorFixed();
                 }
 

@@ -53,7 +53,7 @@ final class CliTest extends TestCase
      */
     public function testGetFileNames($fileGlobs, $dotfiles, $excludedPattern, $expectedFiles)
     {
-        $cli = new Cli;
+        $cli = new Cli();
 
         $fileNames = self::callMethod($cli, 'getFileNames', array(
             $fileGlobs,
@@ -139,7 +139,7 @@ final class CliTest extends TestCase
      */
     public function testGetExcludedPatternFromOptions($options, $expectedPattern)
     {
-        $cli = new Cli;
+        $cli = new Cli();
 
         $pattern = self::callMethod($cli, 'getExcludedPatternFromOptions', array(
             $options

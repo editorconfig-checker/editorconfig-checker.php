@@ -16,7 +16,7 @@ class Cli
      * @param array $fileGlobs
      * @return void
      */
-    public function run($options, $fileGlobs)
+    public function run(array $options, array $fileGlobs)
     {
         $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
@@ -41,7 +41,8 @@ class Cli
         }
 
         if ($fileCount > 0) {
-            ValidationProcessor::validateFiles($fileNames, $autoFix);
+            $validationProcessor = new ValidationProcessor();
+            $validationProcessor->validateFiles($fileNames, $autoFix);
         }
 
         Logger::getInstance()->setFiles($fileCount);
@@ -57,7 +58,7 @@ class Cli
      * @param array $excludedPattern
      * @return array
      */
-    protected function getFileNames($fileGlobs, $ignoreDotFiles, $excludedPattern)
+    protected function getFileNames(array $fileGlobs, bool $ignoreDotFiles, $excludedPattern) : array
     {
         $fileNames = array();
         $finder = new Finder();
@@ -115,11 +116,11 @@ class Cli
      * Get the excluded pattern from the options
      *
      * @param array $options
-     * @return array
+     * @return string
      */
-    protected function getExcludedPatternFromOptions($options)
+    protected function getExcludedPatternFromOptions(array $options) : string
     {
-        $pattern = false;
+        $pattern = '';
         $ignoreDefaults = isset($options['i']) || isset($options['ignore-defaults']);
 
         if (isset($options['e']) && !isset($options['exclude'])) {
@@ -144,19 +145,19 @@ class Cli
 
         if (isset($excludedPattern)) {
             if (is_array($excludedPattern) && !$ignoreDefaults) {
-                $pattern = '/' . implode('|', array_merge($excludedPattern, $utilities->getDefaultExcludes())) . '/';
+                $pattern = implode('|', array_merge($excludedPattern, $utilities->getDefaultExcludesAsArray()));
             } elseif (!is_array($excludedPattern) && !$ignoreDefaults) {
-                $pattern = '/' . $excludedPattern . '|' . $utilities->getDefaultExcludes(false) . '/';
+                $pattern = $excludedPattern . '|' . $utilities->getDefaultExcludesAsString();
             } elseif (is_array($excludedPattern)) {
-                $pattern = '/' . implode('|', $excludedPattern) . '/';
+                $pattern = implode('|', $excludedPattern);
             } else {
-                $pattern = '/' . $excludedPattern . '/';
+                $pattern = $excludedPattern;
             }
         } else {
-            $pattern = '/' . $utilities->getDefaultExcludes(false) . '/';
+            $pattern = $utilities->getDefaultExcludesAsString();
         }
 
-        return $pattern;
+        return '/' . $pattern . '/';
     }
 
     /**

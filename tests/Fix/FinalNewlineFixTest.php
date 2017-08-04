@@ -11,7 +11,9 @@ final class FinalNewlineFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/InsertFinalNewline/afterFix.php';
         $eolChar = "\n";
 
-        FinalNewlineFix::insert($originalFile, $eolChar);
+        $finalNewlineFix = new FinalNewlineFix();
+        $finalNewlineFix->insert($originalFile, $eolChar);
+
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }

@@ -13,9 +13,11 @@ class FinalNewlineFix
      * @param string $eolChar
      * @return boolean
      */
-    public static function insert($filename, $eolChar)
+    public function insert(string $filename, string $eolChar) : bool
     {
-        if (Utilities::backupFile($filename) && $eolChar) {
+        $utilities = new Utilities();
+
+        if ($utilities->backupFile($filename)) {
             return file_put_contents($filename, $eolChar, FILE_APPEND);
         }
 

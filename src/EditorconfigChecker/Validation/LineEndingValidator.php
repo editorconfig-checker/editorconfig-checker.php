@@ -14,13 +14,18 @@ class LineEndingValidator
      * @param array $rules
      * @param string $filename
      * @param string $content
-     * @param int $lineNumbers
+     * @param int $lineNumber
      * @param boolean $autoFix
      * @return void
      *
      */
-    public static function validate($rules, $filename, $content, $lineNumbers, $autoFix)
-    {
+    public function validate(
+        array $rules,
+        string $filename,
+        string $content,
+        int $lineNumber,
+        bool $autoFix
+    ) : bool {
         if (isset($rules['end_of_line'])) {
             if ($rules['end_of_line'] === 'lf') {
                 str_replace("\n", '', $content, $eolsLF);
@@ -35,19 +40,20 @@ class LineEndingValidator
             }
 
             if (isset($rules['insert_final_newline']) && $rules['insert_final_newline']) {
-                if ($eols !== $lineNumbers + 1) {
+                if ($eols !== $lineNumber + 1) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
 
-                    if ($autoFix && LineEndingFix::replace($filename, Utilities::getEndOfLineChar($rules))) {
+                    $lineEdingFix = new LineEndingFix();
+                    if ($autoFix && $lineEdingFix->replace($filename, $utilities->getEndOfLineChar($rules))) {
                         Logger::getInstance()->errorFixed();
                     }
                     return false;
                 }
             } else {
-                if ($eols !== $lineNumbers) {
+                if ($eols !== $lineNumber) {
                     Logger::getInstance()->addError('Not all lines have the correct end of line character!', $filename);
 
-                    if ($autoFix && LineEndingFix::replace($filename, Utilities::getEndOfLineChar($rules))) {
+                    if ($autoFix && $lineEdingFix->replace($filename, $utilities->getEndOfLineChar($rules))) {
                         Logger::getInstance()->errorFixed();
                     }
 

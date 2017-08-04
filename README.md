@@ -48,6 +48,7 @@ Then you could create a script in your `composer.json` like this:
 ```
 
 You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
+Shell globbing is possible for example: `editorconfig-checker ./src/EditorconfigChecker/{Cli,Fix}/*`
 
 If you want to filter the files you could do this via the `-e|--exclude` parameter 
 
@@ -106,7 +107,7 @@ Usage:
 editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>
 available options:
 -a, --auto-fix
-    will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)
+    will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace, tabs to spaces)
 -d, --dotfiles
     use this flag if you want to exclude dotfiles
 -e <PATTERN>, --exclude <PATTERN>

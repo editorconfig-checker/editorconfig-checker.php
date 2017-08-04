@@ -12,7 +12,7 @@ class Editorconfig
      * @param string $editorconfigPath
      * @return array
      */
-    protected function getRulesAsArray($editorconfigPath)
+    protected function getRulesAsArray(string $editorconfigPath) : array
     {
         return parse_ini_file($editorconfigPath, true);
     }
@@ -25,7 +25,7 @@ class Editorconfig
      * @param array $editorconfig
      * @return array
      */
-    protected function mergeRulesForFile($fileName, $editorconfig)
+    protected function mergeRulesForFile(string $fileName, array $editorconfig) : array
     {
         return array_reduce(array_keys($editorconfig), function ($carry, $pattern) use ($editorconfig, $fileName) {
             $rules = $editorconfig[$pattern];
@@ -45,8 +45,11 @@ class Editorconfig
      * @param string $rootDir
      * @return array
      */
-    protected function getNearestMatchingEditorconfigRules($filePath, $fileBasename, $rootDir)
-    {
+    protected function getNearestMatchingEditorconfigRules(
+        string $filePath,
+        string $fileBasename,
+        string $rootDir
+    ) : array {
         $currentPath = $filePath;
         $editorconfig = null;
 
@@ -65,9 +68,10 @@ class Editorconfig
      * Returns the editorconfig rules for a given file
      *
      * @param string $fileName
+     * @param string $rootDir
      * @return array
      */
-    public function getRulesForFile($fileName, $rootDir)
+    public function getRulesForFile(string $fileName, string $rootDir) : array
     {
         $pathinfo = pathinfo($rootDir . '/' . $this->normalizeFileName($fileName));
         $filePath = $pathinfo['dirname'];
@@ -85,7 +89,7 @@ class Editorconfig
      * @param string $fileName
      * @return string
      */
-    private function normalizeFileName($fileName)
+    private function normalizeFileName(string $fileName) : string
     {
         if (strpos($fileName, './') === 0) {
             return substr($fileName, 2);

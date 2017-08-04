@@ -15,7 +15,7 @@ class ValidationProcessor
      * @param boolean $autoFix
      * @return void
      */
-    public static function validateFiles($fileNames, $autoFix)
+    public function validateFiles(array $fileNames, bool $autoFix)
     {
         /* Maybe make this an option? */
         $rootDir = getcwd();
@@ -23,7 +23,7 @@ class ValidationProcessor
 
         foreach ($fileNames as $fileName) {
             $rules = $editorconfig->getRulesForFile($fileName, $rootDir);
-            ValidationProcessor::validateFile($rules, $fileName, $autoFix);
+            $this->validateFile($rules, $fileName, $autoFix);
         }
     }
 
@@ -35,19 +35,26 @@ class ValidationProcessor
      * @param boolean $autoFix
      * @return void
      */
-    public static function validateFile($rules, $fileName, $autoFix)
+    public function validateFile(array $rules, string $fileName, bool $autoFix)
     {
         $content = file($fileName);
 
+        $indentation = new IndentationValidator();
+        $trailingWhitespace = new TrailingWhitespaceValidator();
+
         foreach ($content as $lineNumber => $line) {
-            IndentationValidator::validate($rules, $line, $lineNumber, $fileName);
-            TrailingWhitespaceValidator::validate($rules, $line, $lineNumber, $fileName, $autoFix);
+            $indentation->validate($rules, $line, $lineNumber, $fileName);
+            $trailingWhitespace->validate($rules, $line, $lineNumber, $fileName, $autoFix);
         }
 
         /* to prevent checking of empty files */
         if (isset($lineNumber)) {
-            FinalNewlineValidator::validate($rules, $fileName, $content, $autoFix);
-            LineEndingValidator::validate($rules, $fileName, file_get_contents($fileName), $lineNumber, $autoFix);
+            $finalNewline = new FinalNewlineValidator();
+            $lineEnding = new LineEndingValidator();
+
+            $finalNewline->validate($rules, $fileName, $content, $autoFix);
+            $lineEnding->validate($rules, $fileName, file_get_contents($fileName), $lineNumber, $autoFix);
+
             Logger::getInstance()->addLines($lineNumber);
         }
     }

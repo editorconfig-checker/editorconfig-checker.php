@@ -13,9 +13,11 @@ class LineEndingFix
      * @param string $eolChar
      * @return boolean
      */
-    public static function replace($filename, $eolChar)
+    public function replace(string $filename, string $eolChar) : bool
     {
-        if (Utilities::backupFile($filename) && $eolChar) {
+        $utilities = new Utilities();
+
+        if ($utilities->backupFile($filename)) {
             $content = file_get_contents($filename);
             /* $content = preg_replace('~\R~u', $eolChar, $content); */
             $content = preg_replace('~(*BSR_ANYCRLF)\R~', $eolChar, $content);

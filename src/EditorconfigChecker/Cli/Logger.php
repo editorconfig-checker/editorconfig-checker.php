@@ -27,7 +27,7 @@ class Logger
      *
      * @return Logger
      */
-    public static function getInstance()
+    public static function getInstance() : Logger
     {
         if (!isset(static::$instance)) {
             static::$instance = new static;
@@ -50,7 +50,7 @@ class Logger
      * @param string $file
      * @param int $lineNumber
      */
-    public function addError($message, $fileName = null, $lineNumber = null)
+    public function addError(string $message, string $fileName = '', string $lineNumber = '')
     {
         $this->errors[] = ['lineNumber' => $lineNumber, 'fileName' => $fileName, 'message' => $message];
     }
@@ -107,7 +107,7 @@ class Logger
      *
      * @return int
      */
-    public function countErrors()
+    public function countErrors() : int
     {
         return count($this->errors);
     }
@@ -155,7 +155,7 @@ class Logger
      *
      * @return int
      */
-    public function getFiles()
+    public function getFiles() : int
     {
         return $this->files;
     }
@@ -166,7 +166,7 @@ class Logger
      * @param int $lines
      * @return void
      */
-    public function addLines($lines)
+    public function addLines(int $lines)
     {
         $this->lines += $lines;
     }

@@ -11,12 +11,14 @@ final class TrailingWhitespaceFixTest extends TestCase
         $afterFixFile = './Build/TestFiles/Fix/TrimTrailingWhitespace/afterFix.php';
         $eolChar = "\n";
 
+        $trailingWhitespaceFix = new TrailingWhitespaceFix();
+
         /* spaces */
-        TrailingWhitespaceFix::trim($originalFile, 0, $eolChar);
+        $trailingWhitespaceFix->trim($originalFile, 0, $eolChar);
         /* mixed */
-        TrailingWhitespaceFix::trim($originalFile, 1, $eolChar);
+        $trailingWhitespaceFix->trim($originalFile, 1, $eolChar);
         /* tabs */
-        TrailingWhitespaceFix::trim($originalFile, 2, $eolChar);
+        $trailingWhitespaceFix->trim($originalFile, 2, $eolChar);
         $this->assertEquals(sha1_file($originalFile), sha1_file($afterFixFile));
         exec('git checkout -- ' . $originalFile);
     }
