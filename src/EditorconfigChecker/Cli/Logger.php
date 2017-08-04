@@ -58,7 +58,7 @@ class Logger
     /**
      * Prints the errors from the logger to stdout
      */
-    public function printErrors() : void
+    public function printErrors()
     {
         // only 1 error and no filename given = Fatal Error! (Eg. ".editorconfig not found!")
         if ($this->errors[0]['fileName'] === null && $this->countErrors() === 1) {
@@ -119,12 +119,12 @@ class Logger
      *
      * @return void
      */
-    public function clearErrors() : void
+    public function clearErrors()
     {
         $this->errors = array();
     }
 
-    public function errorFixed() : void
+    public function errorFixed()
     {
         $this->fixed = true;
     }
@@ -134,7 +134,7 @@ class Logger
      *
      * @return void
      */
-    public function printSuccessMessage() : void
+    public function printSuccessMessage()
     {
         printf("\033[32mSuccessfully checked %d lines in %d files :)\033[0m". PHP_EOL, $this->lines, $this->files);
     }
@@ -145,7 +145,7 @@ class Logger
      * @param int $files
      * @return void
      */
-    public function setFiles(int $files) : void
+    public function setFiles(int $files)
     {
         $this->files = $files;
     }
@@ -166,7 +166,7 @@ class Logger
      * @param int $lines
      * @return void
      */
-    public function addLines(int $lines) : void
+    public function addLines(int $lines)
     {
         $this->lines += $lines;
     }

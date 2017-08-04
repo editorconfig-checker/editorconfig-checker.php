@@ -16,7 +16,7 @@ class Cli
      * @param array $fileGlobs
      * @return void
      */
-    public function run(array $options, array $fileGlobs) : void
+    public function run(array $options, array $fileGlobs)
     {
         $usage = count($fileGlobs) === 0 || isset($options['h']) || isset($options['help']);
         $showFiles = isset($options['l']) || isset($options['list-files']);
@@ -165,7 +165,7 @@ class Cli
      *
      * @return void
      */
-    protected function printUsage() : void
+    protected function printUsage()
     {
         printf('Usage:' . PHP_EOL);
         printf('editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);

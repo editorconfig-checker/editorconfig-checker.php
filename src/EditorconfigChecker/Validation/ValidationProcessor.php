@@ -15,7 +15,7 @@ class ValidationProcessor
      * @param boolean $autoFix
      * @return void
      */
-    public function validateFiles(array $fileNames, bool $autoFix) : void
+    public function validateFiles(array $fileNames, bool $autoFix)
     {
         /* Maybe make this an option? */
         $rootDir = getcwd();
@@ -35,7 +35,7 @@ class ValidationProcessor
      * @param boolean $autoFix
      * @return void
      */
-    public function validateFile(array $rules, string $fileName, bool $autoFix) : void
+    public function validateFile(array $rules, string $fileName, bool $autoFix)
     {
         $content = file($fileName);
 
