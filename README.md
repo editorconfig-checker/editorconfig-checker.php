@@ -143,6 +143,8 @@ available options:
 '\.min.css$'
 ```
 
+Suggestions are welcome!
+
 ## Additional Notes
 
 I use semantic versioning so every breaking change will result in the increase of the major version.
