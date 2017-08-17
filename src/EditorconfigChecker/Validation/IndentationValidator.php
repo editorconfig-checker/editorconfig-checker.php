@@ -3,6 +3,7 @@
 namespace EditorconfigChecker\Validation;
 
 use EditorconfigChecker\Cli\Logger;
+use EditorconfigChecker\Fix\IndentationFix;
 
 class IndentationValidator
 {
@@ -15,12 +16,12 @@ class IndentationValidator
      * @param string $filename
      * @return int
      */
-    public function validate(array $rules, string $line, int $lineNumber, string $filename) : bool
+    public function validate(array $rules, string $line, int $lineNumber, string $filename, bool $autoFix) : bool
     {
         $valid = true;
 
         if (isset($rules['indent_style']) && $rules['indent_style'] === 'space') {
-            $valid = $this->validateSpace($rules, $line, $lineNumber, $filename);
+            $valid = $this->validateSpace($rules, $line, $lineNumber, $filename, $autoFix);
         } elseif (isset($rules['indent_style']) && $rules['indent_style'] === 'tab') {
             $valid = $this->validateTab($line, $lineNumber, $filename);
         }
@@ -78,6 +79,11 @@ class IndentationValidator
                     $filename,
                     $lineNumber + 1
                 );
+
+                $indentationFix = new IndentationFix();
+                if ($autoFix && $indentationFix->tabsToSpaces($filename, $lineNumber, $rules['indent_size'])) {
+                    Logger::getInstance()->errorFixed();
+                }
 
                 return false;
             }
