@@ -43,7 +43,7 @@ class ValidationProcessor
         $trailingWhitespace = new TrailingWhitespaceValidator();
 
         foreach ($content as $lineNumber => $line) {
-            $indentation->validate($rules, $line, $lineNumber, $fileName);
+            $indentation->validate($rules, $line, $lineNumber, $fileName, $autoFix);
             $trailingWhitespace->validate($rules, $line, $lineNumber, $fileName, $autoFix);
         }
 
