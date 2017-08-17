@@ -38,8 +38,13 @@ class IndentationValidator
      * @param string $filename
      * @return boolean
      */
-    protected function validateSpace(array $rules, string $line, int $lineNumber, string $filename) : bool
-    {
+    protected function validateSpace(
+        array $rules,
+        string $line,
+        int $lineNumber,
+        string $filename,
+        bool $autoFix
+    ) : bool {
         preg_match('/^( +)/', $line, $matches);
 
         if (isset($matches[1])) {
