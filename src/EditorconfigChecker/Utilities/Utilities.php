@@ -7,6 +7,7 @@ class Utilities
     protected $defaults = [
         'vendor',
         'node_modules',
+        '\.DS_Store',
         '\.gif$',
         '\.png$',
         '\.bmp$',
@@ -21,7 +22,9 @@ class Utilities
         '\.bak$',
         '\.bin$',
         '\.min.js$',
-        '\.min.css$'
+        '\.min.css$',
+        '\.pdf$',
+        '\.jpeg$',
     ];
 
     /**

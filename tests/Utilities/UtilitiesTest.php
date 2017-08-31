@@ -30,6 +30,7 @@ final class UtilitiesTest extends TestCase
         $arr = [
             'vendor',
             'node_modules',
+            '\.DS_Store',
             '\.gif$',
             '\.png$',
             '\.bmp$',
@@ -44,10 +45,12 @@ final class UtilitiesTest extends TestCase
             '\.bak$',
             '\.bin$',
             '\.min.js$',
-            '\.min.css$'
+            '\.min.css$',
+            '\.pdf$',
+            '\.jpeg$',
         ];
 
-        $str = 'vendor|node_modules|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$';
+        $str = 'vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$';
 
         $utilities = new Utilities();
 
