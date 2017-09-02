@@ -126,6 +126,7 @@ available options:
 ```
 'vendor',
 'node_modules',
+'\.DS_Store',
 '\.gif$',
 '\.png$',
 '\.bmp$',
@@ -140,7 +141,9 @@ available options:
 '\.bak$',
 '\.bin$',
 '\.min.js$',
-'\.min.css$'
+'\.min.css$',
+'\.pdf$',
+'\.jpeg$',
 ```
 
 Suggestions are welcome!
