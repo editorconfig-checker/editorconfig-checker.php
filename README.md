@@ -17,6 +17,12 @@ This is a command-line tool to check if given files implement your .editorconfig
 [![Latest Unstable Version](https://poser.pugx.org/editorconfig-checker/editorconfig-checker/v/unstable)](https://packagist.org/packages/editorconfig-checker/editorconfig-checker)
 [![License](https://poser.pugx.org/editorconfig-checker/editorconfig-checker/license)](https://packagist.org/packages/editorconfig-checker/editorconfig-checker)
 
+## What?
+
+This is a tool to check if your files consider your .editorconfig. Most tools - like linters for example - only test one filetype and need an extra configuration. This tool only needs your editorconfig to check all files.
+
+![Sample Output](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.php/master/Docs/sample.png "Sample Output")
+
 ## Installation
 
 Installation via composer is recommended:
