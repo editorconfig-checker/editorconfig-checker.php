@@ -61,7 +61,8 @@ class Editorconfig
             $currentPath = dirname($currentPath);
         } while (strpos($currentPath, $rootDir) === 0 && sizeof($editorconfig) === 0);
 
-        return $editorconfig;
+        // If no editorconfig was found along the way, return an empty array
+        return $editorconfig ? $editorconfig : [];
     }
 
     /**
