@@ -56,10 +56,7 @@ class Utilities
     {
         $tmpPath = '/tmp/editorconfig-checker.php/';
         if (is_file($filename) && (is_dir($tmpPath) || mkdir($tmpPath))) {
-            return copy(
-                $filename,
-                $tmpPath . pathinfo($filename)['basename'] . '-' . time() . '-' . sha1_file($filename)
-            );
+            return copy($filename, tempnam($tmpPath, pathinfo($filename)['basename']));
         }
 
         return false;
