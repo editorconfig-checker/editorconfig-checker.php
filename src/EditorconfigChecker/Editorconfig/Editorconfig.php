@@ -51,7 +51,7 @@ class Editorconfig
         string $rootDir
     ) : array {
         $currentPath = $filePath;
-        $editorconfig = null;
+        $editorconfig = array();
 
         do {
             if (is_file($currentPath . '/.editorconfig')) {
