@@ -21,7 +21,6 @@
         }
     },
     "require": {
-        "webmozart/glob": "^4.1",
         "symfony/finder": "^3.3"
     },
     "require-dev": {
