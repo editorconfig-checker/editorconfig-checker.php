@@ -31,8 +31,10 @@ class Editorconfig
             $rules = $editorconfig[$pattern];
 
             return $pattern === 'root' ? ['root' => $editorconfig[$pattern]] : (
-                Glob::match(sprintf('%s/%s', getcwd(), $fileName), Path::makeAbsolute('**/' . $pattern, getcwd())) ?
-                    array_merge($carry, $rules) : $carry
+                Glob::match(
+                    Path::normalize(sprintf('%s/%s', getcwd(), $fileName)),
+                    Path::makeAbsolute('**/' . $pattern, getcwd())
+                ) ? array_merge($carry, $rules) : $carry
             );
         }, []);
     }
