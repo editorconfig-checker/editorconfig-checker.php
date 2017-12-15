@@ -16,7 +16,7 @@
         "source": "https://github.com/editorconfig-checker/editorconfig-checker.php"
     },
     "config": {
-        "plattform": {
+        "platform": {
             "php": "7"
         }
     },
