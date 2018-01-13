@@ -17,6 +17,7 @@ before_script:
 
 # Commands you want to run that will verify your build.
 script:
+  - composer validate --no-check-all --strict
   - composer run-script lint
   - mkdir -p ./build/logs/
   - composer run-script test:coverage

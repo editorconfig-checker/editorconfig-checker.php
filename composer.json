@@ -2,7 +2,6 @@
     "name": "editorconfig-checker/editorconfig-checker",
     "description": "A tool to verify that your files follow the rules of your .editorconfig",
     "license": "MIT",
-    "version": "7.0.6",
     "authors": [
         {
             "name": "Max Strübing",
@@ -12,7 +11,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/https://github.com/editorconfig-checker/editorconfig-checker.php/issues",
+        "issues": "https://github.com/editorconfig-checker/editorconfig-checker.php/issues",
         "source": "https://github.com/editorconfig-checker/editorconfig-checker.php"
     },
     "config": {
@@ -22,7 +21,8 @@
     },
     "require": {
         "webmozart/glob": "^4.1",
-        "symfony/finder": "^3.3"
+        "symfony/finder": "^3.3",
+        "php": "7.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.0.0",
