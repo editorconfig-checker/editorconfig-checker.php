@@ -54,7 +54,7 @@ class Utilities
      */
     public function backupFile(string $filename) : bool
     {
-        $tmpPath = '/tmp/editorconfig-checker.php/';
+        $tmpPath = sys_get_temp_dir() . '/editorconfig-checker.php/';
         if (is_file($filename) && (is_dir($tmpPath) || mkdir($tmpPath))) {
             return copy($filename, tempnam($tmpPath, pathinfo($filename)['basename']));
         }
