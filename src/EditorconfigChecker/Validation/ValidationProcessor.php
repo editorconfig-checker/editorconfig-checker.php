@@ -1,4 +1,5 @@
 <?php
+// editorconfig-disable-file
 
 namespace EditorconfigChecker\Validation;
 
@@ -43,6 +44,9 @@ class ValidationProcessor
         $trailingWhitespace = new TrailingWhitespaceValidator();
 
         foreach ($content as $lineNumber => $line) {
+            if ($this->isLineDisabled($line)) {
+                continue;
+            }
             $indentation->validate($rules, $line, $lineNumber, $fileName, $autoFix);
             $trailingWhitespace->validate($rules, $line, $lineNumber, $fileName, $autoFix);
         }
@@ -57,5 +61,18 @@ class ValidationProcessor
 
             Logger::getInstance()->addLines($lineNumber);
         }
+    }
+
+    /**
+     * Checks wether a line is disabled or not
+     *
+     * @param string $line the line to check
+     *
+     * @return bool wether the line contains editorconfig-disable-line or not
+     */
+    protected function isLineDisabled(string $line)
+    {
+        $isDisabled = preg_match('/editorconfig-disable-line/', $line);
+        return $isDisabled > 0;
     }
 }
