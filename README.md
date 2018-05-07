@@ -126,6 +126,19 @@ available options:
     will print all files which are checked to stdout
 ```
 
+## Disabling single lines
+
+It is possible to disable single lines with placing a comment - or theoretically 
+any other string which includes editorconfig-disable-line on that line. It is
+planned in future releases to also have the possibility to disable single rules 
+and also blocks of codes.
+
+Example as it is working now:
+
+```
+    $x = 'this variable is indented false' // editorconfig-disable-line
+```
+
 
 ## Default ignores:
 
