@@ -49,6 +49,79 @@ final class CliTest extends TestCase
 
     /**
      * @test
+     */
+    public function testRunWithH()
+    {
+        $cli = new Cli();
+        $this->expectOutputString($this->printUsage());
+        $this->assertEquals($cli->run(['h'=> true], []), null);
+    }
+
+    /**
+     * @test
+     */
+    public function testRunWithHelp()
+    {
+        $cli = new Cli();
+        $this->expectOutputString($this->printUsage());
+        $this->assertEquals($cli->run(['help'=> true], []), null);
+    }
+
+    /**
+     * This needs to be extracted into a variable
+     */
+    protected function printUsage()
+    {
+        printf('Usage:' . PHP_EOL);
+        printf('editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);
+        printf('available options:' . PHP_EOL);
+        printf('-a, --auto-fix' . PHP_EOL);
+        printf(
+            "\twill automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace)"
+            . PHP_EOL
+        );
+        printf('-d, --dotfiles' . PHP_EOL);
+        printf("\tuse this flag if you want exclude dotfiles" . PHP_EOL);
+        printf('-e <PATTERN>, --exclude <PATTERN>' . PHP_EOL);
+        printf("\tstring or regex to filter files which should not be checked" . PHP_EOL);
+        printf('-i, --ignore-defaults'. PHP_EOL);
+        printf("\twill ignore default excludes, see README for details" . PHP_EOL);
+        printf('-h, --help'. PHP_EOL);
+        printf("\twill print this help text" . PHP_EOL);
+        printf('-l, --list-files'. PHP_EOL);
+        printf("\twill print all files which are checked to stdout" . PHP_EOL);
+    }
+
+    /**
+     * @test
+     */
+    public function testRunWithListFiles()
+    {
+        $cli = new Cli();
+        $this->expectOutputString('./src/EditorconfigChecker/Utilities/Utilities.php'
+            . PHP_EOL
+            . 'total: 1 files'
+            . PHP_EOL
+        );
+        $this->assertEquals($cli->run(['list-files'=> true], ['./src/EditorconfigChecker/Utilities/*.php']), null);
+    }
+
+    /**
+     * @test
+     */
+    public function testRunWithL()
+    {
+        $cli = new Cli();
+        $this->expectOutputString('./src/EditorconfigChecker/Utilities/Utilities.php'
+            . PHP_EOL
+            . 'total: 1 files'
+            . PHP_EOL
+        );
+        $this->assertEquals($cli->run(['l'=> true], ['./src/EditorconfigChecker/Utilities/*.php']), null);
+    }
+
+    /**
+     * @test
      * @dataProvider getFileNamesDataProvider
      */
     public function testGetFileNames($fileGlobs, $dotfiles, $excludedPattern, $expectedFiles)
