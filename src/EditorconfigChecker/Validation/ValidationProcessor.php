@@ -1,5 +1,4 @@
 <?php
-// editorconfig-disable-file
 
 namespace EditorconfigChecker\Validation;
 
