@@ -44,13 +44,21 @@ final class UtilitiesTest extends TestCase
             '\.ttf$',
             '\.bak$',
             '\.bin$',
-            '\.min.js$',
-            '\.min.css$',
+            '\.min\.js$',
+            '\.min\.css$',
+            '\.js\.map$',
+            '\.css\.map$',
             '\.pdf$',
+            '\.jpg$',
             '\.jpeg$',
+            '\.zip$',
+            '\.gz$',
+            '\.7z$',
+            '\.bz2$',
+            '\.log$',
         ];
 
-        $str = 'vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$';
+        $str = 'vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$';
 
         $utilities = new Utilities();
 

@@ -145,7 +145,7 @@ final class CliTest extends TestCase
         return array(
             'NoExcludeAndNoEWithoutI' => array(
                 array(),
-                '/vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'OneEWithI' => array(
                 array('e' => 'e1', 'i' => false),
@@ -177,31 +177,31 @@ final class CliTest extends TestCase
             ),
             'OneEWithoutI' => array(
                 array('e' => 'e1'),
-                '/e1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/e1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'OneExcludeWithoutI' => array(
                 array('exclude' => 'exclude1'),
-                '/exclude1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/exclude1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'TwoEWithoutI' => array(
                 array('e' => array('e1', 'e2')),
-                '/e1|e2|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/e1|e2|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'TwoExcludeWithoutI' => array(
                 array('exclude' => array('exclude1', 'exclude2')),
-                '/exclude1|exclude2|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/exclude1|exclude2|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'OneExcludeAndOneEWithoutI' => array(
                 array('exclude' => 'exclude1', 'e' => 'e1'),
-                '/e1|exclude1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/e1|exclude1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'OneExcludeTwoEWithoutI' => array(
                 array('exclude' => 'exclude1', 'e' => array('e1', 'e2')),
-                '/e1|e2|exclude1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/e1|e2|exclude1|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             ),
             'TwoExcludeTwoEWithoutI' => array(
                 array('exclude' => array('exclude1', 'exclude2'), 'e' => array('e1', 'e2')),
-                '/e1|e2|exclude1|exclude2|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min.js$|\.min.css$|\.pdf$|\.jpeg$/'
+                '/e1|e2|exclude1|exclude2|vendor|node_modules|\.DS_Store|\.gif$|\.png$|\.bmp$|\.jpg$|\.svg$|\.ico$|\.lock$|\.eot$|\.woff$|\.woff2$|\.ttf$|\.bak$|\.bin$|\.min\.js$|\.min\.css$|\.js\.map$|\.css\.map$|\.pdf$|\.jpg$|\.jpeg$|\.zip$|\.gz$|\.7z$|\.bz2$|\.log$/'
             )
         );
     }

@@ -21,10 +21,18 @@ class Utilities
         '\.ttf$',
         '\.bak$',
         '\.bin$',
-        '\.min.js$',
-        '\.min.css$',
+        '\.min\.js$',
+        '\.min\.css$',
+        '\.js\.map$',
+        '\.css\.map$',
         '\.pdf$',
+        '\.jpg$',
         '\.jpeg$',
+        '\.zip$',
+        '\.gz$',
+        '\.7z$',
+        '\.bz2$',
+        '\.log$',
     ];
 
     /**
