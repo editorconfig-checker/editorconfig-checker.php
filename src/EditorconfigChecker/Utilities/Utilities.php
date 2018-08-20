@@ -32,6 +32,7 @@ class Utilities
         '\.gz$',
         '\.7z$',
         '\.bz2$',
+        '\.log$',
     ];
 
     /**

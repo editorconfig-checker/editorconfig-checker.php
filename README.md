@@ -170,6 +170,7 @@ Example as it is working now:
 '\.gz$',
 '\.7z$',
 '\.bz2$',
+'\.log$',
 ```
 
 Suggestions are welcome!
