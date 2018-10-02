@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+.coveralls.yml   export-ignore
+.editorconfig    export-ignore
+.gitattributes   export-ignore
+.gitignore       export-ignore
+.travis.yml      export-ignore
+Build/           export-ignore
+composer.lock    export-ignore
+Docs/            export-ignore
+LICENSE          export-ignore
+phpunit.xml.dist export-ignore
+README.md        export-ignore
+tests/           export-ignore
