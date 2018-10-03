@@ -73,7 +73,7 @@ final class CliTest extends TestCase
     protected function printUsage()
     {
         printf('Usage:' . PHP_EOL);
-        printf('editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);
+        printf('ec [OPTIONS] <FILE>|<FILEGLOB>' . PHP_EOL);
         printf('available options:' . PHP_EOL);
         printf('-a, --auto-fix' . PHP_EOL);
         printf(

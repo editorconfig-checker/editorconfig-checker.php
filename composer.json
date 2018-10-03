@@ -32,14 +32,18 @@
     },
     "scripts": {
         "post-install-cmd": "cd .git/hooks/ && ln -sf ../../Build/GitHooks/pre-commit .",
-        "lint": "composer run-script lint:psr2 && composer run-script lint:self",
+        "lint": [
+            "@lint:psr2",
+            "@lint:self"
+        ],
         "lint:psr2": "phpcs --standard=PSR2 src/**",
-        "lint:self": "bin/editorconfig-checker -e 'TestFiles' .",
+        "lint:self": "ec -e 'TestFiles' .",
         "test": "phpunit tests/ --bootstrap vendor/autoload.php --colors=always",
         "test:coverage": "phpunit -c ./phpunit.xml.dist"
     },
     "bin": [
-        "bin/editorconfig-checker"
+        "bin/editorconfig-checker",
+        "bin/ec"
     ],
     "autoload": {
         "psr-4": {
