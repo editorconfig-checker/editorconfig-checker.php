@@ -29,17 +29,17 @@ Installation via composer is recommended:
 
 ```
 composer require --dev editorconfig-checker/editorconfig-checker
-./vendor/bin/editorconfig-checker
+./vendor/bin/ec
 
 # or in a composer-script just
-editorconfig-checker
+ec
 ```
 
 Otherwise you could clone the repository and execute the script manually.
 
 ```
 git clone git@github.com:editorconfig-checker/editorconfig-checker.php.git
-./editorconfig-checker.php/bin/editorconfig-checker
+./editorconfig-checker.php/bin/ec
 ```
 
 ## Usage
@@ -53,8 +53,8 @@ Then you could create a script in your `composer.json` like this:
 }
 ```
 
-You could also check for single files with explicit call them e.g. `editorconfig-checker src/index.php`
-Shell globbing is possible for example: `editorconfig-checker ./src/EditorconfigChecker/{Cli,Fix}/*`
+You could also check for single files with explicit call them e.g. `ec src/index.php`
+Shell globbing is possible for example: `ec ./src/EditorconfigChecker/{Cli,Fix}/*`
 
 If you want to filter the files you could do this via the `-e|--exclude` parameter 
 
@@ -67,41 +67,41 @@ because the special characters(e.g. `|`, `*`, `.` or whatever) will be interpret
 Some examples:
 ```sh
 # will filter all files with json extension
-editorconfig-checker -e '\\.json$' ./*
-editorconfig-checker --exclude '\\.json$' ./*
+bin/ec -e '\\.json$' ./*
+bin/ec --exclude '\\.json$' ./*
 
 # will only filter all files which has TestFiles in their name
-bin/editorconfig-checker -e TestFiles ./*
-bin/editorconfig-checker --exclude TestFiles ./*
+bin/ec -e TestFiles ./*
+bin/ec --exclude TestFiles ./*
 
 # will filter all files which has TestFiles in their name and json as extension
-bin/editorconfig-checker -e 'TestFiles|\\.json$' ./*
-bin/editorconfig-checker --exclude 'TestFiles|\\.json$' ./*
+bin/ec -e 'TestFiles|\\.json$' ./*
+bin/ec --exclude 'TestFiles|\\.json$' ./*
 
 # will filter all files which has TestFiles in their name and exclude dotfiles
-bin/editorconfig-checker -d -e TestFiles  ./*
-bin/editorconfig-checker --dotfiles --exclude TestFiles  ./*
+bin/ec -d -e TestFiles  ./*
+bin/ec --dotfiles --exclude TestFiles  ./*
 
 # will filter all files which has TestFiles in their name and exclude dotfiles and will try to fix issues if they occur
-bin/editorconfig-checker -a -d -e TestFiles  ./*
-bin/editorconfig-checker --auto-fix --dotfiles --exclude TestFiles  ./*
+bin/ec -a -d -e TestFiles  ./*
+bin/ec --auto-fix --dotfiles --exclude TestFiles  ./*
 
 # will don't use default excludes and filter all files which has TestFiles in their name
-bin/editorconfig-checker -a -i -d -e TestFiles  ./*
-bin/editorconfig-checker --auto-fix --ignore-defaults --dotfiles --exclude TestFiles  ./*
+bin/ec -a -i -d -e TestFiles  ./*
+bin/ec --auto-fix --ignore-defaults --dotfiles --exclude TestFiles  ./*
 ```
 
 If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
 
 ```sh
-bin/editorconfig-checker -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
-bin/editorconfig-checker --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
+bin/ec -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
+bin/ec --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
 ```
 
 If you installed it manually you would have to do something like this:
 
 ```sh
-<PATH/TO/ROOT/OF/THIS/REPOS>/bin/editorconfig-checker src/*.php
+<PATH/TO/ROOT/OF/THIS/REPOS>/bin/ec src/*.php
 ```
 
 The exit value is 0 if no error occurred and 1 to 254 - every error adds 1 to the exit value.
