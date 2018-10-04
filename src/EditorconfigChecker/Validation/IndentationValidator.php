@@ -52,7 +52,11 @@ class IndentationValidator
 
             /* check if the indentation size could be a valid one */
             /* the * is for block comments */
-            if ($indentSize % $rules['indent_size'] !== 0 && $line[$indentSize] !== '*') {
+            if (isset($rules['indent_size'])
+                && $rules['indent_size'] > 0
+                && $indentSize % $rules['indent_size'] !== 0
+                && $line[$indentSize] !== '*'
+            ) {
                 Logger::getInstance()->addError(
                     'Wrong amount of spaces(found '
                         . $indentSize
