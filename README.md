@@ -185,3 +185,11 @@ You should use the `-l` option after installing and configuring this tool to see
 checked.
 
 The `auto-fix` parameter puts a copy of every original file which gets fixed in `/tmp/editorconfig-checker.php/<filename>-<timestamp>-<sha1>`
+
+
+## Support
+
+If you have any questions or just want to chat join #editorconfig-checker on 
+freenode(IRC).
+If you don't have an IRC-client set up you can use the 
+[freenode webchat](https://webchat.freenode.net/?channels=editorconfig-checker).
