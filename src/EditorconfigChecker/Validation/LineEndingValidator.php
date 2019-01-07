@@ -26,6 +26,9 @@ class LineEndingValidator
         int $lineNumber,
         bool $autoFix
     ) : bool {
+
+        $utilities = new Utilities();
+
         if (isset($rules['end_of_line'])) {
             if ($rules['end_of_line'] === 'lf') {
                 str_replace("\n", '', $content, $eolsLF);
