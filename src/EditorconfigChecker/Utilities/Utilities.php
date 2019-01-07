@@ -18,7 +18,7 @@ class Utilities
         '\.eot$',
         '\.woff$',
         '\.woff2$',
-        '\.otf$',        
+        '\.otf$',
         '\.ttf$',
         '\.bak$',
         '\.bin$',
