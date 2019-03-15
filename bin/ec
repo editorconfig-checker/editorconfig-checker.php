@@ -31,7 +31,7 @@ function bsdCompatibleReadLink() {
 # see http://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
 BIN_DIR="$(dirname "$(bsdCompatibleReadLink "$0")")"
 SRC_DIR="$BIN_DIR/../src"
-args=$*
+args="$*"
 
 # I don't quote $args because I'm using globbing here :)
-php "$SRC_DIR"/EditorconfigChecker.php $args
+php "$SRC_DIR"/EditorconfigChecker.php "$args"
