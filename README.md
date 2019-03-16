@@ -23,6 +23,12 @@ This is a tool to check if your files consider your .editorconfig. Most tools - 
 
 ![Sample Output](https://raw.githubusercontent.com/editorconfig-checker/editorconfig-checker.php/master/Docs/sample.png "Sample Output")
 
+## Important
+
+This is only a wrapper for the core [editorconfig-checker](https://github.com/editorconfig-checker/editorconfig-checker). 
+You should have a look at this repository to know how this tool can be used and what possibilities/caveats are there.
+This version can be used in the same way as the core as every argument is simply passed down to it.
+
 ## Installation
 
 Installation via composer is recommended:
@@ -44,147 +50,37 @@ git clone git@github.com:editorconfig-checker/editorconfig-checker.php.git
 
 ## Usage
 
-If you installed it via composer you have a binary in your bin folder called `editorconfig-checker`.
+There is an alias from `editorconfig-checker` to `ec` so you can exchange every occurrence of `editorconfig-checker` with `ec`.
+
+If you installed it via composer you have a binary in your composer-bin-dir folder called `editorconfig-checker`.
 Then you could create a script in your `composer.json` like this:
 
 ```json
 "scripts": {
-    "check-editorconfig": "editorconfig-checker src/*"
+    "lint:editorconfig": "editorconfig-checker"
 }
 ```
 
-You could also check for single files with explicit call them e.g. `ec src/index.php`
-Shell globbing is possible for example: `ec ./src/EditorconfigChecker/{Cli,Fix}/*`
-
-If you want to filter the files you could do this via the `-e|--exclude` parameter 
-
-__CAUTION__ after using this parameter you __HAVE TO__ write a single
-regular expression or string or your files you want to check will be interpreted as the exclude pattern.
-
-If you use a regular expression you should __always__ put single quotes around it 
-because the special characters(e.g. `|`, `*`, `.` or whatever) will be interpreted by your shell before if you don't.
-
-Some examples:
-```sh
-# will filter all files with json extension
-bin/ec -e '\\.json$' ./*
-bin/ec --exclude '\\.json$' ./*
-
-# will only filter all files which has TestFiles in their name
-bin/ec -e TestFiles ./*
-bin/ec --exclude TestFiles ./*
-
-# will filter all files which has TestFiles in their name and json as extension
-bin/ec -e 'TestFiles|\\.json$' ./*
-bin/ec --exclude 'TestFiles|\\.json$' ./*
-
-# will filter all files which has TestFiles in their name and exclude dotfiles
-bin/ec -d -e TestFiles  ./*
-bin/ec --dotfiles --exclude TestFiles  ./*
-
-# will filter all files which has TestFiles in their name and exclude dotfiles and will try to fix issues if they occur
-bin/ec -a -d -e TestFiles  ./*
-bin/ec --auto-fix --dotfiles --exclude TestFiles  ./*
-
-# will don't use default excludes and filter all files which has TestFiles in their name
-bin/ec -a -i -d -e TestFiles  ./*
-bin/ec --auto-fix --ignore-defaults --dotfiles --exclude TestFiles  ./*
-```
-
-If you just want to filter for one string you don't have to worry and if you want to filter for more strings you could also pass the `-e|--exclude` option more than once like this:
-
-```sh
-bin/ec -e vendor -e myBinary -e someGeneratedFile -e myPicture ./*
-bin/ec --exclude vendor --exclude myBinary --exclude someGeneratedFile --exclude myPicture ./*
-```
-
-If you installed it manually you would have to do something like this:
-
-```sh
-<PATH/TO/ROOT/OF/THIS/REPOS>/bin/ec src/*.php
-```
-
-The exit value is 0 if no error occurred and 1 to 254 - every error adds 1 to the exit value.
-255 means that there is more than 254 violations of your `.editorconfig` rules.
-
 Usage output:
-```
-Usage:
-editorconfig-checker [OPTIONS] <FILE>|<FILEGLOB>
-available options:
--a, --auto-fix
-    will automatically fix fixable issues(insert_final_newline, end_of_line, trim_trailing_whitespace, tabs to spaces)
--d, --dotfiles
-    use this flag if you want to exclude dotfiles
--e <PATTERN>, --exclude <PATTERN>
-    string or regex to filter files which should not be checked
--i, --ignore-defaults
-        will ignore default excludes, see README for details
--h, --help
-    will print this help text
--l, --list-files
-    will print all files which are checked to stdout
-```
-
-## Disabling single lines
-
-It is possible to disable single lines with placing a comment - or theoretically 
-any other string which includes editorconfig-disable-line on that line. It is
-planned in future releases to also have the possibility to disable single rules 
-and also blocks of codes.
-
-Example as it is working now:
 
 ```
-    $x = 'this variable is indented false' // editorconfig-disable-line
+USAGE:
+    -e string
+        a regex which files should be excluded from checking - needs to be a valid regular expression
+    -exclude string
+        a regex which files should be excluded from checking - needs to be a valid regular expression
+    -h    print the help
+    -help
+        print the help
+    -i    ignore default excludes
+    -ignore
+        ignore default excludes
+    -v    print debugging information
+    -verbose
+        print debugging information
+    -version
+        print the version number
 ```
-
-
-## Default ignores:
-
-```
-'vendor',
-'node_modules',
-'\.DS_Store',
-'\.gif$',
-'\.png$',
-'\.bmp$',
-'\.jpg$',
-'\.svg$',
-'\.ico$',
-'\.lock$',
-'\.eot$',
-'\.woff$',
-'\.woff2$',
-'\.ttf$',
-'\.bak$',
-'\.bin$',
-'\.min\.js$',
-'\.min\.css$',
-'\.js\.map$',
-'\.css\.map$',
-'\.pdf$',
-'\.jpg$',
-'\.jpeg$',
-'\.zip$',
-'\.gz$',
-'\.7z$',
-'\.bz2$',
-'\.log$',
-```
-
-Suggestions are welcome!
-
-## Additional Notes
-
-I use semantic versioning so every breaking change will result in the increase of the major version.
-
-If you encounter any bugs or anything else please open an issue with as many details as possible.
-
-You should use the `-l` option after installing and configuring this tool to see if all files are
-checked.
-
-The `auto-fix` parameter puts a copy of every original file which gets fixed in `/tmp/editorconfig-checker.php/<filename>-<timestamp>-<sha1>`
 
 
 ## Support
