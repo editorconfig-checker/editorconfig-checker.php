@@ -9,4 +9,5 @@
 ### Security
 
 
-# [9.0.0] - 2019-mm-dd
+# [9.0.0] - 2019-03-31
+Use Go core version

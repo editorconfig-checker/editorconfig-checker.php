@@ -4,6 +4,8 @@ namespace EditorconfigChecker;
 
 use EditorconfigChecker\Utilities;
 
+define('CORE_VERSION', '1.1.2');
+
 class Cli
 {
     /**
@@ -11,13 +13,12 @@ class Cli
      */
     public static function run(array $arguments): int
     {
-        $version = '1.1.2';
         $releaseName = Utilities::getReleaseName();
         $binaryPath = Utilities::getBinaryPath();
 
         if (!is_file($binaryPath)) {
             Utilities::cleanup();
-            if (!Utilities::downloadReleaseArchive($releaseName, $version)) {
+            if (!Utilities::downloadReleaseArchive($releaseName, CORE_VERSION)) {
                 printf('ERROR: Can not download the archive%s', PHP_EOL);
                 return 1;
             }
