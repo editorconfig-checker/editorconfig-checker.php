@@ -56,7 +56,7 @@ class Utilities
      */
     public static function getBinaryPath(): string
     {
-        $binaryName = Utilities::getReleaseName(Utilities::getCurrentArch() . Utilities::getCurrentOs());
+        $binaryName = Utilities::getReleaseName();
         $binaryPath = sprintf('%s/bin/%s', Utilities::getBasePath(), $binaryName);
 
         return $binaryPath;
