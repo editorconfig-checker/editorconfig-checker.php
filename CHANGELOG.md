@@ -8,6 +8,9 @@
 ### Fixed
 ### Security
 
+## [9.1.1] - 2019-07-07
+see: https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/1.2.1
+
 ## [9.1.0] - 2019-05-02
 see: https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/1.2.0
 
