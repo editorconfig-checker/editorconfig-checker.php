@@ -14,6 +14,12 @@
 
 ### Security
 
+## [10.2.1] - 2021-01-09
+
+- adding php 8.0 support[#144](https://github.com/editorconfig-checker/editorconfig-checker.php/pull/144)
+
+see: https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/2.2.0
+
 ## [10.2.0] - 2020-10-20
 
 see: https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/2.2.0
