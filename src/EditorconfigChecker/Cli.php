@@ -4,7 +4,7 @@ namespace EditorconfigChecker;
 
 use EditorconfigChecker\Utilities;
 
-define('CORE_VERSION', '2.3.4');
+define('CORE_VERSION', '2.3.5');
 
 class Cli
 {

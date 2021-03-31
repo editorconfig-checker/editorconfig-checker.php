@@ -14,6 +14,10 @@
 
 ### Security
 
+## [10.2.3] - 2021-03-31
+
+see: https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/2.3.5
+
 ## [10.2.2] - 2021-03-18
 
 see: https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/2.3.4
