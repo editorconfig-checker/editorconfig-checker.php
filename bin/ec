@@ -4,6 +4,13 @@
 # its actual path to invoke the right class
 # This script is also the one which will be symlinked to bin
 
+# Having this variable in your environment would break scripts because
+# you would cause "cd" to be taken to unexpected places.  If you
+# like CDPATH, define it for your interactive shell sessions without
+# exporting it.
+# But we protect ourselves from such a user mistake nevertheless.
+unset CDPATH
+
 # on osx//bsd there is no readlink :(
 # so I have to use this like said here:
 # http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
