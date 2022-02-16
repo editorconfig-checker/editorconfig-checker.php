@@ -11,17 +11,17 @@ class Utilities
     {
         $arch = php_uname('m');
 
-        if ($arch === "x86_64") {
-            $arch = "amd64";
-        } elseif ($arch === "i386") {
-            $arch = "386";
-        } else {
-            // TODO: Whats here?
-            printf('ERROR: Unexpected, please contact the maintainer or provide a pull request :)%s', PHP_EOL);
-            exit(1);
+        switch ($arch) {
+            case 'x86_64':
+                return "amd64";
+            case 'i386':
+                return "386";
+            case 'aarch64':
+                return "arm64";
+            default:
+                printf('ERROR: Unexpected, please contact the maintainer or provide a pull request :)%s', PHP_EOL);
+                exit(1);
         }
-
-        return $arch;
     }
 
     /**
