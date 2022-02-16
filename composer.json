@@ -24,6 +24,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.4",
+        "phpstan/phpstan": "^1.4",
         "phpunit/phpunit": "^8.3",
         "php-coveralls/php-coveralls": "^2.1"
     },
@@ -35,7 +36,8 @@
         "lint:psr2": "phpcs --standard=PSR2 src/**",
         "lint:self": "./bin/ec",
         "test": "phpunit tests/ --bootstrap vendor/autoload.php --colors=always",
-        "test:coverage": "phpunit -c ./phpunit.xml.dist"
+        "test:coverage": "phpunit -c ./phpunit.xml.dist",
+        "check": "phpstan analyse -vvv"
     },
     "bin": [
         "bin/editorconfig-checker",
