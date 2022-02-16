@@ -21,7 +21,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
       -
-        name: Install dependencies
+        name: Install composer
         run: composer update --no-progress --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
       -
         name: Run lint
