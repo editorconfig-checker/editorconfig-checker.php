@@ -10,6 +10,7 @@ class Cli
 {
     /**
      * Entry point of this class to invoke all needed steps
+     * @param mixed[] $arguments
      */
     public static function run(array $arguments): int
     {

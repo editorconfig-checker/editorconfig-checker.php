@@ -76,7 +76,7 @@ class Utilities
         );
 
         $result = file_put_contents($archivePath, fopen($releaseUrl, 'r'));
-        return $result > 0 || $result;
+        return $result > 0;
     }
 
     /**
@@ -95,7 +95,7 @@ class Utilities
         try {
             $p = new \PharData(sprintf("%s/%s.tar.gz", Utilities::getBasePath(), $releaseName));
             $p->decompress();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             printf('ERROR: Can not decompress the archive%s%s', PHP_EOL, $e);
             return false;
         }
@@ -127,6 +127,8 @@ class Utilities
     /**
      * Constructs the arguments the binary needs to be called by
      * the arguments providedunline
+     *
+     * @param mixed[] $arguments
      */
     public static function constructStringFromArguments(array $arguments): string
     {
