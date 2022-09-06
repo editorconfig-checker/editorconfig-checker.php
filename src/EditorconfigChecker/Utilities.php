@@ -12,6 +12,8 @@ class Utilities
         $arch = php_uname('m');
 
         switch ($arch) {
+            case 'AMD64':
+                return "amd64";
             case 'x86_64':
                 return "amd64";
             case 'i386':
@@ -30,6 +32,10 @@ class Utilities
     public static function getCurrentOs(): string
     {
         $os = strtolower(php_uname('s'));
+        if ($os === 'windows nt') {
+            $os = 'windows';
+        }
+
         return $os;
     }
 
@@ -57,6 +63,9 @@ class Utilities
     public static function getBinaryPath(): string
     {
         $binaryName = Utilities::getReleaseName();
+        if (self::getCurrentOs() === 'windows') {
+            $binaryName .= '.exe';
+        }
         $binaryPath = sprintf('%s/bin/%s', Utilities::getBasePath(), $binaryName);
 
         return $binaryPath;
@@ -67,12 +76,17 @@ class Utilities
      */
     public static function downloadReleaseArchive(string $releaseName, string $version): bool
     {
-        $archiveName = $releaseName . '.tar.gz';
-        $archivePath = sprintf('%s/%s', Utilities::getBasePath(), $archiveName);
+        $archivePath = sprintf('%s/%s.tar.gz', Utilities::getBasePath(), $releaseName);
+
+        $releaseSuffix = '.tar.gz';
+        // Windows release archive suffix changed from 2.5 to 2.6
+        if (self::getCurrentOs() === 'windows' && version_compare(CORE_VERSION, '2.6.0', '<')) {
+            $releaseSuffix = '.exe.tar.gz';
+        }
         $releaseUrl = sprintf(
             'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/%s/%s',
             $version,
-            $archiveName
+            $releaseName . $releaseSuffix
         );
 
         $result = file_put_contents($archivePath, fopen($releaseUrl, 'r'));
