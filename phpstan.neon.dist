@@ -15,3 +15,4 @@ parameters:
             # CORE_VERSION constant may change in the future
             message: '~Right side of && is always true~'
             path: 'src/EditorconfigChecker/Utilities.php'
+            count: 1
