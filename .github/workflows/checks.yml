@@ -10,7 +10,6 @@ jobs:
       fail-fast: false
       matrix:
         php-version: [ '7.2', '7.3', '7.4', '8.0', '8.1', '8.2' ]
-        dependency-version: [ prefer-lowest, prefer-stable ]
     steps:
       -
         name: Checkout code
@@ -22,7 +21,7 @@ jobs:
           php-version: ${{ matrix.php-version }}
       -
         name: Install composer
-        run: composer update --no-progress --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+        run: composer update --no-progress --prefer-stable --prefer-dist --no-interaction --no-suggest
       -
         name: Run lint
         run: composer lint
