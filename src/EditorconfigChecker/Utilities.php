@@ -12,12 +12,12 @@ class Utilities
         $arch = php_uname('m');
 
         switch ($arch) {
-            case 'AMD64':
-                return "amd64";
             case 'x86_64':
+            case 'AMD64':
                 return "amd64";
             case 'i386':
                 return "386";
+            case 'arm64':
             case 'aarch64':
                 return "arm64";
             default:
