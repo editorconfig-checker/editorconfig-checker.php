@@ -80,7 +80,7 @@ class Utilities
 
         $releaseSuffix = '.tar.gz';
         // Windows release archive suffix changed from 2.5 to 2.6
-        if (self::getCurrentOs() === 'windows' && version_compare(CORE_VERSION, '2.6.0', '<')) {
+        if (self::getCurrentOs() === 'windows') {
             $releaseSuffix = '.exe.tar.gz';
         }
         $releaseUrl = sprintf(
