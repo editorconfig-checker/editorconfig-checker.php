@@ -79,7 +79,6 @@ class Utilities
         $archivePath = sprintf('%s/%s.tar.gz', Utilities::getBasePath(), $releaseName);
 
         $releaseSuffix = '.tar.gz';
-        // Windows release archive suffix changed from 2.5 to 2.6
         if (self::getCurrentOs() === 'windows') {
             $releaseSuffix = '.exe.tar.gz';
         }
