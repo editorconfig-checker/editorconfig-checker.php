@@ -12,12 +12,12 @@ class Utilities
         $arch = php_uname('m');
 
         switch ($arch) {
-            case 'AMD64':
-                return "amd64";
             case 'x86_64':
+            case 'AMD64':
                 return "amd64";
             case 'i386':
                 return "386";
+            case 'arm64':
             case 'aarch64':
                 return "arm64";
             default:
@@ -79,8 +79,7 @@ class Utilities
         $archivePath = sprintf('%s/%s.tar.gz', Utilities::getBasePath(), $releaseName);
 
         $releaseSuffix = '.tar.gz';
-        // Windows release archive suffix changed from 2.5 to 2.6
-        if (self::getCurrentOs() === 'windows' && version_compare(CORE_VERSION, '2.6.0', '<')) {
+        if (self::getCurrentOs() === 'windows') {
             $releaseSuffix = '.exe.tar.gz';
         }
         $releaseUrl = sprintf(
