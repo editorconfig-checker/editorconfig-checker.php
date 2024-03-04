@@ -83,7 +83,7 @@ class Utilities
             $releaseSuffix = '.exe.tar.gz';
         }
         $releaseUrl = sprintf(
-            'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/%s/%s',
+            'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v%s/%s',
             $version,
             $releaseName . $releaseSuffix
         );
