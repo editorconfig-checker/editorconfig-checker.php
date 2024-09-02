@@ -141,7 +141,7 @@ class Utilities
      * Constructs the arguments the binary needs to be called by
      * the arguments providedunline
      *
-     * @param mixed[] $arguments
+     * @param string[] $arguments
      */
     public static function constructStringFromArguments(array $arguments): string
     {
