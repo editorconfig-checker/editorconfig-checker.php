@@ -33,71 +33,37 @@ This version can be used in the same way as the core as every argument is simply
 
 ## Installation
 
-Installation via composer is recommended:
-
 ```
 composer require --dev editorconfig-checker/editorconfig-checker
-./vendor/bin/ec
-
-# or in a composer-script just
-ec
-```
-
-Otherwise you could clone the repository and execute the script manually.
-
-```
-git clone git@github.com:editorconfig-checker/editorconfig-checker.php.git
-./editorconfig-checker.php/bin/ec
 ```
 
 ## Usage
 
-There is an alias from `editorconfig-checker` to `ec` so you can exchange every occurrence of `editorconfig-checker` with `ec`.
+```
+vendor/bin/ec
+```
 
-If you installed it via composer you have a binary in your composer-bin-dir folder called `editorconfig-checker`.
-Then you could create a script in your `composer.json` like this:
+## Configuration
+
+You can configure analysis in `.ecrc` json file, e.g.:
 
 ```json
-"scripts": {
-    "lint:editorconfig": "editorconfig-checker"
+{
+    "Exclude": [
+        "^vendor\/",
+        "^var\/",
+        "^\\.idea\/",
+        "\\.phar$"
+    ]
 }
-```
-
-Usage output:
 
 ```
-USAGE:
-  -config string
-        config
-  -debug
-        print debugging information
-  -disable-end-of-line
-        disables the trailing whitespace check
-  -disable-indentation
-        disables the indentation check
-  -disable-insert-final-newline
-        disables the final newline check
-  -disable-trim-trailing-whitespace
-        disables the trailing whitespace check
-  -dry-run
-        show which files would be checked
-  -exclude string
-        a regex which files should be excluded from checking - needs to be a valid regular expression
-  -h    print the help
-  -help
-        print the help
-  -ignore-defaults
-        ignore default excludes
-  -init
-        creates an initial configuration
-  -no-color
-        dont print colors
-  -v    print debugging information
-  -verbose
-        print debugging information
-  -version
-        print the version number
-```
+
+Full list of config options is in [core docs](https://github.com/editorconfig-checker/editorconfig-checker?tab=readme-ov-file#configuration)
+
+## Cli options
+
+Please head to [core docs](https://github.com/editorconfig-checker/editorconfig-checker?tab=readme-ov-file#usage).
 
 
 ## Support
