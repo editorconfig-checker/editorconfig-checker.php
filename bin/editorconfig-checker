@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-./$(dirname $0)/ec "$@"
+./$(dirname $0)/editorconfig-checker "$@"

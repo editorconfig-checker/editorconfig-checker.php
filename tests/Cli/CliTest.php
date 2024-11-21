@@ -15,7 +15,7 @@ final class CliTest extends TestCase
         $this->assertEquals(Cli::run([$this->basePath()]), 0);
 
         // TestFiles should fail
-        system("cd ./Build && ../bin/ec", $return);
+        system("cd ./Build && ../bin/editorconfig-checker", $return);
         $this->assertEquals($return, 1);
     }
 
