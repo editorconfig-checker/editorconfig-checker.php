@@ -123,7 +123,7 @@ class Utilities
     {
         try {
             $p = new \PharData(sprintf("%s/%s.tar", Utilities::getBasePath(), $releaseName));
-            $p->extractTo(Utilities::getBasePath());
+            $p->extractTo(Utilities::getBasePath(), "bin/$releaseName");
 
             if (!unlink(sprintf("%s/%s.tar", Utilities::getBasePath(), $releaseName))) {
                 printf('ERROR: Can not remove the decompressed archive%s', PHP_EOL);
