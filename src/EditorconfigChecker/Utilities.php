@@ -44,7 +44,7 @@ class Utilities
      */
     public static function getReleaseName(): string
     {
-        return sprintf('ec-%s-%s', Utilities::getCurrentOs(), Utilities::getCurrentArch());
+        return sprintf('editorconfig-checker-%s-%s', Utilities::getCurrentOs(), Utilities::getCurrentArch());
     }
 
     /**
