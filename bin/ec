@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # This scripts invokes the actual php class and determines
 # its actual path to invoke the right class
@@ -14,9 +14,8 @@ unset CDPATH
 # on osx//bsd there is no readlink :(
 # so I have to use this like said here:
 # http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
-function bsdCompatibleReadLink() {
-  local TARGET_FILE="$1"
-
+bsdCompatibleReadLink() {
+  TARGET_FILE="$1"
   cd "$(dirname "$TARGET_FILE")" || exit
   TARGET_FILE=$(basename "$TARGET_FILE")
 
