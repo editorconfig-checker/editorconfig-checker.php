@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 # This scripts invokes the actual php class and determines
 # its actual path to invoke the right class
