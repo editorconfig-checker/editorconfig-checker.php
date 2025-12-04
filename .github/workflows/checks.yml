@@ -33,4 +33,5 @@ jobs:
         run: composer test
       -
         name: Run phpstan
+        if: ${{ matrix.php-versions <= 8.4 }}
         run: composer check
