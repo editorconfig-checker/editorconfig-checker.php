@@ -34,14 +34,13 @@
             "@lint:self"
         ],
         "lint:psr2": "phpcs --standard=PSR2 src/**",
-        "lint:self": "./bin/ec",
+        "lint:self": "./bin/editorconfig-checker",
         "test": "phpunit tests/ --bootstrap vendor/autoload.php --colors=always",
         "test:coverage": "phpunit -c ./phpunit.xml.dist",
         "check": "phpstan analyse -vvv"
     },
     "bin": [
-        "bin/editorconfig-checker",
-        "bin/ec"
+        "bin/editorconfig-checker"
     ],
     "autoload": {
         "psr-4": {

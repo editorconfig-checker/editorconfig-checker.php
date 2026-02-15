@@ -27,7 +27,7 @@ This is a tool to check if your files consider your .editorconfig. Most tools - 
 
 ## Important
 
-This is only a wrapper for the core [editorconfig-checker](https://github.com/editorconfig-checker/editorconfig-checker). 
+This is only a wrapper for the core [editorconfig-checker](https://github.com/editorconfig-checker/editorconfig-checker).
 You should have a look at this repository to know how this tool can be used and what possibilities/caveats are there.
 This version can be used in the same way as the core as every argument is simply passed down to it.
 
@@ -40,7 +40,7 @@ composer require --dev editorconfig-checker/editorconfig-checker
 ## Usage
 
 ```
-vendor/bin/ec
+vendor/bin/editorconfig-checker
 ```
 
 ## Configuration
@@ -49,14 +49,8 @@ You can configure analysis in `.editorconfig-checker.json` json file, e.g.:
 
 ```json
 {
-    "Exclude": [
-        "^vendor\/",
-        "^var\/",
-        "^\\.idea\/",
-        "\\.phar$"
-    ]
+  "Exclude": ["^vendor/", "^var/", "^\\.idea/", "\\.phar$"]
 }
-
 ```
 
 Full list of config options is in [core docs](https://github.com/editorconfig-checker/editorconfig-checker?tab=readme-ov-file#configuration)
@@ -65,10 +59,9 @@ Full list of config options is in [core docs](https://github.com/editorconfig-ch
 
 Please head to [core docs](https://github.com/editorconfig-checker/editorconfig-checker?tab=readme-ov-file#usage).
 
-
 ## Support
 
-If you have any questions or just want to chat join #editorconfig-checker on 
+If you have any questions or just want to chat join #editorconfig-checker on
 freenode(IRC).
-If you don't have an IRC-client set up you can use the 
+If you don't have an IRC-client set up you can use the
 [freenode webchat](https://webchat.freenode.net/?channels=editorconfig-checker).
