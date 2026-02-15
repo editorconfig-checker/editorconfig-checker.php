@@ -45,7 +45,7 @@ vendor/bin/ec
 
 ## Configuration
 
-You can configure analysis in `.ecrc` json file, e.g.:
+You can configure analysis in `.editorconfig-checker.json` json file, e.g.:
 
 ```json
 {
