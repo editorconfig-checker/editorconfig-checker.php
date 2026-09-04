@@ -43,6 +43,12 @@ composer require --dev editorconfig-checker/editorconfig-checker
 vendor/bin/ec
 ```
 
+To fix violations automatically where possible, run:
+
+```
+vendor/bin/ec --fix
+```
+
 ## Configuration
 
 You can configure analysis in `.editorconfig-checker.json` json file, e.g.:
