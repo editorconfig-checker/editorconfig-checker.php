@@ -15,6 +15,10 @@ foreach ($paths as $path) {
     }
 }
 
+if (!isset($argv)) {
+    throw new \LogicException('Missing $argv, check your register_argc_argv setting');
+}
+
 $result = Cli::run($argv);
 
 exit($result);
