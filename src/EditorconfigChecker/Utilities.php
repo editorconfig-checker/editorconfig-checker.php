@@ -194,5 +194,10 @@ class Utilities
         if (is_file($releaseName . '.tar')) {
             unlink($releaseName . '.tar');
         }
+
+        $extractedBinary = sprintf("%s/%s", Utilities::getBasePath(), Utilities::getArchivedBinaryName());
+        if (is_file($extractedBinary)) {
+            unlink($extractedBinary);
+        }
     }
 }
