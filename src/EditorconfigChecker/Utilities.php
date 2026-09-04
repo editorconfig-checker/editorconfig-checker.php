@@ -48,6 +48,31 @@ class Utilities
     }
 
     /**
+     * Returns the name of the release archive published by the core
+     */
+    public static function getArchiveName(): string
+    {
+        $os = Utilities::getCurrentOs();
+        // the core ships a single universal binary for macOS
+        $arch = $os === 'darwin' ? 'all' : Utilities::getCurrentArch();
+
+        return sprintf('editorconfig-checker-%s-%s', $os, $arch);
+    }
+
+    /**
+     * Returns the name of the binary inside the release archive
+     */
+    public static function getArchivedBinaryName(): string
+    {
+        $binaryName = 'editorconfig-checker';
+        if (self::getCurrentOs() === 'windows') {
+            $binaryName .= '.exe';
+        }
+
+        return $binaryName;
+    }
+
+    /**
      * Returns the root path of this library
      */
     public static function getBasePath(): string
@@ -78,14 +103,10 @@ class Utilities
     {
         $archivePath = sprintf('%s/%s.tar.gz', Utilities::getBasePath(), $releaseName);
 
-        $releaseSuffix = '.tar.gz';
-        if (self::getCurrentOs() === 'windows') {
-            $releaseSuffix = '.exe.tar.gz';
-        }
         $releaseUrl = sprintf(
-            'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v%s/%s',
+            'https://github.com/editorconfig-checker/editorconfig-checker/releases/download/v%s/%s.tar.gz',
             $version,
-            $releaseName . $releaseSuffix
+            Utilities::getArchiveName()
         );
 
         $result = file_put_contents($archivePath, fopen($releaseUrl, 'r'));
@@ -122,8 +143,15 @@ class Utilities
     public static function unpack(string $releaseName): bool
     {
         try {
+            $archivedBinaryName = Utilities::getArchivedBinaryName();
             $p = new \PharData(sprintf("%s/%s.tar", Utilities::getBasePath(), $releaseName));
-            $p->extractTo(Utilities::getBasePath(), "bin/$releaseName");
+            $p->extractTo(Utilities::getBasePath(), $archivedBinaryName, true);
+
+            $extractedBinaryPath = sprintf("%s/%s", Utilities::getBasePath(), $archivedBinaryName);
+            if (!rename($extractedBinaryPath, Utilities::getBinaryPath())) {
+                printf('ERROR: Can not move the extracted binary%s', PHP_EOL);
+                return false;
+            }
 
             if (!unlink(sprintf("%s/%s.tar", Utilities::getBasePath(), $releaseName))) {
                 printf('ERROR: Can not remove the decompressed archive%s', PHP_EOL);
