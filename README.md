@@ -40,7 +40,13 @@ composer require --dev editorconfig-checker/editorconfig-checker
 ## Usage
 
 ```
-vendor/bin/ec
+vendor/bin/editorconfig-checker
+```
+
+To fix violations automatically where possible, run:
+
+```
+vendor/bin/editorconfig-checker --fix
 ```
 
 ## Configuration

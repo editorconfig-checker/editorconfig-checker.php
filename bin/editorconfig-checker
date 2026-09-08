@@ -1,2 +1,43 @@
-#!/usr/bin/env bash
-./$(dirname $0)/ec "$@"
+#!/usr/bin/env sh
+
+# This scripts invokes the actual php class and determines
+# its actual path to invoke the right class
+# This script is the one exposed as vendor/bin/editorconfig-checker, bin/ec is an alias to it
+
+# Having this variable in your environment would break scripts because
+# you would cause "cd" to be taken to unexpected places.  If you
+# like CDPATH, define it for your interactive shell sessions without
+# exporting it.
+# But we protect ourselves from such a user mistake nevertheless.
+unset CDPATH
+
+# on osx//bsd there is no readlink :(
+# so I have to use this like said here:
+# http://stackoverflow.com/questions/1055671/how-can-i-get-the-behavior-of-gnus-readlink-f-on-a-mac
+bsdCompatibleReadLink() {
+  TARGET_FILE="$1"
+  cd "$(dirname "$TARGET_FILE")" || exit
+  TARGET_FILE=$(basename "$TARGET_FILE")
+
+  # Iterate down a (possible) chain of symlinks
+  while [ -L "$TARGET_FILE" ]
+  do
+    TARGET_FILE=$(readlink "$TARGET_FILE")
+    cd "$(dirname "$TARGET_FILE")" || exit
+    TARGET_FILE=$(basename "$TARGET_FILE")
+  done
+
+  # Compute the canonicalized name by finding the physical path
+  # for the directory we're in and appending the target file.
+  PHYS_DIR=$(pwd -P)
+  RESULT=$PHYS_DIR/$TARGET_FILE
+  echo "$RESULT"
+}
+
+# see http://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
+BIN_DIR="$(dirname "$(bsdCompatibleReadLink "$0")")"
+SRC_DIR="$BIN_DIR/../src"
+args="$*"
+
+# I don't quote $args because I'm using globbing here :)
+php "$SRC_DIR"/EditorconfigChecker.php "$args"
